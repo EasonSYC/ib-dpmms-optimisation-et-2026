@@ -1,0 +1,224 @@
+\section{Convex Optimisation}
+
+\subsection{Convex Functions}
+
+\begin{definition*}[Convex Set]
+    \label{def:convex-set}%
+    A set \(S \subseteq \RR^n\) is \emph{convex}, if for any \(\vm{x}, \vm{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    \[
+        \lambda \vm{x} + \para{1 - \lambda} \vm{y} \in S.
+    \]
+\end{definition*}
+
+\autoref{def:convex-set} says that a set is convex, if and only if the line that connects any two points are included in the set.
+
+\begin{definition*}[Convex Function]
+    \label{def:convex-fn}%
+    A function \(\functiondomain{f}{S}{\RR}\) is a \emph{convex} function, if \(S\) is convex, and for any \(\vm{x}, \vm{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    \[
+        f\para{\lambda \vm{x} + \para{1 - \lambda} \vm{y}} \leq \lambda f\para{\vm{x}} + \para{1 - \lambda} f\para{\vm{y}}.
+    \]  
+\end{definition*}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = {\(x\)},
+            ylabel = {\(f\para{x}\)},
+            xmin = 0, xmax = 6,
+            ymin = 0, ymax = 6,
+            samples = 100,
+            domain = 0.5:5.5,
+            xtick = {2, 3, 5},
+            xticklabels = {\(x\), \(\lambda x+\para{1-\lambda}y\), \(y\)},
+            ytick = \empty
+        ]
+
+            \addplot[no marks] {0.5*(x-3)^2 + 1};
+            \node[above left] at (axis cs:5.5,4.125) {\(f\)};
+
+            \addplot[only marks, mark=*, mark size=1pt]
+                coordinates {(2, 1.5) (5, 3)};
+
+            \node[below left] at (axis cs:2, 1.5) {\(\para{x, f\para{x}}\)};
+            \node[above left] at (axis cs:5, 3) {\(\para{y, f\para{y}}\)};
+
+            \addplot[dashed] coordinates {(2, 1.5) (5, 3)};
+            \addplot[only marks, mark=*, mark size=1pt]
+                coordinates {(3, 2) (3, 1)};
+            \node[above left] at (axis cs:3, 2) {\(\lambda f\para{x} + \para{1 - \lambda} f\para{y}\)};
+            \node[below right] at (axis cs:3, 1) {\(f\para{\lambda x + \para{1 - \lambda} y}\)};
+
+            \addplot[dotted] coordinates {(3, 0) (3, 2)};
+
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Convex Function}
+    \label{fig:convex-fn}
+\end{figure}
+
+In other words, a convex function is a function whose chord lies above the curve.
+
+\begin{remark}
+    If \(-f\) is convex, then \(f\) is said to be concave. Linear functions are trivially both convex and concave.
+\end{remark}
+
+\subsection{First-Order Conditions}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            axis lines = middle,
+            xlabel = {\(x\)},
+            ylabel = {\(f(x)\)},
+            xmin = -1, xmax = 5,
+            ymin = -2, ymax = 9,
+            xtick = \empty,
+            ytick = \empty,
+            domain = 0:4,
+            samples = 100,
+            width = 10cm
+        ]
+
+            \addplot[no marks, thick, blue] {0.5*x^2};
+
+            \addplot[only marks, mark=*, mark size = 1pt] coordinates {(1, 0.5) (2, 2) (3, 4.5)};
+
+            \addplot[domain=0.25:4.5] {1 * (x - 1) + 0.5};
+            \addplot[domain=0.4:4.2] {2 * (x - 2) + 2};
+            \addplot[domain=0.5:4.1] {3 * (x - 3) + 4.5};
+        \end{axis}
+    \end{tikzpicture}
+
+    \caption{Convex Function and its Tangents}
+    \label{fig:convex-fn-tangents}
+\end{figure}
+
+We study in this section functions that are differentiable. By observing \autoref{fig:convex-fn-tangents}, it seems like the graph of a function always lie above its tangents, so we have
+\[
+    f\para{y} \geq f\para{x} + \para{y - x} f'\para{x}.
+\]
+
+In higher dimensions, we should have
+\[
+    f\para{\vm{y}} \geq f\para{\vm{x}} + \para{\vm{y} - \vm{x}} \transpose \grad f\para{\vm{x}}.
+\]
+
+\begin{theorem}[First-Order Condition]
+    \label{thm:first-order-condition}%
+    A differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if for all \(\vm{x}, \vm{y} \in \RR^n\), we have
+    \[
+        f\para{\vm{y}} \geq f\para{\vm{x}} + \para{\vm{y} - 
+        \vm{x}}\transpose \grad f\para{\vm{x}}.
+    \]  
+\end{theorem}
+
+\begin{remark}
+    If at \(x\), \(\grad f\para{x} = \vm{0}\), then \(x\) is a minimiser of \(f\).
+\end{remark}
+
+\begin{proof}
+    We first suppose the function is convex. When \(n = 1\), we have
+    \[
+        f\para{x + t \para{y - x}} \leq \para{1 - t} f\para{x} + t f\para{y}
+    \]
+    for all \(t \in \ccintv{0}{1}\). This means
+    \[
+        f\para{y} \geq f\para{x} + \frac{f\para{x + t \para{y - x}} - f\para{x}}{t}.
+    \]
+
+    Taking the limit as \(t \to 0\),
+    \[
+        f\para{y} \geq f\para{x} + \para{y - x} f'\para{x}.
+    \]
+
+    To resolve the general case, for \(\vm{x}, \vm{y} \in \RR^n\), set
+    \[
+        g\para{t} = f\para{\para{1 - t} \vm{x} + t \vm{y}},
+    \]  
+    and \(g\) is a convex function with \(\functiondomain{g}{\ccintv{0}{1}}{\RR}\). Using the one-dimensional result, we have
+    \[
+        g\para{1} \geq g\para{0} + \para{1 - 0} g'\para{0}.
+    \]
+
+    Therefore.
+    \[
+        f\para{\vm{y}} \geq f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}}.
+    \]
+
+    Now we prove the converse. Set
+    \[
+        \vm{x}_t = \para{1 - t} \vm{x} + t\vm{y}.
+    \]
+
+    First-order conditions imply that
+    \begin{align*}
+        f\para{\vm{x}} &\geq f\para{\vm{x}_t} + \grad f\para{\vm{x}_t} \transpose \para{\vm{x} - \vm{x}_t}, \\
+        f\para{\vm{y}} &\geq f\para{\vm{x}_t} + \grad f\para{\vm{x}_t} \transpose \para{\vm{y} - \vm{x}_t}.
+    \end{align*}
+
+    Multiplying the first inequality by \(\para{1 - t}\) and the second by \(t\), and adding together, we have
+    \[
+        \para{1 - t} f\para{\vm{x}} + t f\para{\vm{y}} \geq f\para{\vm{x}_t} + 0 = f\para{\para{1 - t} \vm{x} + t \vm{y}}.
+    \]
+\end{proof}
+
+\subsection{Second-Order-Conditions}
+
+We return to \autoref{fig:convex-fn-tangents}. We note that it seems that the slope of the gradient is increasing, so it means that \(f'' \geq 0\). But we shall generalise this to higher dimensions. For this, we recall the \emph{Hessian matrix}
+\[
+    \brac{\grad^2 f\para{\vm{x}}}_{ij} = \frac{\partial^2 f\para{\vm{x}}}{\partial x_i \partial x_j}.
+\]
+
+Recall that the one-dimensional Taylor series takes the form
+\[
+    f\para{y} = f\para{x} + \para{y - x} f'\para{x} + \frac{\para{y - x}^2}{2} f''\para{x} + \cdots
+\]
+and similarly, in the \(n\)-dimensional case, the Taylor series will have the form
+\[
+    f\para{\vm{y}} = f\para{\vm{x}} + \para{\vm{y} - \vm{x}}\transpose \grad f\para{\vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}}\transpose \grad^2 f\para{\vm{x}} \para{\vm{y} - \vm{x}} + \cdots
+\]
+
+The proof is simple. If we apply the one-dimensional Taylor series to the function
+\[
+    g\para{t} = f\para{\vm{x} + \para{\vm{y} - \vm{x}} t},
+\]
+then
+\[
+    g\para{1} = g\para{0} + g'\para{0} + \frac{1}{2} g''\para{0} + \cdots
+\]
+so
+\[
+    f\para{\vm{y}} = f\para{\vm{x}} + \grad f\para{x} \transpose \para{\vm{y} - \vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}} \transpose \grad^2 f\para{x} \para{\vm{y} - \vm{x}}.
+\]
+
+\begin{theorem}[Second-Order Condition]
+    \label{thm:second-order-condition}%
+    A twice-differentiable function function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if
+    \[
+        \grad^2 f\para{x} \posDefEq 0
+    \]
+    for all \(x \in \RR^n\).
+\end{theorem}
+
+\begin{remark}
+    We say a symmetric \(n\)-dimensional matrix \(\vm{A}\) is \emph{positive semi-definite}, denoted \(\vm{A} \posDefEq 0\), if
+    \[
+        \vm{x}\transpose \vm{A} \vm{x} \geq 0
+    \]
+    for all \(\vm{x} \in \RR^n\). Equivalently, all \(n\) eigenvalues of \(\vm{A}\) are non-negative.
+\end{remark}
+
+\begin{proof}[One Direction Only]
+    We prove convexity from positive semi-definiteness. For any \(\vm{x}\) and \(\vm{y}\), we have for some \(\vm{z} \in \RR^n\) (by the intermediate value theorem),
+    \begin{align*}
+        f\para{\vm{y}} &= f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}} \transpose \grad^2 f\para{\vm{z}} \para{\vm{y} - \vm{x}} \\
+        &\geq f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}}
+    \end{align*}
+
+    This implies the first-order condition, so by \autoref{thm:first-order-condition}, \(f\) is convex.
+\end{proof}

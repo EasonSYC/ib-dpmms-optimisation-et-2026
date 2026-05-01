@@ -1,0 +1,34 @@
+\section*{Introduction}
+
+Optimisation problems are of the following form.
+
+\begin{problem}[Optimisation Problem]
+    We want to minimise \(f\para{\vm{x}}\), subject to some constraints \(\vm{h}\para{\vm{x}} = \vm{b}\), for \(\vm{x} \in \mathcal{X}\).
+\end{problem}
+
+We may have some inequality constraint instead of an equality, with \(\vm{h}\para{\vm{x}} \leq \vm{b}\), and we impose this component-wise in higher dimensions.
+
+In fact, inequalities constraints can be transformed into equality constraints, as
+\[
+    \vm{h}\para{\vm{x}} \leq \vm{b}
+\]
+is the same as
+\[
+    \vm{h}\para{\vm{x}} + \vm{s} = \vm{b}
+\]
+for \(\vm{s} \geq \vm{0}\), and we also minimise over \(\vm{s}\).
+
+\begin{definition}[Terminology on Optimisation]
+    \label{def:terminology}%
+    The function \(\functiondomain{f}{\RR^n}{\RR}\) that we are trying to minimise is the \emph{objective function}; \(\vm{h}\para{\vm{x}} = \vm{b}\) where \(\functiondomain{h}{\RR^n}{\RR^m}\) is a \emph{functional constraint} with \(\vm{b} \in \RR^m\); and \(\mathcal{X}\) (often being \(\vm{x}\) being in the positive quadrant, or a cube/ball), is a \emph{regional constraint}.
+
+    The \(\vm{x}^*\) which solves the problem is called the \emph{optimal solution}, and the value of the function at \(\vm{x}^*\), \(f\para{\vm{x}^*}\), is called the \emph{optimal value/cost}.
+
+    The set
+    \[
+        \mathcal{X}\para{\vm{b}} = \set{x \in \mathcal{X}}{\vm{h}\para{\vm{x}} = \vm{b}}
+    \]
+    is called the \emph{feasible set}.
+
+    The extra variables \(s\) are called \emph{slack variables}.
+\end{definition}
