@@ -4,9 +4,9 @@
 
 \begin{definition*}[Convex Set]
     \label{def:convex-set}%
-    A set \(S \subseteq \RR^n\) is \emph{convex}, if for any \(\vm{x}, \vm{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    A set \(S \subseteq \RR^n\) is \emph{convex}, if for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
     \[
-        \lambda \vm{x} + \para{1 - \lambda} \vm{y} \in S.
+        \lambda \vb{x} + \pqty{1 - \lambda} \vb{y} \in S.
     \]
 \end{definition*}
 
@@ -14,9 +14,9 @@
 
 \begin{definition*}[Convex Function]
     \label{def:convex-fn}%
-    A function \(\functiondomain{f}{S}{\RR}\) is a \emph{convex} function, if \(S\) is convex, and for any \(\vm{x}, \vm{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    A function \(\functiondomain{f}{S}{\RR}\) is a \emph{convex} function, if \(S\) is convex, and for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
     \[
-        f\para{\lambda \vm{x} + \para{1 - \lambda} \vm{y}} \leq \lambda f\para{\vm{x}} + \para{1 - \lambda} f\para{\vm{y}}.
+        f\pqty{\lambda \vb{x} + \pqty{1 - \lambda} \vb{y}} \leq \lambda f\pqty{\vb{x}} + \pqty{1 - \lambda} f\pqty{\vb{y}}.
     \]  
 \end{definition*}
 
@@ -26,13 +26,13 @@
         \begin{axis}[
             axis lines = middle,
             xlabel = {\(x\)},
-            ylabel = {\(f\para{x}\)},
+            ylabel = {\(f\pqty{x}\)},
             xmin = 0, xmax = 6,
             ymin = 0, ymax = 6,
             samples = 100,
             domain = 0.5:5.5,
             xtick = {2, 3, 5},
-            xticklabels = {\(x\), \(\lambda x+\para{1-\lambda}y\), \(y\)},
+            xticklabels = {\(x\), \(\lambda x+\pqty{1-\lambda}y\), \(y\)},
             ytick = \empty
         ]
 
@@ -42,14 +42,14 @@
             \addplot[only marks, mark=*, mark size=1pt]
                 coordinates {(2, 1.5) (5, 3)};
 
-            \node[below left] at (axis cs:2, 1.5) {\(\para{x, f\para{x}}\)};
-            \node[above left] at (axis cs:5, 3) {\(\para{y, f\para{y}}\)};
+            \node[below left] at (axis cs:2, 1.5) {\(\pqty{x, f\pqty{x}}\)};
+            \node[above left] at (axis cs:5, 3) {\(\pqty{y, f\pqty{y}}\)};
 
             \addplot[dashed] coordinates {(2, 1.5) (5, 3)};
             \addplot[only marks, mark=*, mark size=1pt]
                 coordinates {(3, 2) (3, 1)};
-            \node[above left] at (axis cs:3, 2) {\(\lambda f\para{x} + \para{1 - \lambda} f\para{y}\)};
-            \node[below right] at (axis cs:3, 1) {\(f\para{\lambda x + \para{1 - \lambda} y}\)};
+            \node[above left] at (axis cs:3, 2) {\(\lambda f\pqty{x} + \pqty{1 - \lambda} f\pqty{y}\)};
+            \node[below right] at (axis cs:3, 1) {\(f\pqty{\lambda x + \pqty{1 - \lambda} y}\)};
 
             \addplot[dotted] coordinates {(3, 0) (3, 2)};
 
@@ -100,70 +100,70 @@ In other words, a convex function is a function whose chord lies above the curve
 
 We study in this section functions that are differentiable. By observing \autoref{fig:convex-fn-tangents}, it seems like the graph of a function always lie above its tangents, so we have
 \[
-    f\para{y} \geq f\para{x} + \para{y - x} f'\para{x}.
+    f\pqty{y} \geq f\pqty{x} + \pqty{y - x} f'\pqty{x}.
 \]
 
 In higher dimensions, we should have
 \[
-    f\para{\vm{y}} \geq f\para{\vm{x}} + \para{\vm{y} - \vm{x}} \transpose \grad f\para{\vm{x}}.
+    f\pqty{\vb{y}} \geq f\pqty{\vb{x}} + \pqty{\vb{y} - \vb{x}} \transpose \grad f\pqty{\vb{x}}.
 \]
 
 \begin{theorem}[First-Order Condition]
     \label{thm:first-order-condition}%
-    A differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if for all \(\vm{x}, \vm{y} \in \RR^n\), we have
+    A differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if for all \(\vb{x}, \vb{y} \in \RR^n\), we have
     \[
-        f\para{\vm{y}} \geq f\para{\vm{x}} + \para{\vm{y} - 
-        \vm{x}}\transpose \grad f\para{\vm{x}}.
+        f\pqty{\vb{y}} \geq f\pqty{\vb{x}} + \pqty{\vb{y} - 
+        \vb{x}}\transpose \grad f\pqty{\vb{x}}.
     \]  
 \end{theorem}
 
 \begin{remark}
-    If at \(x\), \(\grad f\para{x} = \vm{0}\), then \(x\) is a minimiser of \(f\).
+    If at \(x\), \(\grad f\pqty{x} = \vb{0}\), then \(x\) is a minimiser of \(f\).
 \end{remark}
 
 \begin{proof}
     We first suppose the function is convex. When \(n = 1\), we have
     \[
-        f\para{x + t \para{y - x}} \leq \para{1 - t} f\para{x} + t f\para{y}
+        f\pqty{x + t \pqty{y - x}} \leq \pqty{1 - t} f\pqty{x} + t f\pqty{y}
     \]
     for all \(t \in \ccintv{0}{1}\). This means
     \[
-        f\para{y} \geq f\para{x} + \frac{f\para{x + t \para{y - x}} - f\para{x}}{t}.
+        f\pqty{y} \geq f\pqty{x} + \frac{f\pqty{x + t \pqty{y - x}} - f\pqty{x}}{t}.
     \]
 
     Taking the limit as \(t \to 0\),
     \[
-        f\para{y} \geq f\para{x} + \para{y - x} f'\para{x}.
+        f\pqty{y} \geq f\pqty{x} + \pqty{y - x} f'\pqty{x}.
     \]
 
-    To resolve the general case, for \(\vm{x}, \vm{y} \in \RR^n\), set
+    To resolve the general case, for \(\vb{x}, \vb{y} \in \RR^n\), set
     \[
-        g\para{t} = f\para{\para{1 - t} \vm{x} + t \vm{y}},
+        g\pqty{t} = f\pqty{\pqty{1 - t} \vb{x} + t \vb{y}},
     \]  
     and \(g\) is a convex function with \(\functiondomain{g}{\ccintv{0}{1}}{\RR}\). Using the one-dimensional result, we have
     \[
-        g\para{1} \geq g\para{0} + \para{1 - 0} g'\para{0}.
+        g\pqty{1} \geq g\pqty{0} + \pqty{1 - 0} g'\pqty{0}.
     \]
 
     Therefore.
     \[
-        f\para{\vm{y}} \geq f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}}.
+        f\pqty{\vb{y}} \geq f\pqty{\vb{x}} + \grad f\pqty{\vb{x}} \transpose \pqty{\vb{y} - \vb{x}}.
     \]
 
     Now we prove the converse. Set
     \[
-        \vm{x}_t = \para{1 - t} \vm{x} + t\vm{y}.
+        \vb{x}_t = \pqty{1 - t} \vb{x} + t\vb{y}.
     \]
 
     First-order conditions imply that
     \begin{align*}
-        f\para{\vm{x}} &\geq f\para{\vm{x}_t} + \grad f\para{\vm{x}_t} \transpose \para{\vm{x} - \vm{x}_t}, \\
-        f\para{\vm{y}} &\geq f\para{\vm{x}_t} + \grad f\para{\vm{x}_t} \transpose \para{\vm{y} - \vm{x}_t}.
+        f\pqty{\vb{x}} &\geq f\pqty{\vb{x}_t} + \grad f\pqty{\vb{x}_t} \transpose \pqty{\vb{x} - \vb{x}_t}, \\
+        f\pqty{\vb{y}} &\geq f\pqty{\vb{x}_t} + \grad f\pqty{\vb{x}_t} \transpose \pqty{\vb{y} - \vb{x}_t}.
     \end{align*}
 
-    Multiplying the first inequality by \(\para{1 - t}\) and the second by \(t\), and adding together, we have
+    Multiplying the first inequality by \(\pqty{1 - t}\) and the second by \(t\), and adding together, we have
     \[
-        \para{1 - t} f\para{\vm{x}} + t f\para{\vm{y}} \geq f\para{\vm{x}_t} + 0 = f\para{\para{1 - t} \vm{x} + t \vm{y}}.
+        \pqty{1 - t} f\pqty{\vb{x}} + t f\pqty{\vb{y}} \geq f\pqty{\vb{x}_t} + 0 = f\pqty{\pqty{1 - t} \vb{x} + t \vb{y}}.
     \]
 \end{proof}
 
@@ -171,53 +171,53 @@ In higher dimensions, we should have
 
 We return to \autoref{fig:convex-fn-tangents}. We note that it seems that the slope of the gradient is increasing, so it means that \(f'' \geq 0\). But we shall generalise this to higher dimensions. For this, we recall the \emph{Hessian matrix}
 \[
-    \brac{\grad^2 f\para{\vm{x}}}_{ij} = \frac{\partial^2 f\para{\vm{x}}}{\partial x_i \partial x_j}.
+    \bqty{\grad^2 f\pqty{\vb{x}}}_{ij} = \pdv{f\pqty{\vb{x}}}{x_i}{x_j}.
 \]
 
 Recall that the one-dimensional Taylor series takes the form
 \[
-    f\para{y} = f\para{x} + \para{y - x} f'\para{x} + \frac{\para{y - x}^2}{2} f''\para{x} + \cdots
+    f\pqty{y} = f\pqty{x} + \pqty{y - x} f'\pqty{x} + \frac{\pqty{y - x}^2}{2} f''\pqty{x} + \cdots
 \]
 and similarly, in the \(n\)-dimensional case, the Taylor series will have the form
 \[
-    f\para{\vm{y}} = f\para{\vm{x}} + \para{\vm{y} - \vm{x}}\transpose \grad f\para{\vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}}\transpose \grad^2 f\para{\vm{x}} \para{\vm{y} - \vm{x}} + \cdots
+    f\pqty{\vb{y}} = f\pqty{\vb{x}} + \pqty{\vb{y} - \vb{x}}\transpose \grad f\pqty{\vb{x}} + \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{x}} \pqty{\vb{y} - \vb{x}} + \cdots
 \]
 
 The proof is simple. If we apply the one-dimensional Taylor series to the function
 \[
-    g\para{t} = f\para{\vm{x} + \para{\vm{y} - \vm{x}} t},
+    g\pqty{t} = f\pqty{\vb{x} + \pqty{\vb{y} - \vb{x}} t},
 \]
 then
 \[
-    g\para{1} = g\para{0} + g'\para{0} + \frac{1}{2} g''\para{0} + \cdots
+    g\pqty{1} = g\pqty{0} + g'\pqty{0} + \frac{1}{2} g''\pqty{0} + \cdots
 \]
 so
 \[
-    f\para{\vm{y}} = f\para{\vm{x}} + \grad f\para{x} \transpose \para{\vm{y} - \vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}} \transpose \grad^2 f\para{x} \para{\vm{y} - \vm{x}}.
+    f\pqty{\vb{y}} = f\pqty{\vb{x}} + \grad f\pqty{x} \transpose \pqty{\vb{y} - \vb{x}} + \frac{1}{2} \pqty{\vb{y} - \vb{x}} \transpose \grad^2 f\pqty{x} \pqty{\vb{y} - \vb{x}}.
 \]
 
 \begin{theorem}[Second-Order Condition]
     \label{thm:second-order-condition}%
     A twice-differentiable function function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if
     \[
-        \grad^2 f\para{x} \posDefEq 0
+        \grad^2 f\pqty{x} \posDefEq 0
     \]
     for all \(x \in \RR^n\).
 \end{theorem}
 
 \begin{remark}
-    We say a symmetric \(n\)-dimensional matrix \(\vm{A}\) is \emph{positive semi-definite}, denoted \(\vm{A} \posDefEq 0\), if
+    We say a symmetric \(n\)-dimensional matrix \(\vb{A}\) is \emph{positive semi-definite}, denoted \(\vb{A} \posDefEq 0\), if
     \[
-        \vm{x}\transpose \vm{A} \vm{x} \geq 0
+        \vb{x}\transpose \vb{A} \vb{x} \geq 0
     \]
-    for all \(\vm{x} \in \RR^n\). Equivalently, all \(n\) eigenvalues of \(\vm{A}\) are non-negative.
+    for all \(\vb{x} \in \RR^n\). Equivalently, all \(n\) eigenvalues of \(\vb{A}\) are non-negative.
 \end{remark}
 
 \begin{proof}[One Direction Only]
-    We prove convexity from positive semi-definiteness. For any \(\vm{x}\) and \(\vm{y}\), we have for some \(\vm{z} \in \RR^n\) (by the intermediate value theorem),
+    We prove convexity from positive semi-definiteness. For any \(\vb{x}\) and \(\vb{y}\), we have for some \(\vb{z} \in \RR^n\) (by the intermediate value theorem),
     \begin{align*}
-        f\para{\vm{y}} &= f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}} + \frac{1}{2} \para{\vm{y} - \vm{x}} \transpose \grad^2 f\para{\vm{z}} \para{\vm{y} - \vm{x}} \\
-        &\geq f\para{\vm{x}} + \grad f\para{\vm{x}} \transpose \para{\vm{y} - \vm{x}}
+        f\pqty{\vb{y}} &= f\pqty{\vb{x}} + \grad f\pqty{\vb{x}} \transpose \pqty{\vb{y} - \vb{x}} + \frac{1}{2} \pqty{\vb{y} - \vb{x}} \transpose \grad^2 f\pqty{\vb{z}} \pqty{\vb{y} - \vb{x}} \\
+        &\geq f\pqty{\vb{x}} + \grad f\pqty{\vb{x}} \transpose \pqty{\vb{y} - \vb{x}}
     \end{align*}
 
     This implies the first-order condition, so by \autoref{thm:first-order-condition}, \(f\) is convex.

@@ -3,30 +3,30 @@
 Optimisation problems are of the following form.
 
 \begin{problem}[Optimisation Problem]
-    We want to minimise \(f\para{\vm{x}}\), subject to some constraints \(\vm{h}\para{\vm{x}} = \vm{b}\), for \(\vm{x} \in \mathcal{X}\).
+    We want to minimise \(f\pqty{\vb{x}}\), subject to some constraints \(\vb{h}\pqty{\vb{x}} = \vb{b}\), for \(\vb{x} \in \mathcal{X}\).
 \end{problem}
 
-We may have some inequality constraint instead of an equality, with \(\vm{h}\para{\vm{x}} \leq \vm{b}\), and we impose this component-wise in higher dimensions.
+We may have some inequality constraint instead of an equality, with \(\vb{h}\pqty{\vb{x}} \leq \vb{b}\), and we impose this component-wise in higher dimensions.
 
 In fact, inequalities constraints can be transformed into equality constraints, as
 \[
-    \vm{h}\para{\vm{x}} \leq \vm{b}
+    \vb{h}\pqty{\vb{x}} \leq \vb{b}
 \]
 is the same as
 \[
-    \vm{h}\para{\vm{x}} + \vm{s} = \vm{b}
+    \vb{h}\pqty{\vb{x}} + \vb{s} = \vb{b}
 \]
-for \(\vm{s} \geq \vm{0}\), and we also minimise over \(\vm{s}\).
+for \(\vb{s} \geq \vb{0}\), and we also minimise over \(\vb{s}\).
 
 \begin{definition}[Terminology on Optimisation]
     \label{def:terminology}%
-    The function \(\functiondomain{f}{\RR^n}{\RR}\) that we are trying to minimise is the \emph{objective function}; \(\vm{h}\para{\vm{x}} = \vm{b}\) where \(\functiondomain{h}{\RR^n}{\RR^m}\) is a \emph{functional constraint} with \(\vm{b} \in \RR^m\); and \(\mathcal{X}\) (often being \(\vm{x}\) being in the positive quadrant, or a cube/ball), is a \emph{regional constraint}.
+    The function \(\functiondomain{f}{\RR^n}{\RR}\) that we are trying to minimise is the \emph{objective function}; \(\vb{h}\pqty{\vb{x}} = \vb{b}\) where \(\functiondomain{h}{\RR^n}{\RR^m}\) is a \emph{functional constraint} with \(\vb{b} \in \RR^m\); and \(\mathcal{X}\) (often being \(\vb{x}\) being in the positive quadrant, or a cube/ball), is a \emph{regional constraint}.
 
-    The \(\vm{x}^*\) which solves the problem is called the \emph{optimal solution}, and the value of the function at \(\vm{x}^*\), \(f\para{\vm{x}^*}\), is called the \emph{optimal value/cost}.
+    The \(\vb{x}^*\) which solves the problem is called the \emph{optimal solution}, and the value of the function at \(\vb{x}^*\), \(f\pqty{\vb{x}^*}\), is called the \emph{optimal value/cost}.
 
     The set
     \[
-        \mathcal{X}\para{\vm{b}} = \set{x \in \mathcal{X}}{\vm{h}\para{\vm{x}} = \vm{b}}
+        \mathcal{X}\pqty{\vb{b}} = \set{x \in \mathcal{X}}{\vb{h}\pqty{\vb{x}} = \vb{b}}
     \]
     is called the \emph{feasible set}.
 
