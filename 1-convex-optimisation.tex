@@ -265,7 +265,15 @@ This leads to the gradient descent algorithm, as described in \autoref{alg:gradi
     The stopping criteria(s) can be, for example, when out computing power runs out, or the gradient is very small.
 \end{remark}
 
-We note that the gradient descent algorithm could fail: if the step size is too large, we might not necessarily reach the minimum, for example, we overshoot if the function is very steep. Similar issues appear when the step size is too small, for example, it will take very long to reach the minimum if the function is very flat.
+We note that the gradient descent algorithm could fail: if the step size is too large, we might not necessarily reach the minimum, for example, we overshoot if the function is very steep. Similar issues appear when the step size is too small, for example, it will take very long to reach the minimum if the function is very flat. 
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{fig/gradient-descent-overshoot.png}
+    \includegraphics[width=0.5\linewidth]{fig/gradient-descent-undershoot.png}
+    \caption{Step Sizes in Gradient Descent}
+    \label{fig:gradient-descent-step-sizes}%
+\end{figure}
 
 Therefore, we restrict our class of functions.
 
@@ -299,7 +307,14 @@ In other words, this condition states that the eigenvalues are at most \(\beta\)
     \end{itemize}
 \end{theorem}
 
-We are essentially bounding the function \(f\) between two quadratics -- the \(\beta\) as an upper bound, and the \(\alpha\) as a lower bound -- and quadratic functions are easier to understand!
+We are essentially bounding the function \(f\) between two quadratics -- the \(\beta\) as an upper bound, and the \(\alpha\) as a lower bound, as in \autoref{fig:quadratic-bounds} -- and quadratic functions are easier to understand!
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fig/quadratic-approximation.png}
+    \caption{Quadratic Bounds}
+    \label{fig:quadratic-bounds}%
+\end{figure}
 
 \begin{proof}
     We use the multivariate Taylor series expansion. Expanding around \(\vb{x}\), we have
@@ -481,6 +496,13 @@ The one-dimensional case is familiar in A-Level context -- the Newton--Raphson m
     x_{t + 1} = x_t - \frac{g\pqty{x_t}}{g'\pqty{x_t}}.
 \]
 
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{fig/newton-raphson.png}
+    \caption{Newton--Raphson Method}
+    \label{fig:newton-raphson}%
+\end{figure}
+
 \begin{definition}[Matrix Norm]
     \label{def:matirx-norm}%
     For a matrix \(\vb{A} \in \RR^{n \times n}\), \(\norm{\vb{A}}\) is the smallest \(a > 0\), such that
@@ -535,7 +557,14 @@ Suppose we want to optimise \(f\pqty{\vb{x}}\) subject to some constraints
 \]
 for \(1 \leq i \leq m\), where \(f\) is convex. This is a \textbf{constrained} optimisation problem -- so trivially applying gradient descent or Newton's method will not work.
 
-Each constraint here gives a \(\pqty{n - 1}\)-dimensional subspace as the boundary (and hence the feasible set hence must be convex). Instead, we optimise in an unconstrained setup
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.70\linewidth]{fig/feasible-set.png}
+    \caption{Feasible Set for Linear Constraints}
+    \label{fig:feasible-set-linear-constraints}%
+\end{figure}
+
+Each constraint here gives a \(\pqty{n - 1}\)-dimensional linear subspace as the boundary (and hence the feasible set hence must be convex), as shown in \autoref{fig:feasible-set-linear-constraints}. Instead, we optimise in an unconstrained setup
 \[
     \min_{\vb{x \in \RR^n}} \bqty{f\pqty{\vb{x}} + \sum_{i = 1}^{m} \phi\pqty{\vb{a}_i\transpose \vb{x} - \vb{b}_i}}
 \]
@@ -550,7 +579,15 @@ Computationally, we apply a huge penalty on approaching the boundary, given by t
 \[
     \phi\pqty{x} = - \log \pqty{-x}
 \]
-for \(x < 0\). This is the \emph{logarithmic barrier function}.
+for \(x < 0\). This is the \emph{logarithmic barrier function}, as shown in \autoref{fig:barrier-function-comparison}.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.7\linewidth]{fig/barrier-function-ideal.png}
+    \includegraphics[width=0.5\linewidth]{fig/barrier-function-log.png}
+    \caption{Barrier Function Comparison}
+    \label{fig:barrier-function-comparison}%
+\end{figure}
 
 We introduce a parameter \(t > 0\), and the problem
 \[
@@ -579,4 +616,4 @@ where \(t\) is a `balance' between the emphasis of the problem and the boundary.
 
 The reason that we use Newton's algorithm is that the new optimum \(\vb{x}^{\ast} \pqty{\alpha t}\) is going to lie very close to \(\vb{x}^{\ast} \pqty{t}\), and Newton's method converges very rapidly to the new optimum.
 
-This algorithm is used in solving linear programs as well (which we will see later -- another useful way is to use simplex algorithm). This, however, does not rely on the fact that convex optimums are attained at vertices -- we just start on any interior point and use barrier method. But the number of vertices grow very quickly in higher dimensions, while barrier method allows us to solve it in linear time!
+This algorithm is used in solving linear programs as well (which we will see later -- another useful way is to use simplex algorithm). This, however, does not rely on the fact that linear optimums (for linear programs) are attained at vertices -- we just start on any interior point and use barrier method. But the number of vertices grow very quickly in higher dimensions, while barrier method allows us to solve it in linear time!
