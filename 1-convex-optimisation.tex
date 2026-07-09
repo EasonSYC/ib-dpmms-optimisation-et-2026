@@ -244,10 +244,10 @@ where \(0 < \epsilon \ll 1\) is small. Then we have
 
 This leads to the gradient descent algorithm, as described in \autoref{alg:gradient-descent}.
 
-\begin{algorithm}[htp!]
+\begin{algorithm}[ht!]
     \caption{Gradient Descent Algorithm}\label{alg:gradient-descent}%
     \begin{algorithmic}
-        \Procedure{GradientDescent}{\(f, \vb{x}_0\)}
+        \Function{GradientDescent}{\(f, \vb{x}_0\)}
         \State \(t \gets 0\)
         \Repeat
             \State \(\vb{v}_t \gets - \grad f\pqty{\vb{x}_t}\)
@@ -255,7 +255,9 @@ This leads to the gradient descent algorithm, as described in \autoref{alg:gradi
             \State \(\vb{x}_{t + 1} \gets \vb{x}_t + \eta_t \vb{v}_t\)
             \State \(t \gets t + 1\)
         \Until{Certain Stopping Criteria(s)}
-        \EndProcedure
+
+        \Return{\(\vb{x}_{t}\)}
+        \EndFunction
     \end{algorithmic}
 \end{algorithm}
 
@@ -405,7 +407,7 @@ gives an \(\epsilon\)-optimal point. This type of convergence is called \emph{li
     This reduces to our desired result by telescoping.
 \end{proof}
 
-\begin{example}
+\begin{example}[Gradient Descent might Converge Unnecessarily Slowly]
     Suppose in \(\RR^2\), let
     \[
         f\pqty{\vb{x}} = \frac{1}{2} \pqty{x_1^2 + 100 x_2^2}.
@@ -433,9 +435,148 @@ In optimisation theory, we usually first scale/change basis of the function, in 
     precisely minimises the upper bound quadratic.
 \end{remark}
 
-One might tempt to improve this algorithm by using the local second-order approximation, i.e., optimising the quadratic
+\subsection{Newton's Method}
+
+We take a second-order Taylor approximation at \(\vb{x}\), which reads
 \[
     f\pqty{\vb{y}} = f\pqty{\vb{x}} + \grad f\pqty{\vb{x}}\transpose \pqty{\vb{y} - \vb{x}} + \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{x}} \pqty{\vb{y} - \vb{x}}.
 \]
 
-This is Newton's Method: in fact it converges even faster than gradient descent -- but this is only if it converges!
+We change the update rule to
+\[
+    \vb{x}_{t + 1} = \argmin_{\vb{y} \in \RR^n} \bqty{f\pqty{\vb{x}_t} + \grad f\pqty{\vb{x}_t}\transpose \pqty{\vb{y} - \vb{x}_t} + \frac{1}{2} \pqty{\vb{y} - \vb{x}_t}\transpose \grad^2 f\pqty{\vb{x}_t} \pqty{\vb{y} - \vb{x}_t}}.
+\]
+
+Taking the gradient gives
+\[
+    \vb{0} = \grad f\pqty{\vb{x}_t} + \grad^2 f\pqty{\vb{x}_t} \pqty{\vb{y} - \vb{x}_t}.
+\]
+
+This solves to
+\[
+    \vb{y} = \vb{x}_t - \pqty{\grad^2 f\pqty{\vb{x}_t}}\inverse \grad f\pqty{\vb{x}_t}.
+\]
+
+\subsubsection{Newton's Algorithm}
+
+This is called \emph{Newton's Algorithm}, and is outlined in \autoref{alg:newtons-algorithm}.
+
+\begin{algorithm}[ht!]
+    \caption{Newton's Algorithm}\label{alg:newtons-algorithm}%
+    \begin{algorithmic}
+        \Function{NewtonAlgorithm}{\(f, \vb{x}_0\)}
+        \State \(t \gets 0\)
+        \Repeat
+            \State \(\vb{x}_{t + 1} \gets \vb{x}_t - \pqty{\grad^2 f\pqty{\vb{x}_t}}\inverse \grad f\pqty{\vb{x}_t}\)
+            \State \(t \gets t + 1\)
+        \Until{Certain Stopping Criteria(s)}
+
+        \Return{\(\vb{x}_{t}\)}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+The one-dimensional case is familiar in A-Level context -- the Newton--Raphson method is a root finding algorithm for \(f'\pqty{x} = g\pqty{x}\):
+\[
+    x_{t + 1} = x_t - \frac{g\pqty{x_t}}{g'\pqty{x_t}}.
+\]
+
+\begin{definition}[Matrix Norm]
+    \label{def:matirx-norm}%
+    For a matrix \(\vb{A} \in \RR^{n \times n}\), \(\norm{\vb{A}}\) is the smallest \(a > 0\), such that
+    \[
+        \norm[2]{\vb{Az}} \leq a \norm[2]{\vb{z}}
+    \]
+    for all \(\vb{z} \in \RR^n\), where \(\norm[2]{\cdot}\) denotes the usual \(\ell^2\)-norm on \(\RR^n\). For positive semi-definite matrices \(\vb{A}\), this is simply the largest eigenvalue.
+\end{definition}
+
+\begin{theorem}[Convergence Condition for Newton's Theorem]
+    \label{thm:newton-algorithm-convergence}%
+    Suppose \(f\) is a twice-differentiable \(\alpha\)-strongly convex function that has an \(\ell\)-Lipschitz Hessian, i.e., for all \(\vb{x}, \vb{y} \in \RR^n\), we have
+    \[
+        \norm{\grad^2 f\pqty{\vb{x}} - \grad^2 f\pqty{\vb{y}}} \leq \ell \norm[2]{\vb{x} - \vb{y}}.
+    \]
+
+    Then Newton's Method satisfies
+    \[
+        f\pqty{\vb{x}_k} - f\pqty{\vb{x}^{\ast}} \leq \pqty{\frac{2 \alpha^3}{\ell^2}} \pqty{\frac{\ell}{2 \alpha^2} \norm[2]{\grad f\pqty{\vb{x}_0}}}^{2^{k + 1}}.
+    \]
+\end{theorem}
+
+\begin{remark}
+    Suppose
+    \[
+        \norm[2]{\grad f\pqty{\vb{x}_0}} < \frac{2 \alpha^2}{\ell},
+    \]
+    then the number of steps required goes down to \(\log \log\) -- compared to \(\log\) in gradient descent, which is exponentially faster. But we need to be at a good enough point at the beginning, otherwise this does not necessarily converge.
+\end{remark}
+
+\begin{example}[Application in Machine Learning]
+    Suppose we have data points \(\pqty{x_1, y_1}, \pqty{x_2, y_2}, \ldots, \pqty{x_n, y_n}\). Most machine learning algorithms are trying to minimise
+    \[
+        \min_{\theta} \sum_{i = 1}^{n} \ell\pqty{f_{\theta} \pqty{x_i}, y_i}
+    \]
+    where \(\ell\) is a suitable loss function. But we almost always use gradient descent, rather than Newton's method.
+\end{example}
+
+A huge drawback of Newton's algorithm is we need to calculate the Hessian of a function -- which is a \(n \times n\) matrix. This takes up much larger computational power compared to simply calculating the gradient. Although it is a good method, we cannot run it at a large scale.
+
+In theory, one could possibly use the best cubic, quartic, \dots approximations at a point, and go on and on, but the third order term
+\[
+    \frac{\partial^3 f}{\partial x_i \partial x_j \partial x_k} \pqty{y_i - x_i} \pqty{y_j - x_j} \pqty{y_k - x_k}
+\]
+is a nightmare to optimise.
+
+\subsubsection{Barrier Method}
+
+Suppose we want to optimise \(f\pqty{\vb{x}}\) subject to some constraints
+\[
+    \vb{a}_i \transpose \vb{x} \leq \vb{b}_i
+\]
+for \(1 \leq i \leq m\), where \(f\) is convex. This is a \textbf{constrained} optimisation problem -- so trivially applying gradient descent or Newton's method will not work.
+
+Each constraint here gives a \(\pqty{n - 1}\)-dimensional subspace as the boundary (and hence the feasible set hence must be convex). Instead, we optimise in an unconstrained setup
+\[
+    \min_{\vb{x \in \RR^n}} \bqty{f\pqty{\vb{x}} + \sum_{i = 1}^{m} \phi\pqty{\vb{a}_i\transpose \vb{x} - \vb{b}_i}}
+\]
+where
+\[
+    \phi\pqty{x} = \begin{cases}
+        x & \text{if } x \leq 0, \\ \plusinfty & \text{if } x > 0.
+    \end{cases}
+\]
+
+Computationally, we apply a huge penalty on approaching the boundary, given by the function
+\[
+    \phi\pqty{x} = - \log \pqty{-x}
+\]
+for \(x < 0\). This is the \emph{logarithmic barrier function}.
+
+We introduce a parameter \(t > 0\), and the problem
+\[
+    \min_{\vb{x} \in \RR^n} \bqty{t f\pqty{\vb{x}} - \sum_{i = 1}^{m} \log\pqty{- \pqty{\vb{a}_i\transpose \vb{x} - \vb{b}_i}}}
+\]
+where \(t\) is a `balance' between the emphasis of the problem and the boundary. We repeatedly increase \(t\) and use gradient descent/Newton's method to optimise it. As \(t \to \plusinfty\), we approach the true minimum of the function \(f\pqty{\vb{x}}\). Formally, 
+
+\begin{algorithm}[ht!]
+    \caption{Barrier Method}\label{alg:barrier-method}%
+    \begin{algorithmic}
+        \Require \(f\) convex
+        \Require \(\vb{x}\) strictly feasible
+        \Require \(t > 0\)
+        \Require \(\alpha > 1\)
+        \Function{BarrierMethod}{\(f, \vb{x}, t, \alpha\)}
+        \Repeat
+            \State \(\vb{x}^{\ast} \pqty{t} \gets \argmin_{\vb{x} \in \RR^n} \bqty{t f\pqty{\vb{x}} - \sum_{i = 1}^{m} \log\pqty{- \pqty{\vb{a}_i\transpose \vb{x} - \vb{b}_i}}}\) using \textbf{Newton's Method} from \(\vb{x}\)
+            \State \(\vb{x} \gets \vb{x}^{\ast} \pqty{t}\)
+            \State \(t \gets \alpha t\)
+        \Until{\(t\) is Sufficiently Large}
+
+        \Return \(\vb{x}\)
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+The reason that we use Newton's algorithm is that the new optimum \(\vb{x}^{\ast} \pqty{\alpha t}\) is going to lie very close to \(\vb{x}^{\ast} \pqty{t}\), and Newton's method converges very rapidly to the new optimum.
+
+This algorithm is used in solving linear programs as well (which we will see later -- another useful way is to use simplex algorithm). This, however, does not rely on the fact that convex optimums are attained at vertices -- we just start on any interior point and use barrier method. But the number of vertices grow very quickly in higher dimensions, while barrier method allows us to solve it in linear time!
