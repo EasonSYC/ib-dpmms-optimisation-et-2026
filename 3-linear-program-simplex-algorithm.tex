@@ -1,1 +1,175 @@
 \section{Linear Program and Simplex Algorithm}
+
+We restrict ourselves to a even more special type of constrained optimisation, where we not only require the functions/regions to be \emph{convex}, but furthermore \textbf{linear}.
+
+\begin{definition}[Linear Program]
+    A \emph{linear program} is a constrained optimisation problem where we \textbf{minimise} \(\vb{c}\transpose \vb{m}\), subject to \textbf{constraints} of the form
+    \begin{itemize}
+        \item \(\vb{a}_i\transpose \vb{x} \geq b_i\), for all \(i \in M_1\),
+        \item \(\vb{a}_i\transpose \vb{x} \leq b_i\), for all \(i \in M_2\),
+        \item \(\vb{a}_i\transpose \vb{x} = b_i\), for all \(i \in M_3\),
+        \item \(x_j \geq 0\), for all \(j \in N_1\),
+        \item \(x_j \leq 0\), for all \(j \in N_2\),
+        \item \(x_j \in \RR\), for all \(j \in N_3\).
+    \end{itemize}
+
+    We denote \(m = \abs{M_1} + \abs{M_2} + \abs{M_3}\) as the \textbf{number of constraints}, and \(n = \abs{N_1} + \abs{N_2} + \abs{N_3}\) as the \textbf{dimension}.
+\end{definition}
+
+We may put the constraint vectors into a matrix
+\[
+    \vb{A} = \pmqty{
+        \text{---} & \vb{a}_1\transpose & \text{---} \\
+        \text{---} & \vb{a}_2\transpose & \text{---} \\
+        \text{---} & \vdots & \text{---} \\
+        \text{---} & \vb{a}_m\transpose & \text{---}
+    }
+\]
+and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
+
+\subsection{Duality of Linear Programs}
+
+\subsubsection{Dual Form of a Linear Program}
+
+\begin{theorem}[Dual Form of a Linear Program]
+    The dual of the linear program defined above is given by maximising \(\vb{b}\transpose \vb*{\lambda}\), subject to the constraints
+    \begin{itemize}
+        \item \(\lambda_i \geq 0\) for all \(i \in M_1\),
+        \item \(\lambda_i \leq 0\) for all \(i \in M_2\),
+        \item \(\lambda_i \in \RR\) for all \(i \in M_3\),
+        \item \(\vb*{\lambda}\transpose \vb{A}_j \leq c_j\) for all \(j \in N_1\),
+        \item \(\vb*{\lambda}\transpose \vb{A}_j \geq c_j\) for all \(j \in N_2\),
+        \item \(\vb*{\lambda}\transpose \vb{A}_j = c_j\) for all \(j \in N_3\).
+    \end{itemize}
+\end{theorem}
+
+\begin{proof}
+    Adding slack variables to get rid of the inequality constraints to transform the constraints to the form
+    \[
+        \forall i \in M_1: \vb{a}_i\transpose \vb{x} - s_i = b_i \qand \forall i \in M_2: \vb{a}_i\transpose \vb{x} + s_i = b_i,
+    \]
+    the Lagrangian \(L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}}\) satisfies
+    \begin{align*}
+        L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} &= \vb{c}\transpose \vb{x} - \sum_{i \in M_1} \lambda_i \pqty{\vb{a}_i\transpose \vb{x} - s_i - b_i} - \sum_{i \in M_2} \lambda_i \pqty{\vb{a}_i\transpose \vb{x} + s_i - b_i} - \sum_{i \in M_3} \lambda_i \pqty{\vb{a}_i\transpose \vb{x} - b_i} \\
+        &= \sum_{j \in N_1} \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j + \sum_{j \in N_2} \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j + \sum_{j \in N_3} \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j \\
+        &\phantom{=} \hspace{13em} + \sum_{i \in M_1} \lambda_i s_i - \sum_{i \in M_2} \lambda_i s_i + \sum_{i \in M_1 \cup M_2 \cup M_3} \lambda_i b_i.
+    \end{align*}
+
+    We observe that
+    \[
+        \Lambda = \set{\vb*{\lambda} \in \RR^m}{\begin{aligned}
+            \forall i \in M_1 & : \lambda_i \geq 0 \\
+            \forall i \in M_2 & : \lambda_i \leq 0 \\
+            \forall i \in M_3 & : \lambda_i \in \RR \\
+            \forall j \in N_1 & : \vb*{\lambda}\transpose \vb{A}_j \leq c_j \\
+            \forall j \in N_2 & : \vb*{\lambda}\transpose \vb{A}_j \geq c_j \\
+            \forall j \in N_3 & : \vb*{\lambda}\transpose \vb{A}_j = c_j
+        \end{aligned}},
+    \]
+
+    If \(\vb{\lambda} \in \Lambda\), then by simply setting all the pervious terms to zero, we have
+    \[
+        g\pqty{\vb*{\lambda}} = \min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq 0}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} = \vb{b}\transpose \vb*{\lambda}.
+    \]
+\end{proof}
+
+\subsubsection{Optimality Conditions}
+
+\begin{theorem}[Optimality Conditions for Linear Programs]
+    Let \(\vb{x}\) and \(\vb*{\lambda}\) be feasible solutions to the primal linear program and its dual. Then these are optimal if and only if
+    \[
+        \lambda_i \pqty{\vb{a}_i \transpose \vb{x} - b_i} = 0 \qand \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j = 0
+    \]
+    for all \(i\) and \(j\).
+\end{theorem}
+
+\begin{proof}
+    Define \(u_i = \lambda_i \pqty{\vb{a}_i \transpose \vb{x} - b_i}\) and \(v_j = \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j\). Since \(\vb{x}\) and \(\vb*{\lambda}\) are both feasible, we have \(u_i \geq 0\) and \(v_j \geq 0\) for all \(i\) and \(j\).
+
+    Summing up with respect to \(i\) and \(j\) respectively, we have
+    \[
+        \sum_{i \in M_1 \cup M_2 \cup M_3} u_i = \vb*{\lambda}\transpose \vb{A} \vb{x} - \vb*{\lambda}\transpose \vb{b}
+    \]
+    and
+    \[
+        \sum_{j \in N_1 \cup N_2 \cup N_3} v_j = \vb{c}\transpose \vb{x} - \vb*{\lambda}\transpose \vb{A} \vb{x}.
+    \]
+
+    Hence,
+    \[
+        \sum_{i \in M_1 \cup M_2 \cup M_3} u_i + \sum_{j \in N_1 \cup N_2 \cup N_3} v_j = \vb{c}\transpose \vb{x} - \vb*{\lambda}\transpose \vb{b}.
+    \]
+
+    But by weak duality, we know that \(\vb{c}\transpose \vb{x} \geq \vb*{\lambda}\transpose \vb{b}\).
+
+    If \(\vb{c}\transpose \vb{x} = \vb*{\lambda}\transpose \vb{b}\) (i.e. \(\vb{x}\) and \(\vb*{\lambda}\) are optimal), then \(u_i = 0\) and \(v_j = 0\) for all \(i\) and \(j\).
+
+    Conversely, if \(u_i = 0\) and \(v_j = 0\) for all \(i\) and \(j\), then \(\vb{c}\transpose \vb{x} = \vb*{\lambda}\transpose \vb{b}\), and hence \(\vb{x}\) and \(\vb*{\lambda}\) are optimal. by weak duality.
+\end{proof}
+
+\subsection{Standard and General Forms of Linear Programs}
+
+We may always convert any linear program into its \emph{general form} by flipping signs, splitting equalities into two inequalities, and converting the sign constraints also into scalar product constraints as well.
+
+\begin{definition}[General Form of a Linear Program]
+    The \emph{general form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} \leq \vb{b}\).
+\end{definition}
+
+\begin{definition}[Standard Form of a Linear Program]
+    The \emph{standard form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} = \vb{b}\) and \(\vb{x} \geq 0\).
+\end{definition}
+
+Clearly, all standard form linear programs can be converted into general form. To convert linear programs in general form to standard form, we first add slack variables to convert it to optimise \(\vb{c}\transpose \vb{x}\), subject to \(\vb{A} \vb{x} + \vb{s} = \vb{b}\), with \(\vb{s} \geq \vb{0}\).
+
+A further trick to convert from general form to special form is to write
+\[
+    x_j = x_j^+ - x_j^-
+\]
+where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are positive real numbers. This allows us to convert the previous form to optimise \(\vb{c}\transpose \pqty{\vb{x}_+ - \vb{x}_-}\), subject to \(\vb{A} \pqty{\vb{x}_+ - \vb{x}_-} + \vb{s} = \vb{b}\), with \(\vb{x}_+, \vb{x}_-, \vb{s} \geq \vb{0}\).
+
+In practice, it is often easier to discuss the \emph{theory} in general form, while the \emph{algorithms} are often discussed in standard form.
+
+\subsection{Maximising Convex Functions}
+
+Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximising} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
+
+\begin{definition}[Extreme Point in Convex Set]
+    A point \(\vb{x} \in C\) where \(C \subseteq \RR^n\) is convex, is called an \emph{extreme point}, if it \emph{cannot} be written as a convex combination of two distinct points in \(C\), i.e., for \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\),
+    \[
+        \vb{x} = \delta \vb{y} + \pqty{1 - \delta} \vb{z} \implies \vb{x} = \vb{y} = \vb{z}.
+    \]
+\end{definition}
+
+In other words, an extreme point in a convex set does not lie on a line segment (strictly) between two points.
+
+\begin{proposition}[Maximum of a Convex Function occurs at Extreme Points]
+    The maximum of a convex function \(\functiondomain{f}{C}{\RR}\) occurs at an extreme point of \(C\).
+\end{proposition}
+
+\begin{proof}
+    Suppose \(\vb{x}\) maximise \(f\) and is not an extreme point. Then
+    \[
+        \vb{x} = \delta \vb{y} + \pqty{1 - \delta} \vb{z}
+    \]
+    for some \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\), with \(\vb{y} \neq \vb{z}\). But by convexity,
+    \[
+        f\pqty{\vb{x}} \leq \delta f\pqty{\vb{y}} + \pqty{1 - \delta} f\pqty{\vb{z}} \leq \max \Bqty{f\pqty{\vb{y}}, f\pqty{\vb{z}}}
+    \]
+    so it has to maximise at one of the ends of the line segment as well.
+\end{proof}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.3\linewidth]{fig/circle-extreme-points.png}
+    \caption{Extreme Point of a Circle}
+    \label{fig:circle-extreme-point}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{fig/triangle-extreme-points.png}
+    \caption{Extreme Point of a Triangle}
+    \label{fig:triangle-extreme-point}
+\end{figure}
+
+A convex set may have infinitely many extreme points (such as a circle, in \autoref{fig:circle-extreme-point}), which does not really help. In linear programs, since the constraints are linear, the regions are (higher-dimensional) polygons, which means the extreme points are in fact finite (for example, in \autoref{fig:triangle-extreme-point} for a triangle) -- so now it suffices for us to have a list of extreme points for linear constraints.

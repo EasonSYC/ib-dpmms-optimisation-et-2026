@@ -1,2 +1,332 @@
 \section{Lagrange Multiplier Method}
 
+We currently consider the constrained optimisation problem \(f\pqty{\vb{x}}\) subject to some constraint \(\vb{h}\pqty{\vb{x}} = \vb{b}\) with \(\vb{x} \in \mathcal{X}\) and \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\). There is no general algorithm to solve all constrained optimisation problems, but we may use a method called \emph{Lagrange Multiplier} to solve.
+
+\begin{definition}[Lagrangian, Lagrange Multiplier]
+    We define the \emph{Lagrangian} as
+    \[
+        L \pqty{\vb{x}, \vb*{\lambda}} = f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}
+    \]
+    where \(\vb*{\lambda} \in \RR^m\) is the \emph{Lagrange multiplier}.
+\end{definition}
+
+We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathcal{X}\), without worrying about the constraint.
+
+\subsection{Lagrange Method}
+\subsubsection{Lagrange Sufficiency}
+
+\begin{theorem}[Lagrange Sufficiency]
+    \label{thm:lagrange-sufficiency}%
+    Let \(\vb{x}^{\ast} \in \mathcal{X}\) be such that \(\vb{h}\pqty{\vb{x}^{\ast}} = \vb{b}\), and \(\vb*{\lambda}^{\ast} \in \RR^m\), such that
+    \[
+        L\pqty{\vb{x}^{\ast}, \vb*{\lambda}^{\ast}} = \min_{\vb{x} \in \mathcal{X}} L\pqty{\vb{x}, \vb*{\lambda}^{\ast}}.
+    \]
+
+    Then \(\vb{x}^{\ast}\) also solves our original optimisation problem, i.e.,
+    \[
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} = f\pqty{\vb{x}^{\ast}}
+    \]
+\end{theorem}
+
+\begin{proof}
+    Suppose \(\pqty{\vb{x}^{\ast}, \vb*{\lambda}^{\ast}}\) is as stated in the theorem. Clearly,
+    \[
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} \leq f\pqty{\vb{x}^{\ast}}
+    \]
+    since \(\vb{x}^{\ast} \in \mathcal{X} \pqty{\vb{b}}\) is given.
+    
+    To prove the reverse inequality, we notice
+    \begin{align*}
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} &= \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} \bqty{f\pqty{\vb{x}} - {\vb*{\lambda}^{\ast}}\transpose \pqty{\vb{h} \pqty{\vb{x}} - \vb{b}}} \\
+        &\geq \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - {\vb*{\lambda}^{\ast}}\transpose \pqty{\vb{h} \pqty{\vb{x}} - \vb{b}}} \\
+        &= f\pqty{\vb{x}^{\ast}} - {\vb*{\lambda}^{\ast}}\transpose \pqty{\vb{h} \pqty{\vb{x}^{\ast}} - \vb{b}} \\
+        &= f\pqty{\vb{x}^{\ast}}.
+    \end{align*}
+\end{proof}
+
+\begin{example}[Application of Lagrange Multiplier]
+    We minimise the function \(- x_1 - x_2 + x_3\) subject to \(x_1^2 + x_2^2 = 4\), and \(x_1 + x_2 + x_3 = 1\).
+
+    We construct the Lagrangian
+    \begin{align*}
+        L \pqty{\vb{x}, \vb*{\lambda}} &= L\pqty{x_1, x_2, x_3, \lambda_1, \lambda_2} \\
+        &= - x_1 - x_2 + x_3 - \lambda_1 \pqty{x_1^2 + x_2^2 - 4} - \lambda_2 \pqty{x_1 + x_2 + x_3 - 1} \\
+        &= \bqty{\pqty{-1 - \lambda_2} x_1 - \lambda_1 x_1^2} + \bqty{\pqty{-1 - \lambda_2} x_2 - \lambda_1 x_2^2} + \bqty{\pqty{1 - \lambda_2} x_3} + 4 \lambda_1 + \lambda_2.
+    \end{align*}
+
+    To minimise this with respect to \(x_1, x_2\) and \(x_3\) for general \(\vb*{\lambda}\), subject to no constraints, we must have \(\lambda_2 = 1\): otherwise there would be no minimum. Then, we have
+    \[
+        L = L\pqty{x_1, x_2, x_3, \lambda_1} = \pqty{-2 x_1 - \lambda_1 x_1^2} + \pqty{-2 x_2 - \lambda_1 x_2^2} + 4 \lambda_1 + 1.
+    \]
+
+    To have a finite minimum, we also need \(\lambda_1 < 0\), and is optimised when
+    \[
+        x_1 = - \frac{1}{\lambda_1} \qand x_2 = - \frac{1}{\lambda_1}.
+    \]
+
+    Hence, the minimiser for \(\vb*{\lambda} = \pqty{\lambda_1, 1}\) would be
+    \[
+        \vb{x}^{\ast} = \pqty{- \frac{1}{\lambda_1}, - \frac{1}{\lambda_1}, x_3}
+    \]
+    for any \(x_3 \in \RR\).
+    
+    However, to apply \autoref{thm:lagrange-sufficiency}, we need to pick a value of \(\lambda_1\), such that the above \(\vb{x}^{\ast}\) is in fact feasible. We need to ensure that
+    \[
+        \frac{1}{\lambda_1^2} + \frac{1}{\lambda_1^2} = 4 \qand - \frac{1}{\lambda_1} - \frac{1}{\lambda_1} + x_3 = 1.
+    \]
+
+    This solves to \(\lambda_1 = - \flatfrac{1}{\sqrt{2}}\) (since \(\lambda_1 < 0\)) and \(x_3 = 1 - 2 \sqrt{2}\), giving
+    \[
+        \vb{x}^{\ast} = \pqty{\sqrt{2}, \sqrt{2}, 1 - 2 \sqrt{2}}
+    \]
+    with
+    \[
+        \vb*{\lambda}^{\ast} = \pqty{- \frac{1}{\sqrt{2}}, 1}.
+    \]
+
+    By \autoref{thm:lagrange-sufficiency} (Lagrange Sufficiency), we can now conclude that \(\vb{x}^{\ast}\) solves the original problem.
+\end{example}
+
+\subsubsection{Dual Feasibility}
+
+\autoref{alg:lagrange-method} outlines the algorithm, with slack variables involved.
+
+\begin{algorithm}[ht!]
+    \caption{Lagrange Method with Slack Variables}\label{alg:lagrange-method}%
+    \begin{algorithmic}
+        \Function{LagrangeMethodSlackVariables}{\(\functiondomain{f}{\RR^n}{\RR}, \functiondomain{\vb{h}}{\RR^n}{\RR^m}, \vb{b} \in \RR^m, \mathcal{X} \subseteq \RR^n\)}
+        
+        \State \textbf{define} Slack Variables \(s_i \geq 0\) \textbf{and} rewrite the problem as \(\vb{h} \pqty{\vb{x}} + \vb{s} = \vb{b}\), for \(\vb{s} \geq \vb{0}\)
+
+        \State \(L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} \gets f\pqty{\vb{x}} - \vb*{\lambda} \transpose \pqty{\vb{h}\pqty{\vb{x}} + \vb{s} - \vb{b}}\)
+
+        \State \(\Lambda \gets \set{\vb*{\lambda} \in \RR^m}{\min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq \vb{0}}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} > \minusinfty}\)
+
+        \For{\(\vb*{\lambda} \in \Lambda\)}
+            \State \(\pqty{\vb{x}^{\ast} \pqty{\vb*{\lambda}}, \vb{s}^{\ast} \pqty{\vb*{\lambda}}} \gets \argmin_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq \vb{0}}} L \pqty{\vb{x}, \vb{s}, \vb*{\lambda}}\)
+        \EndFor
+
+        \State \textbf{find} \(\vb*{\lambda}^{\ast} \in \Lambda\) \textbf{such that} \(\vb{h} \pqty{\vb{x}} + \vb{s} = \vb{b}\) \textbf{and} \(\vb{s} \geq \vb{0}\)
+
+        \Return{\(\vb{x}^{\ast} \pqty{\vb*{\lambda}^{\ast}}\)}
+
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{definition}[Dual Feasible Set]
+    The set
+    \[
+        \Lambda = \set{\vb*{\lambda} \in \RR^m}{\min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq \vb{0}}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} > \minusinfty}
+    \]
+    is the \emph{dual feasible set}.
+\end{definition}
+
+\begin{proposition}[Complementary Slackness]
+    For all \(\vb*{\lambda} \in \Lambda\) and their corresponding \(\vb{s}^{\ast} \pqty{\vb*{\lambda}}\), we have
+    \begin{itemize}
+        \item \(\vb*{\lambda} \leq \vb{0}\);
+        \item \(\lambda_i s_i = 0\) (no summation convention): in particular, \(\lambda_i < 0\) implies \(s_i = 0\).
+    \end{itemize}
+\end{proposition}
+
+\begin{proof}
+    Notice that
+    \[
+        L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} = f\pqty{\vb{x}} - \vb*{\lambda} \transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}} - \vb*{\lambda}\transpose \vb{s},
+    \]
+    so we need \(\vb*{\lambda} \leq \vb{0}\), since otherwise we could just arbitrarily increase the corresponding component of \(\vb{s}\) to further decrease \(L\).
+
+    Furthermore, if some particular \(\lambda_i < 0\), then we must have \(s_i = 0\) for the Lagrangian to be minimised. This implies that \(\lambda_i s_i = 0\).
+\end{proof}
+
+\begin{example}[Complementary Slackness]
+    We minimise \(x_1 - 3 x_2\) subject to \(x_1^2 + x_2^2 \leq 4\) and \(x_1 + x_2 \leq 2\). We have
+    \begin{align*}
+        L\pqty{x_1, x_2, s_1, s_2, \lambda_1, \lambda_2} &= x_1 - 3 x_2 - \lambda_1 \pqty{x_1^2 + x_2^2 + s_1 - 4} - \lambda_2 \pqty{x_1 + x_2 + s_2 - 2} \\
+        &= \pqty{\pqty{1 - \lambda_2} x_1 - \lambda_1 x_1^2} + \pqty{\pqty{-3 - \lambda_2} x_1 - \lambda_1 x_1^2} - \lambda_1 s_1 - \lambda_2 s_2 + 4 \lambda_1 + 2 \lambda_2.
+    \end{align*}
+
+    We consider the casework on whether \(\lambda_i < 0\) or \(\lambda_i = 0 \) (which gives four cases).
+
+    \begin{enumerate}
+        \item Suppose \(\lambda_1 = 0\). Then the first two quadratics will degenerate to linear equations, which cannot be both zero, and hence a minimum would not exist.
+        \item Suppose \(\lambda_1 < 0, \lambda_2 < 0\). Then \(s_1 = s_2 = 0\), so
+        \begin{align*}
+            1 - 2 \lambda_1 x_1 - \lambda_2 &= 0, \\
+            -3 - 2 \lambda_1 x_2 - \lambda_2 &= 0, \\
+            x_1^2 + x_2^2 &= 4, \\
+            x_1 + x_2 &= 2.
+        \end{align*}
+
+        From the final two equations, we have \(\pqty{x_1, x_2} = \pqty{2, 0}\) or \(\pqty{x_1, x_2} = \pqty{0, 2}\).
+        
+        If \(\pqty{x_1, x_2} = \pqty{0, 2}\), then we have \(\pqty{\lambda_1, \lambda_2} = \pqty{1, -3}\). If \(\pqty{x_1, x_2} = \pqty{2, 0}\), then we have \(\pqty{\lambda_1, \lambda_2} = \pqty{-1, 1}\). Neither solutions work.
+
+        \item Suppose \(\lambda_1 < 0, \lambda_2 = 0\). Then \(s_1 = 0\), and hence
+        \begin{align*}
+            1 - 2 \lambda_1 x_1 &= 0, \\
+            -3 - 2 \lambda_1 x_2 &= 0, \\
+            x_1^2 + x_2^2 &= 4.
+        \end{align*}
+
+        Hence, we have
+        \[
+            x_1^{\ast} = \frac{1}{2 \lambda_1} \qand x_2^{\ast} = - \frac{3}{2 \lambda_1}
+        \]
+        and substituting to the final equation, we have \(\lambda_1 = - \sqrt{\flatfrac{5}{8}}\), giving us the optimal solution
+        \[
+            x_1^{\ast} = - \sqrt{\frac{2}{5}} \qand x_2^{\ast} = 3 \sqrt{\frac{2}{5}}.
+        \]
+    \end{enumerate}
+\end{example}
+
+\subsection{Weak and Strong Duality}
+
+We consider our original problem, the \emph{primal problem} without the slack variables. 
+
+\begin{definition}[Dual Objective Function, Dual Problem]
+    The \emph{dual objective function} \(\functiondomain{g}{\Lambda}{\RR}\) is defined as
+    \[
+        g\pqty{\vb*{\lambda}} = \min_{\vb{x} \in \mathcal{X}} L \pqty{\vb{x}, \vb*{\lambda}}
+    \]
+    where \(\Lambda\) is the dual feasible set.
+
+    The \emph{dual problem} is maximising \(g\pqty{\vb*{\lambda}}\) subject to \(\vb*{\lambda} \in \Lambda\).
+\end{definition}
+
+\begin{remark}
+    The dual problem, theoretically, is much easier to solve than the primal problem. For every fixed \(\vb{x}\), the Lagrangian is linear in \(\vb*{\lambda}\), and the minimum of linear functions is concave.
+\end{remark}
+
+\begin{theorem}[Weak Duality]
+    \label{weak-duality}%
+    If \(\vb{x} \in \mathcal{X} \pqty{\vb{b}}\) is feasible, and \(\vb*{\lambda} \in \Lambda\), then
+    \[
+        f\pqty{\vb{x}} \geq g\pqty{\vb*{\lambda}}.
+    \]
+
+    In particular,
+    \[
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} \geq \max_{\vb*{\lambda} \in \Lambda} g\pqty{\vb*{\lambda}}.
+    \]
+\end{theorem}
+
+\begin{proof}
+    For any \(\vb*{\lambda} \in \Lambda\) and \(\vb{x} \in \mathcal{X}\pqty{\vb{b}}\), we have
+    \begin{align*}
+        f\pqty{\vb{x}} &\geq \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} \\
+        &= \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda} \transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}} \\
+        &\geq \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda} \transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}} \\
+        &= \min_{\vb{x} \in \mathcal{X}} L\pqty{\vb{x}, \vb*{\lambda}} \\
+        &= g\pqty{\vb*{\lambda}}.
+    \end{align*}
+\end{proof}
+
+\begin{definition}[Duality Gap, Strong Duality]
+    We define the \textit{duality gap} as
+    \[
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} - \max_{\vb*{\lambda} \in \Lambda} g\pqty{\vb*{\lambda}}.
+    \]
+
+    If the duality gap is \(0\), then we say the problem satisfies the \emph{strong duality} property.
+\end{definition}
+
+\begin{proposition}[Strong Duality is equivalent to Lagrange Method Working]
+    The Lagrange method outlined in \autoref{thm:lagrange-sufficiency} works if and only if strong duality holds.
+\end{proposition}
+
+\begin{proof}
+    Suppose the Lagrange method works. Then we have a pair \(\pqty{\vb{x}^{\ast}, \vb*{\lambda}^{\ast}}\) such that
+    \[
+        \argmin_{\vb{x} \in \mathcal{X}} L \pqty{\vb{x}, \vb*{\lambda}^{\ast}} = \vb{x}^{\ast}
+    \]
+    and \(\vb{h}\pqty{\vb{x}^{\ast}} = \vb{b}\). Then
+    \begin{align*}
+        g\pqty{\vb*{\lambda}^{\ast}} &= \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - {\vb*{\lambda}^{\ast}}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}} \\
+        &= f\pqty{\vb{x}^{\ast}} - {\vb*{\lambda}^{\ast}}\transpose \pqty{\vb{h\pqty{\vb{x}^{\ast}}} - \vb{b}} \\
+        &= f\pqty{\vb{x}^{\ast}}
+    \end{align*}
+    which gives a duality gap of zero.
+
+    Suppose that strong duality holds, i.e., we can find \(\vb{x} \in \mathcal{X}\pqty{\vb{b}}\) and \(\vb*{\lambda} \in \Lambda\), such that \(f\pqty{\vb{x}} = g\pqty{\vb*{\lambda}}\). Then the Lagrange method works using this \(\vb*{\lambda}\) at this value of \(\vb{x}\) by definition of the dual objective problem.
+\end{proof}
+
+We now study how we may conclude strong duality (and hence when Lagrange method works).
+
+\begin{definition}[Supporting Hyperplane]
+    A function \(\functiondomain{\phi}{\RR^m}{\RR}\) is said to have a \emph{supporting hyperplane} at a point \(\vb{b} \in \RR^m\), if there is some \(\vb*{\lambda} \in \RR^m\), such that for all \(\vb{c} \in \RR^m\), we have
+    \[
+        \phi\pqty{\vb{c}} \geq \phi\pqty{\vb{b}} + \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}}.
+    \]
+\end{definition}
+
+\begin{remarks}
+    \begin{itemize}
+        \item If \(\phi\) is differentiable at \(\vb{b}\), then the only possible choice is \(\vb*{\lambda} = \grad \phi \pqty{\vb{b}}\).
+        \item If \(\phi\) is convex, then such supporting hyperplane always exists.
+    \end{itemize}
+\end{remarks}
+
+\begin{definition}[Value Function]
+    Define the \emph{value function} \(\functiondomain{\phi}{\RR^m}{\RR}\) as
+    \[
+        \phi\pqty{\vb{c}} = \min_{\vb{x} \in \mathcal{X} \pqty{\vb{c}}} f\pqty{\vb{x}},
+    \]
+    where we recall the notation
+    \[
+        \mathcal{X} \pqty{\vb{c}} = \set{\vb{x} \in \mathcal{X}}{\vb{h}\pqty{\vb{x}} = \vb{c}}.
+    \]
+\end{definition}
+
+\begin{theorem}[Strong Duality is equivalent to Existence of Supporting Hyperplane]
+    Strong duality is satisfied if the value function \(\phi\) has a supporting hyperplane at \(\vb{b}\).
+
+    Conversely, if strong duality holds for a suitable \(\vb*{\lambda}\), then \(\vb*{\lambda}\) is the supporting hyperplane to \(\phi\) at \(\vb{b}\).
+\end{theorem}
+
+\begin{proof}
+    Suppose \(\phi\) has a supporting hyperplane \(\vb*{\lambda}\) at \(\vb{b}\). By definition,
+    \[
+        \phi\pqty{\vb{c}} \geq \phi\pqty{\vb{b}} + \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}}.
+    \]
+
+    Then, we have
+    \begin{align*}
+        g\pqty{\vb*{\lambda}} &= \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}} \\
+        &= \min_{\vb{c} \in \RR^m} \min_{\vb{x} \in \mathcal{X}\pqty{\vb{c}}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{c}} - \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}}}.
+    \end{align*}
+
+    Now, note that
+    \[
+        \min_{\vb{x} \in \mathcal{X} \pqty{\vb{c}}} f\pqty{\vb{x}} = \phi\pqty{\vb{c}} \qand \forall \vb{x} \in \mathcal{X}\pqty{\vb{c}}: \vb{h}\pqty{\vb{x}} - \vb{c} = \vb{0},
+    \]
+    and hence
+    \begin{align*}
+         g\pqty{\vb*{\lambda}} &= \min_{\vb{c} \in \RR^m} \phi\pqty{\vb{c}} - \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}} \\
+         &\geq \phi\pqty{\vb{b}}
+    \end{align*}
+    by existence of supporting hyperplane. By weak duality, \(g\pqty{\vb*{\lambda}} \leq \phi\pqty{\vb{b}}\). Hence,
+    \[
+        g\pqty{\vb*{\lambda}} = \phi\pqty{\vb{b}}
+    \]
+    giving strong duality as desired.
+
+    For the converse, if strong duality with that \(\vb*{\lambda}\), then
+    \begin{align*}
+        \phi\pqty{\vb{b}} &= g\pqty{\vb*{\lambda}} \\
+        &= \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}} \\
+        &= \min_{\vb{x} \in \mathcal{X}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{c}}} - \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}} \\
+        &\leq \min_{\vb{x} \in \mathcal{X}\pqty{\vb{c}}} \bqty{f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{c}}} - \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}} \\
+        &= \phi\pqty{\vb{c}} - \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}}
+    \end{align*}
+    showing the condition for the supporting hyperplane, as desired.
+\end{proof}
+
+\begin{theorem}[Sufficient Condition for Convexity of Value Function]
+    If \(\mathcal{X}\) is a convex set, \(\functiondomain{f}{\RR^n}{\RR}\) is convex, and each component of \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\) is convex, then the value function for the corresponding optimisation problem is convex.
+\end{theorem}
+
+\begin{proof}
+    \textcolor{red}{\textbf{See Example Sheet.}}
+\end{proof}

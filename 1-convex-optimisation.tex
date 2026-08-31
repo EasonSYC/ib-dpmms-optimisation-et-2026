@@ -593,7 +593,7 @@ We introduce a parameter \(t > 0\), and the problem
 \[
     \min_{\vb{x} \in \RR^n} \bqty{t f\pqty{\vb{x}} - \sum_{i = 1}^{m} \log\pqty{- \pqty{\vb{a}_i\transpose \vb{x} - \vb{b}_i}}}
 \]
-where \(t\) is a `balance' between the emphasis of the problem and the boundary. We repeatedly increase \(t\) and use gradient descent/Newton's method to optimise it. As \(t \to \plusinfty\), we approach the true minimum of the function \(f\pqty{\vb{x}}\). Formally, 
+where \(t\) is a `balance' between the emphasis of the problem and the boundary. We repeatedly increase \(t\) and use gradient descent/Newton's method to optimise it. As \(t \to \plusinfty\), we approach the true minimum of the function \(f\pqty{\vb{x}}\). Formally, this is outlined in \autoref{alg:barrier-method}.
 
 \begin{algorithm}[ht!]
     \caption{Barrier Method}\label{alg:barrier-method}%
