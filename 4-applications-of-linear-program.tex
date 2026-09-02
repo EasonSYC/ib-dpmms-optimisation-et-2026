@@ -1,1 +1,479 @@
 \section{Applications of Linear Program}
+\subsection{Game Theory}
+
+\subsubsection{Two-Person Zero-Sum Games}
+
+\begin{definition}[Zero-Sum Game, Payoff Matrix]
+    We consider a game between players P1 and P2, where P1 has \(m\) actions labelled by \(\Bqty{1, 2, \ldots, m}\) and P2 has \(n\) actions labelled by \(\Bqty{1, 2, \ldots, n}\), where the \emph{payoff  matrix} \(\vb{A} = \pqty{a_{ij}} \in \RR^{m \times n}\) records the amount earned by P1 and lost by P2, if P1 plays \(i\) and \(P2\) plays \(j\).
+\end{definition}
+
+\begin{example}[Rock-Paper-Scissors]
+    The payoff matrix given for the rock-paper-scissors game is given by
+    \[
+        \pqty{
+            \begin{array}{c|ccc}
+                & \text{R} & \text{P} & \text{S} \\
+                \hline
+                \text{R} & 0 & -1 & +1 \\
+                \text{P} & +1 & 0 & -1 \\
+                \text{S} & -1 & +1 & 0
+            \end{array}
+        }.
+    \]
+\end{example}
+
+If P1 plays \(i\), then P1 should expect to have a payoff of
+\[
+    \min_{j \in \bqty{n}} a_{ij}
+\]
+since P2 would solve this optimisation problem for \(j\).
+
+Hence, P1 will try to solve for \(i\) the problem
+\[
+    \max_{i \in \bqty{m}} \min_{j \in \bqty{n}} a_{ij},
+\]
+while P2 will try to solve for \(j\) the problem
+\[
+    \min_{j \in \bqty{n}} \max_{i \in \bqty{m}} a_{ij}.
+\]
+
+\subsubsection{Saddle Point and Value of Game}
+
+\begin{example}[Saddle Point]
+    Suppose
+    \[
+        \vb{A} = \pmqty{1 & 2 \\ 3 & 4}.
+    \]
+
+    Then P1 will decide to play \(i = 2\) (i.e., the second row, since its minimum is larger than the first, expecting \(j = 1\)), and P2 will decide to play \(j = 1\) (i.e., the first column, since its maximum is lower than the second, expecting \(i = 2\)). In this case, we happen to get
+    \[
+        \max_{i \in \bqty{m}} \min_{j \in \bqty{n}} a_{ij} = \min_{j \in \bqty{n}} \max_{i \in \bqty{m}} a_{ij} = 3
+    \]
+    so it does not matter which player plays first.
+\end{example}
+
+\begin{definition}[Saddle Point, Value of a Game]
+    For a payoff matrix \(\vb{A}\), \(\pqty{i^{\ast}, j^{\ast}}\) is called a \emph{saddle point}, if it is both the minimum entry in row \(i^{\ast}\) and maximum entry in column \(j^{\ast}\). In this case,
+    \[
+        \max_{i \in \bqty{m}} \min_{j \in \bqty{n}} a_{ij} = \min_{j \in \bqty{n}} \max_{i \in \bqty{m}} a_{ij} = a_{i^{\ast}j^{\ast}}
+    \]
+    is called the \emph{value} of the game.
+\end{definition}
+
+If a saddle point exists, the order of playing does not matter.
+
+\begin{example}[Non-Existence of Saddle Point]
+    Consider the payoff matrix
+    \[
+        \vb{A} = \pmqty{4 & 2 \\ 1 & 3}.
+    \]
+
+    Then P1 will decide to play \(i = 2\) expecting \(j = 1\), while P2 will decide to play \(j = 2\) expecting \(i = 2\). These do not match, so there is no saddle point. Notice that in this case, the order of playing matters.
+\end{example}
+
+\subsubsection{Pure and Mixed Strategies}
+
+\begin{definition}[Pure and Mixed Strategies]
+    A \emph{pure} strategy for P1 is when they pick a fixed action \(i \in \bqty{m}\).
+
+    A \emph{mixed} strategy P1 picks a probability distribution \(\vb{p}\) on their action
+    \[
+        \vb{p} = \begin{pmatrix}
+            p_1 \\ p_2 \\ \vdots \\ p_m
+        \end{pmatrix}.
+    \]
+\end{definition}
+
+If P1 has mixed strategy \(\vb{p}\), the expected payoff is
+\[
+    \min_{j \in \bqty{n}} \sum_{i = 1}^{m} a_{ij} p_i,
+\]
+and therefore, now the optimisation problem becomes \emph{maximising} the quantity
+\[
+    \min_{j \in \bqty{n}} \sum_{i = 1}^{m} a_{ij} p_i
+\]
+subject to the constraints \(\vb{p} \geq \vb{0}\) and \(\sum_{i = 1}^{m} p_i = 1\).
+
+This could be equivalently expressed as the linear program to \emph{maximise} \(v\), subject to
+\[
+    \vb{A}\transpose \vb{p} \geq v \vb{1}_n, \quad \vb{1}_m\transpose \vb{p} = 1 \qand \vb{p} \geq \vb{0},
+\]
+where we denote \(\vb{1}_{k} \in \RR^k\) to be the vector with all entries \(1\).
+
+Similarly, we can write P2's optimisation problem as \emph{minimise} \(w\), subject to
+\[
+    \vb{A} \vb{q} \leq w \vb{1}_m, \quad \vb{1}_n\transpose \vb{q} = 1 \qand \vb{q} \geq \vb{0}.
+\]
+
+In fact, these two problems are duals of each other. Effectively, we found a saddle point `outside' of the matrix in a probability space, which is the point of \emph{Nash equilibrium}.
+
+\begin{proposition}[Optimisation Problems for P1 and P2 are Duals]
+    The optimisation problems for P1 and P2's mixed strategies are duals of each other.
+\end{proposition}
+
+\begin{proof}
+    The Lagrangian of P2's problem is given by
+    \begin{align*}
+        L\pqty{w, \vb{q}, \vb{s}, \vb*{\lambda}_1, \lambda_2} &= w + \vb*{\lambda}_1\transpose \pqty{\vb{Aq} + \vb{s} - w \vb{1}_m} - \lambda_2 \pqty{\vb{1}_n\transpose \vb{q} - 1} \\
+        &= w \pqty{1 - \vb*{\lambda}_1\transpose \vb{1}_m} + \pqty{\vb*{\lambda}_1\transpose \vb{A} - \lambda_2 \vb{1}_n\transpose} \vb{q} + \vb*{\lambda}_1\transpose \vb{s} + \lambda_2.
+    \end{align*}
+
+    The set
+    \[
+        \Lambda = \set{\vb*{\lambda} \in \RR^m}{
+            \begin{aligned}
+                \vb*{\lambda}_1\transpose \vb{1}_m &= 1 \\
+                \vb*{\lambda}_1\transpose \vb{A} &\geq \lambda_2 \vb{1}_n\transpose \\
+                \vb*{\lambda}_1 &\geq 0
+            \end{aligned}}
+    \]
+    and we have if \(\vb*{\lambda_1} \in \Lambda\), then
+    \[
+        \min_{w, \vb{q}, \vb{s}} L = \lambda_2.
+    \]
+
+    Therefore, the dual problem is to maximise \(\lambda_2\), subject to the constraints stated in \(\Lambda\), which is precisely P1's optimisation problem, with \(\vb{p}\) as \(\vb*{\lambda}_1\), and \(v\) as \(\lambda_2\).
+\end{proof}
+
+\begin{theorem}[Optimal Strategies]
+    A strategy \(\vb{p}\) is optimal for P1, if and only if there exists \(\vb{q}\) and \(v\), such that
+    \begin{enumerate}
+        \item Primal Feasibility: \(\vb{A}\transpose \vb{p} \geq v \vb{1}_n\), \(\vb{1}_m\transpose \vb{p} = 1\) and \(\vb{p} \geq \vb{0},\)
+        \item Dual Feasibility: \(\vb{A} \vb{q} \leq w \vb{1}_m\), \(\vb{1}_n\transpose \vb{q} = 1\) and \(\vb{q} \geq \vb{0}.\)
+        \item Complementary Slackness: \(v = \vb{p}\transpose \vb{Aq}\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    It suffices to check the complementary slackness condition. If \(\pqty{\vb{p}, v}\) and \(\pqty{\vb{q}, w}\) are primal/dual optimal, then
+    \[
+        \pqty{\vb{Aq} - w \vb{1}_m}\transpose \vb{p} = 0 \qand \vb{q}\transpose \pqty{\vb{A}\transpose \vb{p} - v \vb{1}_n} = 0.
+    \]
+
+    Simplifying, we have
+    \[
+        w = v = \vb{p}\transpose \vb{A} \vb{q}
+    \]
+    as desired.
+\end{proof}
+
+\begin{example}[Rock-Paper-Scissors]
+    In rock-paper-scissors, we have
+    \[
+        \vb{p} = \vb{q} = \begin{pmatrix}
+            \flatfrac{1}{3} \\ \flatfrac{1}{3} \\ \flatfrac{1}{3}
+        \end{pmatrix}
+    \]
+    with \(w = v = 0\).
+\end{example}
+
+\subsubsection{Finding Optimal Strategies}
+
+Usually, we do not have to solve the whole linear program to find the optimal strategy -- some observations could be made to reduce the size of the matrix and the number of variables.
+
+\begin{enumerate}
+    \item Look for a saddle point in the matrix. If such saddle point exists, the optimal strategy is for both players to play at this saddle point.
+    \item Look for dominating actions. Suppose for P1 that there exists \(i_1\) and \(i_2\), such that
+    \[
+        \forall j \in \bqty{n}: a_{i_1 j} \geq a_{i_2 j},
+    \]
+    then P1 would never play \(i_2\), so this action could be removed.
+
+    Similarly, suppose for P2 that there exists \(j_1\) and \(j_2\), such that
+    \[
+        \forall i \in \bqty{m}: a_{i j_1} \leq a_{i j_2},
+    \]
+    then P2 would never play \(j_2\), so this action could be removed.
+    \item Finally, we solve the linear program, which could be graphically, or of course, using the simplex method.
+\end{enumerate}
+
+\begin{example}
+    Consider the payoff matrix
+    \[
+        \vb{A} = \pmqty{
+            2 & 3 & 4 \\
+            3 & 1 & \flatfrac{1}{2} \\
+            1 & 3 & 2
+        }.
+    \]
+
+    Notice that the first row dominates the third row, so P1 would never play action 3. This reduces to the new matrix
+    \[
+        \vb{A} = \pmqty{
+            2 & 3 & 4 \\
+            3 & 1 & \flatfrac{1}{2}
+        }.
+    \]
+
+    Notice that currently there are no dominating columns, or saddle points. Now we solve for the linear program. Suppose
+    \[
+        \vb{p} = \pqty{p, 1 - p, 0}\transpose,
+    \]
+    then we want to maximise \(v\), subject to
+    \[
+        2p + 3 \pqty{1 - p} \geq v, \quad 3p + \pqty{1 - p} \geq v, \quad 4p + \frac{1 - p}{2} \geq v
+    \]
+    and
+    \[
+        0 \leq p \leq 1.
+    \]
+
+    The inequality constraints are equivalent to
+    \[
+        v \leq 3 - p, \quad v \leq 1 + 2p, \quad v \leq \flatfrac{1}{2} + \flatfrac{7p}{2}.
+    \]
+
+    Drawing these lines on the \(\pqty{p, v}\) plane, we get \autoref{fig:lp-graphic}, and we notice that \(v\) is maximised at the intersection of \(v = 1 + 2p\) and \(v = 3 - p\), which solves to \(p = \flatfrac{2}{3}\). This gives
+    \[
+        \vb{p} = \pqty{\flatfrac{2}{3}, \flatfrac{1}{3}, 0}\transpose
+    \]
+    and \(v = \flatfrac{7}{3}\).
+    
+    To solve for \(\vb{q}\), we use the complementary slackness equation. Notice that since the final constraint for \(p\) is not tight, we have \(q_3 = 0\), and hence setting \(\vb{q} = \pqty{q, 1 - q, 0}\), we have
+    \[
+        2q + 3 \pqty{1 - q} \leq w, \quad 3q + \pqty{1 - q} \leq w, \quad q + 3 \pqty{1 - q} \leq w.
+    \]
+
+    By complementary slackness, since \(p \neq 0\) and \(1 - q \neq 0\), the first two constraints must be tight, so we have
+    \[
+        3 - q = 2q + 1 = \frac{7}{3}
+    \]
+    and hence \(q = \flatfrac{2}{3}\), giving
+    \[
+        \vb{q} = \pqty{\flatfrac{2}{3}, \flatfrac{1}{3}, 0}.
+    \]
+\end{example}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=10cm,
+            height=7cm,
+            axis lines=middle,
+            xlabel={\(p\)},
+            ylabel={\(v\)},
+            xmin=-0.1, xmax=1.1,
+            ymin=0, ymax=3.3,
+            xtick={0,0.2,0.4,0.6,0.8,1},
+            ytick={0,0.5,1,1.5,2,2.5,3},
+            grid=both,
+            legend pos=south east,
+        ]
+
+        % v = 3 - p
+        \addplot[
+            domain=-0.05:1.05,
+            samples=2,
+            thick
+        ]{3-x};
+        \addlegendentry{\(v = 3 - p\)}
+
+        % v = 1 + 2p
+        \addplot[
+            domain=-0.05:1.05,
+            samples=2,
+            thick,
+            dashed
+        ]{1+2*x};
+        \addlegendentry{\(v = 1 + 2p\)}
+
+        % v = 1/2 + 7p/2
+        \addplot[
+            domain=-0.05:1.05,
+            samples=2,
+            thick,
+            dotted
+        ]{0.5+3.5*x};
+        \addlegendentry{\(v = \flatfrac{1}{2}+ \flatfrac{7p}{2}\)}
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Linear Programming on the \(\pqty{p, v}\)-Plane}
+    \label{fig:lp-graphic}%
+\end{figure}
+
+\subsection{Network Flow}
+
+\begin{definition}[Directed and Undirected Graph, Vertices, Edges]
+    A \emph{directed graph} \(G = \pqty{V, E}\) is a pair a set of \emph{vertices} \(V\), and a set of \emph{edges} \(E \subseteq V \times V\).
+
+    If \(E\) is symmetric, then the graph is \emph{undirected graph}.
+\end{definition}
+
+\subsubsection{Minimum Cost Flow}
+
+\begin{definition}[Flow, Source/Sink, Cost Matrix]
+    Let \(G = \pqty{V, E}\) with \(\abs{V} = n\) labelled by \(1\) to \(n\). We assign a \emph{flow} \(x_{ij}\) for each edge \(\pqty{i, j} \in E\).
+
+    We define a vector \(\vb{b} \in \RR^n\) (a function from \(V\) to \(\RR\)) as the amount of flow \(b_i\) that enters a vertex \(i\). If \(b_i > 0\), then vertex \(i\) is a \emph{source}; if \(b_i < 0\), then vertex \(i\) is a \emph{sink}. We always have \(\sum_{i = 1}^{n} b_i = 0\).
+
+    We define a \emph{cost matrix} \(\vb{C} \in \RR^{n \times n}\) which is the cost per unit flow on the edge.
+
+    We define matrices \(\underline{\vb{M}}, \overline{\vb{M}} \in \RR^{n \times n}\) to bound the costs \(\underline{m}_{ij} \leq x_{ij} \leq \overline{m}_{ij}\).
+\end{definition}
+
+\begin{definition}[Network Flow]
+    The \emph{network flow} problem is to \emph{minimise} the total cost
+    \[
+        \sum_{\pqty{i, j} \in E} c_{ij} x_{ij}
+    \]
+    subject to the constraints:
+    \begin{itemize}
+        \item \emph{flow conservation} at a fixed vertex \(i \in V\)
+        \[
+            b_i + \sum_{j: \pqty{j, i} \in E} x_{ji} = \sum_{j: \pqty{i, j} \in E} x_{ij}
+        \];
+        \item the cost constraint \(\underline{m}_{ij} \leq c_{ij} \leq \overline{m}_{ij}\).
+    \end{itemize}
+\end{definition}
+
+Notice that the requirement \(\sum_{i = 1}^{n} b_i = 0\) can be derived from flow conservation.
+
+\subsubsection{The Transport Problem}
+
+A special case of the network flow problem is the transport problem.
+
+\begin{definition}[Suppilier, Consumer, Bipartite Graph]
+    Suppose we have \(n\) \emph{suppliers} \(i \in \Bqty{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \emph{demand} \(j \in \Bqty{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
+    \[
+        \sum_{i = 1}^{n} s_i = \sum_{j = 1}^{m} d_j.
+    \]
+
+    The graph is a \emph{bipartite graph}, given by two sets of vertices, \(\bqty{n}\) and \(\bqty{m}\) (so in fact \(V\) is the \emph{disjoint} union of them), and with edges only within \(\bqty{n} \times \bqty{m}\). In this case, the cost matrix is defined as a \(n \times m\) matrix.
+\end{definition}
+
+\begin{definition}[Transport Problem]
+    The \emph{transport problem} is to \emph{minimise} the total cost
+    \[
+        \sum_{i = 1}^{n} \sum_{j = 1}^{n} c_{ij} x_{ij}
+    \]
+    subject to the constraints
+    \[
+        \forall i \in \bqty{n}: \sum_{j = 1}^{m} x_{ij} = s_i
+    \]
+    and
+    \[
+        \forall j \in \bqty{m}: \sum_{i = 1}^{n} x_{ij} = d_j
+    \]
+    and
+    \[
+        \forall i \in \bqty{n}, j \in \bqty{m}: x_{ij} \geq 0
+    \]  
+\end{definition}
+
+This is clearly a subset of network flow problem -- but in fact \emph{all} network flow problems (with certain requirements) can be converted into a transport problem!
+
+\begin{theorem}[Network Flows can be recast as Transport Problems]
+    \label{thm:network-flow-recast-transport}%
+    Every minimum cost network flow problem with finite capacities (\(\overline{m}_{ij} < \plusinfty\)), or non-negative costs (\(c_{ij} \geq 0\)) can be recast as an equivalent transport problem.
+\end{theorem}
+
+\begin{remark}
+    Given \(c_{ij} \geq 0\) for all \(i\) and \(j\), we could set
+    \[
+        \overline{m}_{ij} = \sum_{i \in V} \abs{b_i}
+    \]
+    if \(\overline{m}_{ij} = \plusinfty\).
+\end{remark}
+
+\begin{lemma}[Lower Bound could be Zero]
+    For every network flow problem, the lower bound matrix \(\underline{\vb{M}}\) could, without loss of generality, be set to \(\vb{O}\), the zero matrix.
+\end{lemma}
+
+\begin{proof}
+    Setting
+    \[
+        \tilde{x}_{ij} = x_{ij} - \underline{m}_{ij}
+    \]
+    changes the bounds to
+    \[
+        0 \leq \tilde{x}_{ij} \leq \overline{m}_{ij} - \underline{m}_{ij}.
+    \]
+
+    The new cost is therefore
+    \[
+        \sum c_{ij} \tilde{x}_{ij} = \sum c_{ij} x_{ij} - \sum c_{ij} \underline{m}_{ij}
+    \]
+    which is just differing by a constant.
+
+    As for the flow condition, we substitute \(b_i\) by
+    \[
+        \tilde{b}_i = b_i + \sum_{j: \pqty{j, i} \in E} \underline{m}_{ji} - \sum_{j: \pqty{j, i} \in E} \underline{m}_{ij}
+    \]
+    which are, again, just changing by constants for fixed \(i\).
+\end{proof}
+
+\begin{proof}[Proof of \autoref{thm:network-flow-recast-transport}]
+    We now construct a transport problem according to the minimum cost network flow problem, as demonstrated in \autoref{fig:transport-from-network-flow}.
+
+    For every vertex \(i \in V\), we construct a consumer, which demands
+    \[
+        \sum_{k: \pqty{i, k} \in E} \overline{m}_{ik} - b_i.
+    \]
+
+    For every edge \(\pqty{i, j} \in E\), we construct a supplier, which produces \(\overline{m}_{ij}\) units.
+
+    We set the costs to be
+    \[
+        c_{ij, i} = 0 \qand c_{ij, j} = c_{ij}.
+    \]
+
+    Let the flow from \(ij\) to \(j\) be \(x_{ij}\), and the (remaining) flow from \(ij\) to \(i\) be \(\overline{m}_{ij} - x_{ij}\). (This gives the transport conservation for the suppliers.)
+
+    We notice that the total flow into consumer \(i\) is given by
+    \[
+        \sum_{k: \pqty{i, k} \in E} \pqty{\overline{m}_{ik} - x_{ik}} + \sum_{k: \pqty{k, i} \in E} x_{ki}
+    \]
+    and we want this to be equal to the demand at \(i\). This then gives the equality
+    \[
+        \sum_{k: \pqty{k, i} \in E} x_{ki} + b_i = \sum_{k: \pqty{i, k} \in E} x_{ik},
+    \]
+    giving the conservation of flow in the original network flow problem.
+
+    For any solution \(x_{ij}\) to the transport problem, the cost is given by
+    \[
+        \sum_{\pqty{i, j} \in E} c_{ij} x_{ij}
+    \]
+    which gives identical costs.
+\end{proof}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.75,
+        node distance=2cm,
+        every node/.style={font=\Large},
+        vertex/.style={
+            circle,
+            draw,
+            minimum size=1.15cm,
+            inner sep=0pt
+        }
+    ]
+
+        \node[vertex] (ij) at (0, 0) {\(\pqty{i,j}\)};
+        \node[vertex] (i) at (5, 5) {\(i\)};
+        \node[vertex] (j) at (5, -5) {\(j\)};
+
+        \draw[<-] (ij) -- ++(-3, 0)
+            node[left] {\(\overline{m}_{ij}\)};
+
+        \draw[->] (ij) -- (i)
+            node[midway, above left] {\(c_{ij, i} = 0\)}
+            node[midway, below right] {\(x_{ij, i} = \overline{m}_{ij} - x_{ij}\)};
+        \draw[->] (ij) -- (j)
+            node[midway, below left] {\(c_{ij, j} = c_{ij}\)}
+            node[midway, above right] {\(x_{ij, j} = x_{ij}\)};
+
+        \draw[->] (i) -- ++(3,0)
+            node[right] {\(\displaystyle \sum_{k: \pqty{i, k} \in E} \overline{m}_{ik} - b_i\)};
+        \draw[->] (j) -- ++(3,0)
+            node[right] {\(\displaystyle \sum_{k: \pqty{j, k} \in E} \overline{m}_{jk} - b_j\)};
+
+    \end{tikzpicture}
+    \caption{Construction of Transport Problem from Network Flow}
+    \label{fig:transport-from-network-flow}%
+\end{figure}
+
+\subsubsection{The Transport Algorithm}
