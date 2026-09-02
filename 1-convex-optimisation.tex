@@ -255,8 +255,7 @@ This leads to the gradient descent algorithm, as described in \autoref{alg:gradi
             \State \(\vb{x}_{t + 1} \gets \vb{x}_t + \eta_t \vb{v}_t\)
             \State \(t \gets t + 1\)
         \Until{Certain Stopping Criteria(s)}
-
-        \Return{\(\vb{x}_{t}\)}
+        \State \Return{\(\vb{x}_{t}\)}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
@@ -485,8 +484,7 @@ This is called \emph{Newton's Algorithm}, and is outlined in \autoref{alg:newton
             \State \(\vb{x}_{t + 1} \gets \vb{x}_t - \pqty{\grad^2 f\pqty{\vb{x}_t}}\inverse \grad f\pqty{\vb{x}_t}\)
             \State \(t \gets t + 1\)
         \Until{Certain Stopping Criteria(s)}
-
-        \Return{\(\vb{x}_{t}\)}
+        \State \Return{\(\vb{x}_{t}\)}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
@@ -608,8 +606,7 @@ where \(t\) is a `balance' between the emphasis of the problem and the boundary.
             \State \(\vb{x} \gets \vb{x}^{\ast} \pqty{t}\)
             \State \(t \gets \alpha t\)
         \Until{\(t\) is Sufficiently Large}
-
-        \Return \(\vb{x}\)
+        \State \Return \(\vb{x}\)
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

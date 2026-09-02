@@ -96,7 +96,7 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
     \begin{algorithmic}
         \Function{LagrangeMethodSlackVariables}{\(\functiondomain{f}{\RR^n}{\RR}, \functiondomain{\vb{h}}{\RR^n}{\RR^m}, \vb{b} \in \RR^m, \mathcal{X} \subseteq \RR^n\)}
         
-        \State \textbf{define} Slack Variables \(s_i \geq 0\) \textbf{and} rewrite the problem as \(\vb{h} \pqty{\vb{x}} + \vb{s} = \vb{b}\), for \(\vb{s} \geq \vb{0}\)
+        \State \textbf{define} slack variables \(s_i \geq 0\) \textbf{and} rewrite the problem as \(\vb{h} \pqty{\vb{x}} + \vb{s} = \vb{b}\), for \(\vb{s} \geq \vb{0}\)
 
         \State \(L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} \gets f\pqty{\vb{x}} - \vb*{\lambda} \transpose \pqty{\vb{h}\pqty{\vb{x}} + \vb{s} - \vb{b}}\)
 
@@ -108,7 +108,7 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
 
         \State \textbf{find} \(\vb*{\lambda}^{\ast} \in \Lambda\) \textbf{such that} \(\vb{h} \pqty{\vb{x}} + \vb{s} = \vb{b}\) \textbf{and} \(\vb{s} \geq \vb{0}\)
 
-        \Return{\(\vb{x}^{\ast} \pqty{\vb*{\lambda}^{\ast}}\)}
+        \State \Return{\(\vb{x}^{\ast} \pqty{\vb*{\lambda}^{\ast}}\)}
 
         \EndFunction
     \end{algorithmic}
