@@ -21,7 +21,7 @@ We may put the constraint vectors into a matrix
     \vb{A} = \pmqty{
         \text{---} & \vb{a}_1\transpose & \text{---} \\
         \text{---} & \vb{a}_2\transpose & \text{---} \\
-        \text{---} & \vdots & \text{---} \\
+         & \vdots & \\
         \text{---} & \vb{a}_m\transpose & \text{---}
     }
 \]
@@ -129,7 +129,8 @@ where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are positive rea
 
 In practice, it is often easier to discuss the \emph{theory} in general form, while the \emph{algorithms} are often discussed in standard form.
 
-\subsection{Maximising Convex Functions}
+\subsection{Extreme Points and Basic Feasible Solutions}
+\subsubsection{Maximising Convex Functions}
 
 Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximising} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
 
