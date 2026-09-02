@@ -174,3 +174,393 @@ In other words, an extreme point in a convex set does not lie on a line segment 
 \end{figure}
 
 A convex set may have infinitely many extreme points (such as a circle, in \autoref{fig:circle-extreme-point}), which does not really help. In linear programs, since the constraints are linear, the regions are (higher-dimensional) polygons, which means the extreme points are in fact finite (for example, in \autoref{fig:triangle-extreme-point} for a triangle) -- so now it suffices for us to have a list of extreme points for linear constraints.
+
+\subsubsection{Basic Solutions and Basic Feasible Solutions}
+
+We now look at a linear program in standard form, where the constraint is given by \(\vb{A} \vb{x} = \vb{b}\), where the matrix \(\vb{A} \in \RR^{m \times n}\) have rows \(\vb{a}_1\transpose, \vb{a}_2\transpose, \ldots, \vb{a}_m\transpose\), and columns \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
+
+We will be making three assumptions, the first two of which are stated below.
+
+\begin{enumerate}[label=(\Alph*)]
+    \item Without loss of generality, rows of \(\vb{A}\) are linearly independent. (This would remove the duplications of a constraint.)
+    \item \textbf{Every} set of \(m\) columns of \(\vb{A}\) is linearly independent. (This assumption \textbf{cannot} be made without loss of generality.)
+\end{enumerate}
+
+The third requires some other definition.
+
+\begin{definition}[Basic Solution, Basic Feasible Solution]
+    A point \(\vb{x} \in \RR^m\) that satisfies \(\vb{Ax} = \vb{b}\) and has at most \(m\) non-zero entries is called a \emph{basic solution}. A basic solution \(\vb{x}\) that satisfies \(\vb{x} \geq \vb{0}\) is called a \emph{basic feasible solution}.
+\end{definition}
+
+To construct basic solutions, we notice that the system \(\vb{Ax} = \vb{b}\) is underdetermined, since \(n > m\).
+
+Suppose we choose indices \(\Bqty{\mathcal{B}\pqty{1}, \mathcal{B}\pqty{2}, \ldots, \mathcal{B}\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \Bqty{\mathcal{B}\pqty{1}, \mathcal{B}\pqty{2}, \ldots, \mathcal{B}\pqty{m}}\). Notice that
+\[
+    \vb{Ax} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\mathcal{B}\pqty{i}} x_{\mathcal{B}\pqty{i}}.
+\]
+
+This essentially makes solving the original system equivalent to solving a new system
+\[
+    \vb{B} \vb{x}_{\mathcal{B}} = \vb{b}
+\]
+where the new matrix \(\vb{B}\) is defined as
+\[
+    \vb{B} = \pmqty{
+        | & | & \cdots & | \\
+        \vb{A}_{\mathcal{B}\pqty{1}} & \vb{A}_{\mathcal{B}\pqty{2}} & \cdots & \vb{A}_{\mathcal{B}\pqty{m}} \\
+        | & | & \cdots & |
+    }
+\]
+and the new vector \(\vb{x}_{\mathcal{B}}\) is defined as
+\[
+    \vb{x}_{\mathcal{B}} = \pmqty{
+        x_{\mathcal{B}\pqty{1}} \\
+        x_{\mathcal{B}\pqty{2}} \\
+        \vdots \\
+        x_{\mathcal{B}\pqty{n}}
+    }.
+\]
+
+\begin{definition}[Basic Matrix, Basic Variables]
+    We fix a choice of \(\mathcal{B}\). The variables \(x_{\mathcal{B}\pqty{1}}, x_{\mathcal{B}\pqty{2}}, \ldots, x_{\mathcal{B}\pqty{n}}\) are the \emph{basic variables}. The matrix \(\vb{B}\) is the \emph{basic matrix}, and its columns, \(\vb{A}_{\mathcal{B}\pqty{1}}, \vb{A}_{\mathcal{B}\pqty{2}}, \ldots, \vb{A}_{\mathcal{B}\pqty{m}}\), are the \emph{basic columns}.
+\end{definition}
+
+For every choice of \(\mathcal{B}\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\mathcal{B}} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
+
+We now state the final assumption.
+
+\begin{enumerate}[resume*]
+    \item \textbf{Every} basic feasible solution is ``non-degenerate'', that is, it has exactly \(m\) non-zero entries. (This means we want the inequality to be strict: \(\vb{B}\inverse \vb{b} \geq \vb{0} \implies \vb{B}\inverse \vb{b} > \vb{0}\).)
+\end{enumerate}
+
+\subsubsection{Equivalence between Extreme Poitns and Basic Feasible Solutions}
+
+\begin{theorem}[Extreme Points of Feasible Set are precisely Basic Feasible Solutions]
+    A vector \(\vb{x}\) is a basic feasible solution, if and only if it is an extreme point of the set
+    \[
+        \mathcal{X} \pqty{\vb{b}} = \set{\vb{x} \in \RR^n}{\vb{Ax} = \vb{b}, \vb{x} \geq 0}.
+    \]
+\end{theorem}
+
+\begin{remark}
+    Bad algorithms to solve linear programs could be:
+    \begin{itemize}
+        \item list all \(\binom{n}{m}\) basic solutions;
+        \item filter out basic feasible solutions (BFS) from this list;
+        \item evaluate \(\vb{c}\transpose \vb{x}\) for each BFS and choose the best one.
+    \end{itemize}
+
+    But even if \(m \approx \flatfrac{n}{2}\), then the time taken would grow exponentially.
+\end{remark}
+
+\begin{proof}
+    Suppose \(\vb{x}\) is a basic feasible solution that can be written as
+    \[
+        \vb{x} = \pqty{1 - \delta} \vb{y} + \delta \vb{z}
+    \]
+    for \(\vb{y}, \vb{z} \in \mathcal{X} \pqty{\vb{b}}\) and \(\delta \in \oointv{0}{1}\).
+
+    If \(x_i = 0\), then \(y_i = z_i = 0\) since \(\delta \in \oointv{0}{1}\) and \(y_i, z_i \geq 0\).
+
+    Since \(\vb{x}\) is a basic feasible solution, \(\vb{y}\) and \(\vb{z}\) must be basic solutions corresponding to the same basis as \(\vb{x}\). This therefore implies \(\vb{x} = \vb{y} = \vb{z}\).
+
+    Now instead, we suppose \(\vb{x}\) is \textbf{not} a basic feasible solution. If \(\vb{x} \notin \mathcal{X} \pqty{\vb{b}}\), then obviously it is not an extreme point of \(\mathcal{X} \pqty{\vb{b}}\), so we consider that \(\vb{x} \in \mathcal{X} \pqty{\vb{b}}\), i.e., \(\vb{x}\) is feasible.
+
+    Because \(\vb{x}\) is not a basic feasible solutions, it must have at least \(r > m\) possible entries.
+    
+    Suppose \(x_{i_1}, x_{i_2}, \ldots, x_{i_r} > 0\), then the columns \(\vb{A}_{i_1}, \vb{A}_{i_2}, \ldots, \vb{A}_{i_r}\) are linearly dependent, since \(r > m\). Let a non-trivial zero linear combination be
+    \[
+        w_{i_1} \vb{A}_{i_1} + w_{i_2} \vb{A}_{i_2} + \cdots + w_{i_r} \vb{A}_{i_r} = \vb{0}.
+    \]
+
+    Construct a vector \(\vb{w}\) such that it has components zero, except at locations \(i_1\), \(i_2\), \(\ldots\), \(i_r\) where we set its components to the coefficients in the linear combination above. Observe that \(\vb{Aw} = \vb{0}\). Now consider two new points
+    \[
+        \vb{y} = \vb{x} + \epsilon \vb{w} \qand \vb{z} = \vb{x} - \epsilon \vb{w}
+    \]
+    where \(0 < \epsilon \ll 1\) is sufficiently small.
+    
+    We claim \(\vb{y}\) and \(\vb{z}\) are feasible. The only possible reason why they would fail to be feasible is if accidentally one of the coordinates become negative, but since we are only adjusting the indices that are strictly greater than zero, taking \(\epsilon\) sufficiently small will prevent this from happening.
+
+    This means
+    \[
+        \vb{x} = \frac{1}{2} \vb{y} + \frac{1}{2} \vb{z},
+    \]
+    which means that \(\vb{x}\) cannot be an extreme point.
+\end{proof}
+
+\subsection{Simplex Method}
+\subsubsection{Towards the Simplex Method}
+
+When the linear program is in standard form, the optimality conditions are:
+\begin{enumerate}
+    \item Primal feasibility: \(\vb{Ax} = \vb{b}\), \(\vb{x} \geq 0\),
+    \item Dual feasibility: \(\vb{A}\transpose \vb*{\lambda} \leq \vb{c}\), and
+    \item Complementary Slackness: \(\vb{x}\transpose \pqty{\vb{c} - \vb{A}\transpose \vb*{\lambda}} = 0\).
+\end{enumerate}
+
+For any basic feasible solution, the complementary slackness equation reduces to
+\[
+    \vb{x}_{\mathcal{B}}\transpose \pqty{\vb{c}_{\mathcal{B}} - \vb{B}\transpose \vb*{\lambda}} = 0
+\]
+due to the non-zero components in \(\vb{x}\). But since \(\vb{x}_{\mathcal{B}} > \vb{0}\) (due to non-degeneracy assumption), we need
+\[
+    \vb{c}_{\mathcal{B}} = \vb{B}\transpose \vb*{\lambda}.
+\]  
+
+This means
+\[
+    \vb*{\lambda} = \pqty{\vb{B}\transpose}\inverse \vb{c}_{\mathcal{B}}.
+\]
+
+Therefore, if
+\[
+    \boxed{\vb{A}\transpose \pqty{\vb{B}\transpose}\inverse \vb{c}_{\mathcal{B}} \leq \vb{c}}
+\]
+then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives us a way of checking optimality simply using the choice of \(\mathcal{B}\) and checking the above inequalities.
+
+\begin{definition}[Reduced Costs Vector]
+    We define the \emph{vector of reduced costs} as a row vector
+    \[
+        \bar{\vb{c}}\transpose = \vb{c}\transpose - \vb{c}_{\mathcal{B}}
+        \transpose \vb{B}\inverse \vb{A}.
+    \]
+\end{definition}
+
+With this new notation, the above derivation can be summarised into the following theorem.
+
+\begin{theorem}[Reduced Costs Vector being Non-Negative implies Optimality]
+    If for some basic feasible solution \(\vb{x}\) we have \(\bar{\vb{c}} \geq \vb{0}\), then such solution \(\vb{x}\) must be optimal.
+\end{theorem}
+
+\subsubsection{Outlining the Simplex Algorithm}
+
+Suppose we have a basic feasible solution
+\[
+    \vb{x} = \pmqty{
+        x_{\mathcal{B}\pqty{1}} \\
+        x_{\mathcal{B}\pqty{2}} \\
+        \vdots \\
+        x_{\mathcal{B}\pqty{m}} \\
+        0 \\
+        \vdots \\
+        0}.
+\]
+
+Suppose, for some \(j^{\ast}\), we have \(\bar{c}_{j^{\ast}} < 0\) (i.e., this solution is not optimal). Suppose we choose some
+\[
+    j \notin \Bqty{\mathcal{B}\pqty{1}, \ldots, \mathcal{B}\pqty{m}}
+\]
+and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be zero. Then after this perturbation, the new vector would look like
+\[
+   \pmqty{
+        x_{\mathcal{B}\pqty{1}} \\
+        x_{\mathcal{B}\pqty{2}} \\
+        \vdots \\
+        x_{\mathcal{B}\pqty{m}} \\
+        0 \\
+        \vdots \\
+        0 \\
+        0 \\ 
+        0 \\
+        \ldots \\
+        0}
+    + t \pmqty{
+        d_{\mathcal{B}\pqty{1}} \\
+        d_{\mathcal{B}\pqty{2}} \\
+        \vdots \\
+        d_{\mathcal{B}\pqty{m}} \\
+        0 \\
+        \vdots \\
+        0 \\
+        1 \\
+        0 \\
+        \vdots \\
+        0}
+\]
+where \(t > 0\). We want \(\vb{Ax} = \vb{b}\) still to be satisfied (for it still be feasible), i.e.,
+\[
+    \vb{A} \pmqty{\vb{d}_{\mathcal{B}} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0} = \vb{0}.
+\]
+
+This is equivalent to saying
+\[
+    \vb{B} \vb{d}_{\mathcal{B}} + \vb{A}_j = 0
+\]
+and the direction we want to move in is
+\[
+    \vb{d}_{\mathcal{B}} = - \vb{B}\inverse \vb{A}_j
+\]
+
+We now look at the new cost at the perturbated point. We have
+\begin{align*}
+    \vb{c}\transpose \pqty{\vb{x} + t \pmqty{\vb{d}_{\mathcal{B}} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0}} &= \vb{c}\transpose \vb{x} + t \pqty{\vb{c}_{\mathcal{B}}\transpose \vb{d}_{\mathcal{B}} + c_j} \\
+    &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\mathcal{B}}\transpose \vb{B}\inverse \vb{A}_j} \\
+    &= \vb{c}\transpose \vb{x} + t \bar{c}_j
+\end{align*}
+
+To ensure the new \(\vb{x}\) is still feasible, we can calculate
+\[
+    - \frac{x_{\mathcal{B} \pqty{1}}}{d_{\mathcal{B} \pqty{1}}}, \ldots, - \frac{x_{\mathcal{B} \pqty{m}}}{d_{\mathcal{B} \pqty{m}}},
+\]
+and find the smallest positive number out of those. Say, if \(d_{\mathcal{B}\pqty{j}} < 0\), then \(x_{\mathcal{B}\pqty{j}}\) could become negative if \(t\) is too big. Therefore, we let \(t\) to be the smallest positive number. Call this \(t^{\ast}\). Then the new point \(\vb{y}\), defined as
+\[
+    \vb{y} = \vb{x} + t^{\ast} \vb{d},
+\]
+is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\mathcal{B}\pqty{1}}, \ldots, y_{\mathcal{B}\pqty{m}}\) become zero, while the perturbated index is still \(0\). \(\vb{y}\) is guaranteed to have a better cost.
+
+This way guarantees the algorithm to terminate in finitely many time and without infinite loop (with our third assumption), since every step is guaranteed to give a better cost, and there are finitely many extreme points (hence finitely many basic feasible solutions).
+
+\subsubsection{The Simplex Tableau and the Simplex Algorithm}
+
+We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of the form in \autoref{fig:simplex-tableau}.
+
+\begin{table}[ht!]
+    \centering
+    \[\begin{array}{c|c}
+        - \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} & \bar{\vb{c}} \\
+        \hline
+        \vb{B}\inverse \vb{b} & \vb{B}\inverse \vb{A}
+    \end{array}
+    \equiv
+    \begin{array}{c|cccc}
+        - \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} & \bar{c}_1 & \bar{c}_2 & \cdots & \bar{c}_n \\
+        \hline
+        x_{\mathcal{B}\pqty{1}} & | & | & & | \\
+        \vdots & \vb{B}\inverse \vb{A}_1 & \vb{B}\inverse \vb{A}_2 & \cdots & \vb{B}\inverse \vb{A}_n \\
+        x_{\mathcal{B}\pqty{m}} & | & | & & |
+    \end{array}
+    \]
+    \caption{Simplex Tableau}
+    \label{fig:simplex-tableau}
+\end{table}
+
+The table keeps track of:
+\begin{enumerate}
+    \item the current basic feasible solution characterised by \(\vb{x}_{\mathcal{B}}\);
+    \item the (negative) current cost \(- \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}}\);
+    \item the possible directions \(\vb{d}_{\mathcal{B}}\) given by \(\vb{B}\inverse \vb{A}_j\); and
+    \item the vector of reduced costs \(\bar{c}\).
+\end{enumerate}
+
+\autoref{alg:simplex-algorithm} outlines the simplex algorithm after slack variables are introduced and a first basic feasible solution was found (if \(\vb{b} \geq 0\), by simply setting the slack variable components to the components of \(\vb{b}\)). (In this case, \(\mathcal{B}\) will be equal to the slack variable components.)
+
+\begin{algorithm}[ht!]
+    \caption{Simplex Algorithm}\label{alg:simplex-algorithm}%
+    \begin{algorithmic}
+        \Function{SimplexAlgorithm}{\(\vb{A} \in \RR^{m \times n}, \vb{b} \in \RR^m, \vb{c} \in \RR^n, \functiondomain{\mathcal{B}}{\bqty{m}}{\bqty{n}}\)}
+            \LComment{Initialise Table}
+            \LComment{Comments give the value where we choose the slack variables as the initial basic components}
+            \LComment{In this case, \(\mathcal{B}\pqty{1, 2, \ldots, m} = \pqty{n - m + 1, n - m + 2, \ldots, n}\)}
+            \State \(\vb{B} \gets \vb{A}_{\mathcal{B}}\) \Comment{\(\vb{B} = \identityM\)}
+            \State \(\vb{x}_{\mathcal{B}} \gets \vb{B}\inverse\vb{b}\) \Comment{\(\vb{x}_{\mathcal{B}} = \vb{0}\)}
+            \State \textbf{compute} \(\vb{B}\inverse \vb{A}\) \Comment{\(\vb{B}\inverse \vb{A} = \vb{A}\)}
+            \State \textbf{compute} \(-\vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}}\) \Comment{\(-\vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} = 0\)}
+            \State \(\vb{\bar{c}}\transpose \gets \vb{c}\transpose - \vb{c}_{\mathcal{B}}\transpose \vb{B}\inverse \vb{A}\) \Comment{\(\vb{\bar{c}} = \vb{c}\)}
+
+            \Statex
+
+            \Repeat
+                \State \(j \gets \min_{\bar{c}_j < 0} j\) \Comment{Find the Basic Direction to Proceed}
+                \State \(\vb{d} \gets \vb{B}\inverse \vb{A}_j\) \Comment{The Column in the Table}
+
+                \Statex
+
+                \ForAll{\(i \in \bqty{m}, d_i > 0\)}
+                    \Comment{Find the Step Size to Proceed}
+
+                    \State \(r_i \gets \flatfrac{x_{\mathcal{B}\pqty{i}}}{d_i}\)
+                \EndFor
+
+                \State \(l \gets \argmin_{d_i > 0} r_i\) \Comment{Find Pivot Element}
+
+                \Statex
+
+                \LComment{Using Row Operations to Update Table}
+                \State \textbf{relabel} \(x_{\mathcal{B}\pqty{l}}\) \textbf{with} \(x_j\)
+                \State \textbf{update} \(\mathcal{B}\) \textbf{by} replacing \(\mathcal{B}\pqty{l} = j\)
+                \State \textbf{divide} the \(l\)-th row \textbf{by} \(d_l\) \Comment{This would make the \(j\)-th entry one}
+                \Statex
+                \ForAll{\(i \in \bqty{m} \cup \Bqty{\text{cost}}, i \neq l\)}  \Comment{Including the Cost Row}
+                    \State \textbf{subtract} the \(i\)-th row \textbf{by} \(d_i\) times the \(l\)-th row \Comment{Special Case: \(d_{\text{cost}} = \bar{c}_{j}\)}
+                    \Statex \Comment{This would make the \(j\)-th entry zero}
+                \EndFor
+
+                \LComment{The \(j\)-th column should now have precisely one non-zero entry, being one on the \(l\)-th row}
+
+            \Until{\(\bar{\vb{c}} \geq \vb{0}\)}
+
+            \Statex
+
+            \State \Return{\(\vb{x}\)}
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{example}[Simplex Algorithm]
+    Suppose we want to minimise \(-x_1 - x_2 - x_3\), subject to:
+    \begin{align*}
+        x_1 + 2 x_2 + 2 x_3 &\leq 10 \\
+        2 x_1 + x_2 + 2 x_3 &\leq 10 \\
+        2 x_1 + 2 x_2 + x_3 &\leq 20 \\
+        x_1, x_2, x_3 &\geq 0.
+    \end{align*}
+
+    This is in \emph{general form}. Introducing slack variables \(x_4, x_5, x_6 \geq 0\), this transforms to the \emph{standard form} with constraints
+    \begin{align*}
+        x_1 + 2 x_2 + 2 x_3 + x_4 &= 10 \\
+        2 x_1 + x_2 + 2 x_3 + x_5 &= 10 \\
+        2 x_1 + 2 x_2 + x_3 + x_6 &= 20 \\
+        x_1, x_2, x_3, x_4, x_5, x_6 &\geq 0.
+    \end{align*}
+
+    This gives
+    \[
+        \vb{c} = \pmqty{-1 \\ -1 \\ -1 \\ 0 \\ 0 \\ 0}, \quad \vb{A} = \pmqty{
+            1 & 2 & 2 & 1 & 0 & 0 \\
+            2 & 1 & 2 & 0 & 1 & 0 \\
+            2 & 2 & 1 & 0 & 0 & 1
+        }, \qand \vb{b} = \pmqty{10 \\ 10 \\ 20}.
+    \]
+
+    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible equation (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\mathcal{B}\pqty{1} = 4, \mathcal{B}\pqty{2} = 5, \mathcal{B}\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\mathcal{B}} = \vb{0}\), therefore giving the simplex tableau
+    \[
+        \begin{array}{c|c|cccccc}
+            &    & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
+        \hline
+            & 0  & -1 & -1 & -1 & 0 & 0 & 0 \\
+        x_4 & 10 & 1 & 2 & 2 & 1 & 0 & 0 \\
+        x_5 & 10 & 2^{\ast} & 1 & 2 & 0 & 1 & 0 \\
+        x_6 & 20 & 2 & 2 & 1 & 0 & 0 & 1 \\
+        \end{array}
+    \]
+
+    We choose to move in \(x_1\) direction, and we move in the direction by \(\flatfrac{10}{2} = 5\) (which tells us the pivot \(x_5\) will be zero). Now we perform row operations until all elements apart from the starred option in the \(x_1\) column gives zero, which leads to the updated simplex tableau
+    \[
+        \begin{array}{c|c|cccccc}
+            &   & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
+        \hline
+            & 5 & 0 & -\flatfrac{1}{2} & 0 & 0 & \flatfrac{1}{2} & 0 \\
+        x_4 & 5 & 0 & \flatfrac{3}{2}^{\ast} & 1 & 1 & -\flatfrac{1}{2} & 0 \\
+        x_1 & 5 & 1 & \flatfrac{1}{2} & 1 & 0 & \flatfrac{1}{2} & 0 \\
+        x_6 & 10 & 0 & 1 & -1 & 0 & -1 & 1 \\
+        \end{array}
+    \]
+
+    We move in the \(x_2\) direction, and we move in the direction by \(\flatfrac{5}{\pqty{\flatfrac{3}{2}}} = \flatfrac{10}{3}\) (which tells us the pivot \(x_4\) will be zero). Similarly, we perform row operations to give the updated simplex tableau
+    \[
+        \begin{array}{c|c|cccccc}
+            &   & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
+        \hline
+            & \flatfrac{20}{3} & 0 & 0 & \flatfrac{1}{3} & \flatfrac{1}{3} & \flatfrac{1}{3} & 0 \\
+        x_2 & \flatfrac{10}{3} & 0 & 1 & \flatfrac{2}{3} & \flatfrac{2}{3} & -\flatfrac{1}{3} & 0 \\
+        x_1 & \flatfrac{10}{3} & 1 & 0 & \flatfrac{2}{3} & -\flatfrac{1}{3} & \flatfrac{2}{3} & 0 \\
+        x_6 & \flatfrac{20}{3} & 0 & 0 & -\flatfrac{5}{3} & -\flatfrac{2}{3} & -\flatfrac{2}{3} & 1 \\
+        \end{array}
+    \]
+
+    The row of reduced costs are all non-negative, which tells us that the minimal solution is
+    \[
+        \pqty{x_1, x_2, x_3} = \pqty{\frac{10}{3}, \frac{10}{3}, 0}
+    \]
+    with the minimal cost being \(-\flatfrac{20}{3}\).
+\end{example}
