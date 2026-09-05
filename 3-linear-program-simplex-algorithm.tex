@@ -76,6 +76,7 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 \subsubsection{Optimality Conditions}
 
 \begin{theorem}[Optimality Conditions for Linear Programs]
+    \label{thm:optimality-condition-lp}%
     Let \(\vb{x}\) and \(\vb*{\lambda}\) be feasible solutions to the primal linear program and its dual. Then these are optimal if and only if
     \[
         \lambda_i \pqty{\vb{a}_i \transpose \vb{x} - b_i} = 0 \qand \pqty{c_j - \vb*{\lambda}\transpose \vb{A}_j} x_j = 0
@@ -412,7 +413,7 @@ This way guarantees the algorithm to terminate in finitely many time and without
 
 \subsubsection{The Simplex Tableau and the Simplex Algorithm}
 
-We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of the form in \autoref{fig:simplex-tableau}.
+We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of the form in \autoref{tab:simplex-tableau}.
 
 \begin{table}[ht!]
     \centering
@@ -431,7 +432,7 @@ We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of th
     \end{array}
     \]
     \caption{Simplex Tableau}
-    \label{fig:simplex-tableau}
+    \label{tab:simplex-tableau}
 \end{table}
 
 The table keeps track of:
