@@ -3,7 +3,7 @@
 We restrict ourselves to a even more special type of constrained optimisation, where we not only require the functions/regions to be \emph{convex}, but furthermore \textbf{linear}.
 
 \begin{definition}[Linear Program]
-    A \emph{linear program} is a constrained optimisation problem where we \textbf{minimise} \(\vb{c}\transpose \vb{m}\), subject to \textbf{constraints} of the form
+    A \term{linear program} is a constrained optimisation problem where we \textbf{minimise} \(\vb{c}\transpose \vb{m}\), subject to \textbf{constraints} of the form
     \begin{itemize}
         \item \(\vb{a}_i\transpose \vb{x} \geq b_i\), for all \(i \in M_1\),
         \item \(\vb{a}_i\transpose \vb{x} \leq b_i\), for all \(i \in M_2\),
@@ -110,14 +110,14 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 
 \subsection{Standard and General Forms of Linear Programs}
 
-We may always convert any linear program into its \emph{general form} by flipping signs, splitting equalities into two inequalities, and converting the sign constraints also into scalar product constraints as well.
+We may always convert any linear program into its \term{general form} by flipping signs, splitting equalities into two inequalities, and converting the sign constraints also into scalar product constraints as well.
 
 \begin{definition}[General Form of a Linear Program]
-    The \emph{general form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} \leq \vb{b}\).
+    The \term{general form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} \leq \vb{b}\).
 \end{definition}
 
 \begin{definition}[Standard Form of a Linear Program]
-    The \emph{standard form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} = \vb{b}\) and \(\vb{x} \geq 0\).
+    The \term{standard form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} = \vb{b}\) and \(\vb{x} \geq 0\).
 \end{definition}
 
 Clearly, all standard form linear programs can be converted into general form. To convert linear programs in general form to standard form, we first add slack variables to convert it to optimise \(\vb{c}\transpose \vb{x}\), subject to \(\vb{A} \vb{x} + \vb{s} = \vb{b}\), with \(\vb{s} \geq \vb{0}\).
@@ -136,7 +136,7 @@ In practice, it is often easier to discuss the \emph{theory} in general form, wh
 Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximising} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
 
 \begin{definition}[Extreme Point in Convex Set]
-    A point \(\vb{x} \in C\) where \(C \subseteq \RR^n\) is convex, is called an \emph{extreme point}, if it \emph{cannot} be written as a convex combination of two distinct points in \(C\), i.e., for \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\),
+    A point \(\vb{x} \in C\) where \(C \subseteq \RR^n\) is convex, is called an \term{extreme point}, if it \emph{cannot} be written as a convex combination of two distinct points in \(C\), i.e., for \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\),
     \[
         \vb{x} = \delta \vb{y} + \pqty{1 - \delta} \vb{z} \implies \vb{x} = \vb{y} = \vb{z}.
     \]
@@ -190,7 +190,7 @@ We will be making three assumptions, the first two of which are stated below.
 The third requires some other definition.
 
 \begin{definition}[Basic Solution, Basic Feasible Solution]
-    A point \(\vb{x} \in \RR^m\) that satisfies \(\vb{Ax} = \vb{b}\) and has at most \(m\) non-zero entries is called a \emph{basic solution}. A basic solution \(\vb{x}\) that satisfies \(\vb{x} \geq \vb{0}\) is called a \emph{basic feasible solution}.
+    A point \(\vb{x} \in \RR^m\) that satisfies \(\vb{Ax} = \vb{b}\) and has at most \(m\) non-zero entries is called a \term{basic solution}. A basic solution \(\vb{x}\) that satisfies \(\vb{x} \geq \vb{0}\) is called a \term{basic feasible solution}.
 \end{definition}
 
 To construct basic solutions, we notice that the system \(\vb{Ax} = \vb{b}\) is underdetermined, since \(n > m\).
@@ -223,7 +223,7 @@ and the new vector \(\vb{x}_{\mathcal{B}}\) is defined as
 \]
 
 \begin{definition}[Basic Matrix, Basic Variables]
-    We fix a choice of \(\mathcal{B}\). The variables \(x_{\mathcal{B}\pqty{1}}, x_{\mathcal{B}\pqty{2}}, \ldots, x_{\mathcal{B}\pqty{n}}\) are the \emph{basic variables}. The matrix \(\vb{B}\) is the \emph{basic matrix}, and its columns, \(\vb{A}_{\mathcal{B}\pqty{1}}, \vb{A}_{\mathcal{B}\pqty{2}}, \ldots, \vb{A}_{\mathcal{B}\pqty{m}}\), are the \emph{basic columns}.
+    We fix a choice of \(\mathcal{B}\). The variables \(x_{\mathcal{B}\pqty{1}}, x_{\mathcal{B}\pqty{2}}, \ldots, x_{\mathcal{B}\pqty{n}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\mathcal{B}\pqty{1}}, \vb{A}_{\mathcal{B}\pqty{2}}, \ldots, \vb{A}_{\mathcal{B}\pqty{m}}\), are the \term{basic columns}.
 \end{definition}
 
 For every choice of \(\mathcal{B}\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\mathcal{B}} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
@@ -320,7 +320,7 @@ Therefore, if
 then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives us a way of checking optimality simply using the choice of \(\mathcal{B}\) and checking the above inequalities.
 
 \begin{definition}[Reduced Costs Vector]
-    We define the \emph{vector of reduced costs} as a row vector
+    We define the \term{vector of reduced costs} as a row vector
     \[
         \bar{\vb{c}}\transpose = \vb{c}\transpose - \vb{c}_{\mathcal{B}}
         \transpose \vb{B}\inverse \vb{A}.

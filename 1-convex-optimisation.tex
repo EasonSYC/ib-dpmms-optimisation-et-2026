@@ -6,7 +6,7 @@
 
 \begin{definition*}[Convex Set]
     \label{def:convex-set}%
-    A set \(S \subseteq \RR^n\) is \emph{convex}, if for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    A set \(S \subseteq \RR^n\) is \term{convex}, if for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
     \[
         \lambda \vb{x} + \pqty{1 - \lambda} \vb{y} \in S.
     \]
@@ -16,7 +16,7 @@
 
 \begin{definition*}[Convex Function]
     \label{def:convex-fn}%
-    A function \(\functiondomain{f}{S}{\RR}\) is a \emph{convex} function, if \(S\) is convex, and for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
+    A function \(\functiondomain{f}{S}{\RR}\) is a \term{convex} function, if \(S\) is convex, and for any \(\vb{x}, \vb{y} \in S\) and \(\lambda \in \ccintv{0}{1}\), we have
     \[
         f\pqty{\lambda \vb{x} + \pqty{1 - \lambda} \vb{y}} \leq \lambda f\pqty{\vb{x}} + \pqty{1 - \lambda} f\pqty{\vb{y}}.
     \]  
@@ -171,7 +171,7 @@ In higher dimensions, we should have
 
 \subsubsection{Second-Order Conditions}
 
-We return to \autoref{fig:convex-fn-tangents}. We note that it seems that the slope of the gradient is increasing, so it means that \(f'' \geq 0\). But we shall generalise this to higher dimensions. For this, we recall the \emph{Hessian matrix}
+We return to \autoref{fig:convex-fn-tangents}. We note that it seems that the slope of the gradient is increasing, so it means that \(f'' \geq 0\). But we shall generalise this to higher dimensions. For this, we recall the \term{Hessian matrix}
 \[
     \bqty{\grad^2 f\pqty{\vb{x}}}_{ij} = \pdv{f\pqty{\vb{x}}}{x_i}{x_j}.
 \]
@@ -208,7 +208,7 @@ so
 \end{theorem}
 
 \begin{remark}
-    We say a symmetric \(n\)-dimensional matrix \(\vb{A}\) is \emph{positive semi-definite}, denoted \(\vb{A} \posDefEq 0\), if
+    We say a symmetric \(n\)-dimensional matrix \(\vb{A}\) is \term{positive semi-definite}, denoted \(\vb{A} \posDefEq 0\), if
     \[
         \vb{x}\transpose \vb{A} \vb{x} \geq 0
     \]
@@ -280,7 +280,7 @@ Therefore, we restrict our class of functions.
 
 \begin{definition}[\(\alpha\)-strong convexity, \(\beta\)-smooth]
     \label{def:alpha-sc-beta-smooth}%
-    Let \(\alpha, \beta > 0\). A twice-differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is \emph{\(\beta\)-smooth} if \(\grad^2 f\pqty{\vb{x}} \negDefEq \beta \identityM\) for all \(\vb{x} \in \RR^n\); and is \emph{\(\alpha\)-strongly convex} if \(\grad^2 f\pqty{\vb{x}} \posDefEq \alpha \identityM\) for all \(\vb{x} \in \RR^n\).
+    Let \(\alpha, \beta > 0\). A twice-differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is \term{\(\beta\)-smooth} if \(\grad^2 f\pqty{\vb{x}} \negDefEq \beta \identityM\) for all \(\vb{x} \in \RR^n\); and is \term{\(\alpha\)-strongly convex} if \(\grad^2 f\pqty{\vb{x}} \posDefEq \alpha \identityM\) for all \(\vb{x} \in \RR^n\).
 \end{definition}
 
 \begin{remark}
@@ -408,7 +408,7 @@ In other words, taking
 \[
     T \geq \frac{\beta}{\alpha} \log \pqty{\frac{f\pqty{\vb{x}_0} - f\pqty{\vb{x}^{\ast}}}{\epsilon}}
 \]
-gives an \(\epsilon\)-optimal point. This type of convergence is called \emph{linear convergence} in optimisation literature -- this is a good benchmark, since \(\log\) is `like a constant' in computer science, so if you have an algorithm that converges like \(\log\), then it is really good.
+gives an \(\epsilon\)-optimal point. This type of convergence is called \term{linear convergence} in optimisation literature -- this is a good benchmark, since \(\log\) is `like a constant' in computer science, so if you have an algorithm that converges like \(\log\), then it is really good.
 
 \begin{proof}
     Observe that
@@ -439,7 +439,7 @@ gives an \(\epsilon\)-optimal point. This type of convergence is called \emph{li
     is very close to \(1\). This number \(\flatfrac{\alpha}{\beta}\) is too small -- and this means this converges very slowly, when all we have to do is to rescale the variables!
 \end{example}
 
-In optimisation theory, we usually first scale/change basis of the function, in order to make sure no axis are especially badly behaved. This is called \emph{pre-conditioning}.
+In optimisation theory, we usually first scale/change basis of the function, in order to make sure no axis are especially badly behaved. This is called \term{pre-conditioning}.
 
 \begin{remark}
     The recursion step
@@ -473,7 +473,7 @@ This solves to
 
 \subsubsection{Newton's Algorithm}
 
-This is called \emph{Newton's Algorithm}, and is outlined in \autoref{alg:newtons-algorithm}.
+This is called \term{Newton's Algorithm}, and is outlined in \autoref{alg:newtons-algorithm}.
 
 \begin{algorithm}[ht!]
     \caption{Newton's Algorithm}\label{alg:newtons-algorithm}%
@@ -577,7 +577,7 @@ Computationally, we apply a huge penalty on approaching the boundary, given by t
 \[
     \phi\pqty{x} = - \log \pqty{-x}
 \]
-for \(x < 0\). This is the \emph{logarithmic barrier function}, as shown in \autoref{fig:barrier-function-comparison}.
+for \(x < 0\). This is the \term{logarithmic barrier function}, as shown in \autoref{fig:barrier-function-comparison}.
 
 \begin{figure}[ht!]
     \centering

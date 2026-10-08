@@ -1,13 +1,13 @@
 \section{Lagrange Multiplier Method}
 
-We currently consider the constrained optimisation problem \(f\pqty{\vb{x}}\) subject to some constraint \(\vb{h}\pqty{\vb{x}} = \vb{b}\) with \(\vb{x} \in \mathcal{X}\) and \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\). There is no general algorithm to solve all constrained optimisation problems, but we may use a method called \emph{Lagrange Multiplier} to solve.
+We currently consider the constrained optimisation problem \(f\pqty{\vb{x}}\) subject to some constraint \(\vb{h}\pqty{\vb{x}} = \vb{b}\) with \(\vb{x} \in \mathcal{X}\) and \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\). There is no general algorithm to solve all constrained optimisation problems, but we may use a method called \term{Lagrange Multiplier} to solve.
 
 \begin{definition}[Lagrangian, Lagrange Multiplier]
-    We define the \emph{Lagrangian} as
+    We define the \term{Lagrangian} as
     \[
         L \pqty{\vb{x}, \vb*{\lambda}} = f\pqty{\vb{x}} - \vb*{\lambda}\transpose \pqty{\vb{h}\pqty{\vb{x}} - \vb{b}}
     \]
-    where \(\vb*{\lambda} \in \RR^m\) is the \emph{Lagrange multiplier}.
+    where \(\vb*{\lambda} \in \RR^m\) is the \term{Lagrange multiplier}.
 \end{definition}
 
 We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathcal{X}\), without worrying about the constraint.
@@ -119,7 +119,7 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
     \[
         \Lambda = \set{\vb*{\lambda} \in \RR^m}{\min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq \vb{0}}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} > \minusinfty}
     \]
-    is the \emph{dual feasible set}.
+    is the \term{dual feasible set}.
 \end{definition}
 
 \begin{proposition}[Complementary Slackness]
@@ -183,16 +183,16 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
 
 \subsection{Weak and Strong Duality}
 
-We consider our original problem, the \emph{primal problem} without the slack variables, stated as minimising \(f\pqty{\vb{x}}\) subject to \(\vb{h}\pqty{\vb{x}} = \vb{b}\) and \(\vb{x} \in \mathcal{X}\).
+We consider our original problem, the \term{primal problem} without the slack variables, stated as minimising \(f\pqty{\vb{x}}\) subject to \(\vb{h}\pqty{\vb{x}} = \vb{b}\) and \(\vb{x} \in \mathcal{X}\).
 
 \begin{definition}[Dual Objective Function, Dual Problem]
-    The \emph{dual objective function} \(\functiondomain{g}{\Lambda}{\RR}\) is defined as
+    The \term{dual objective function} \(\functiondomain{g}{\Lambda}{\RR}\) is defined as
     \[
         g\pqty{\vb*{\lambda}} = \min_{\vb{x} \in \mathcal{X}} L \pqty{\vb{x}, \vb*{\lambda}}
     \]
     where \(\Lambda\) is the dual feasible set.
 
-    The \emph{dual problem} is maximising \(g\pqty{\vb*{\lambda}}\) subject to \(\vb*{\lambda} \in \Lambda\).
+    The \term{dual problem} is maximising \(g\pqty{\vb*{\lambda}}\) subject to \(\vb*{\lambda} \in \Lambda\).
 \end{definition}
 
 \begin{remark}
@@ -229,7 +229,7 @@ We consider our original problem, the \emph{primal problem} without the slack va
         \min_{\vb{x} \in \mathcal{X} \pqty{\vb{b}}} f\pqty{\vb{x}} - \max_{\vb*{\lambda} \in \Lambda} g\pqty{\vb*{\lambda}}.
     \]
 
-    If the duality gap is \(0\), then we say the problem satisfies the \emph{strong duality} property.
+    If the duality gap is \(0\), then we say the problem satisfies the \term{strong duality} property.
 \end{definition}
 
 \begin{proposition}[Strong Duality is equivalent to Lagrange Method Working]
@@ -255,7 +255,7 @@ We consider our original problem, the \emph{primal problem} without the slack va
 We now study how we may conclude strong duality (and hence when Lagrange method works).
 
 \begin{definition}[Supporting Hyperplane]
-    A function \(\functiondomain{\phi}{\RR^m}{\RR}\) is said to have a \emph{supporting hyperplane} at a point \(\vb{b} \in \RR^m\), if there is some \(\vb*{\lambda} \in \RR^m\), such that for all \(\vb{c} \in \RR^m\), we have
+    A function \(\functiondomain{\phi}{\RR^m}{\RR}\) is said to have a \term{supporting hyperplane} at a point \(\vb{b} \in \RR^m\), if there is some \(\vb*{\lambda} \in \RR^m\), such that for all \(\vb{c} \in \RR^m\), we have
     \[
         \phi\pqty{\vb{c}} \geq \phi\pqty{\vb{b}} + \vb*{\lambda}\transpose \pqty{\vb{c} - \vb{b}}.
     \]
@@ -269,7 +269,7 @@ We now study how we may conclude strong duality (and hence when Lagrange method 
 \end{remarks}
 
 \begin{definition}[Value Function]
-    Define the \emph{value function} \(\functiondomain{\phi}{\RR^m}{\RR}\) as
+    Define the \term{value function} \(\functiondomain{\phi}{\RR^m}{\RR}\) as
     \[
         \phi\pqty{\vb{c}} = \min_{\vb{x} \in \mathcal{X} \pqty{\vb{c}}} f\pqty{\vb{x}},
     \]

@@ -4,7 +4,7 @@
 \subsubsection{Two-Person Zero-Sum Games}
 
 \begin{definition}[Zero-Sum Game, Payoff Matrix]
-    We consider a game between players P1 and P2, where P1 has \(m\) actions labelled by \(\Bqty{1, 2, \ldots, m}\) and P2 has \(n\) actions labelled by \(\Bqty{1, 2, \ldots, n}\), where the \emph{payoff  matrix} \(\vb{A} = \pqty{a_{ij}} \in \RR^{m \times n}\) records the amount earned by P1 and lost by P2, if P1 plays \(i\) and \(P2\) plays \(j\).
+    We consider a game between players P1 and P2, where P1 has \(m\) actions labelled by \(\Bqty{1, 2, \ldots, m}\) and P2 has \(n\) actions labelled by \(\Bqty{1, 2, \ldots, n}\), where the \term{payoff  matrix} \(\vb{A} = \pqty{a_{ij}} \in \RR^{m \times n}\) records the amount earned by P1 and lost by P2, if P1 plays \(i\) and \(P2\) plays \(j\).
 \end{definition}
 
 \begin{example}[Rock-Paper-Scissors]
@@ -53,11 +53,11 @@ while P2 will try to solve for \(j\) the problem
 \end{example}
 
 \begin{definition}[Saddle Point, Value of a Game]
-    For a payoff matrix \(\vb{A}\), \(\pqty{i^{\ast}, j^{\ast}}\) is called a \emph{saddle point}, if it is both the minimum entry in row \(i^{\ast}\) and maximum entry in column \(j^{\ast}\). In this case,
+    For a payoff matrix \(\vb{A}\), \(\pqty{i^{\ast}, j^{\ast}}\) is called a \term{saddle point}, if it is both the minimum entry in row \(i^{\ast}\) and maximum entry in column \(j^{\ast}\). In this case,
     \[
         \max_{i \in \bqty{m}} \min_{j \in \bqty{n}} a_{ij} = \min_{j \in \bqty{n}} \max_{i \in \bqty{m}} a_{ij} = a_{i^{\ast}j^{\ast}}
     \]
-    is called the \emph{value} of the game.
+    is called the \term{value} of the game.
 \end{definition}
 
 If a saddle point exists, the order of playing does not matter.
@@ -74,9 +74,9 @@ If a saddle point exists, the order of playing does not matter.
 \subsubsection{Pure and Mixed Strategies}
 
 \begin{definition}[Pure and Mixed Strategies]
-    A \emph{pure} strategy for P1 is when they pick a fixed action \(i \in \bqty{m}\).
+    A \term{pure} strategy for P1 is when they pick a fixed action \(i \in \bqty{m}\).
 
-    A \emph{mixed} strategy P1 picks a probability distribution \(\vb{p}\) on their action
+    A \term{mixed} strategy P1 picks a probability distribution \(\vb{p}\) on their action
     \[
         \vb{p} = \begin{pmatrix}
             p_1 \\ p_2 \\ \vdots \\ p_m
@@ -105,7 +105,7 @@ Similarly, we can write P2's optimisation problem as \emph{minimise} \(w\), subj
     \vb{A} \vb{q} \leq w \vb{1}_m, \quad \vb{1}_n\transpose \vb{q} = 1 \qand \vb{q} \geq \vb{0}.
 \]
 
-In fact, these two problems are duals of each other. Effectively, we found a saddle point `outside' of the matrix in a probability space, which is the point of \emph{Nash equilibrium}.
+In fact, these two problems are duals of each other. Effectively, we found a saddle point `outside' of the matrix in a probability space, which is the point of \term{Nash equilibrium}.
 
 \begin{proposition}[Optimisation Problems for P1 and P2 are Duals]
     The optimisation problems for P1 and P2's mixed strategies are duals of each other.
@@ -296,31 +296,31 @@ Usually, we do not have to solve the whole linear program to find the optimal st
 \subsection{Network Flow}
 
 \begin{definition}[Directed and Undirected Graph, Vertices, Edges]
-    A \emph{directed graph} \(G = \pqty{V, E}\) is a pair a set of \emph{vertices} \(V\), and a set of \emph{edges} \(E \subseteq V \times V\).
+    A \term{directed graph} \(G = \pqty{V, E}\) is a pair a set of \term{vertices} \(V\), and a set of \term{edges} \(E \subseteq V \times V\).
 
-    If \(E\) is symmetric, then the graph is \emph{undirected graph}.
+    If \(E\) is symmetric, then the graph is \term{undirected graph}.
 \end{definition}
 
 \subsubsection{Minimum Cost Flow}
 
 \begin{definition}[Flow, Source/Sink, Cost Matrix]
-    Let \(G = \pqty{V, E}\) with \(\abs{V} = n\) labelled by \(1\) to \(n\). We assign a \emph{flow} \(x_{ij}\) for each edge \(\pqty{i, j} \in E\).
+    Let \(G = \pqty{V, E}\) with \(\abs{V} = n\) labelled by \(1\) to \(n\). We assign a \term{flow} \(x_{ij}\) for each edge \(\pqty{i, j} \in E\).
 
-    We define a vector \(\vb{b} \in \RR^n\) (a function from \(V\) to \(\RR\)) as the amount of flow \(b_i\) that enters a vertex \(i\). If \(b_i > 0\), then vertex \(i\) is a \emph{source}; if \(b_i < 0\), then vertex \(i\) is a \emph{sink}. We always have \(\sum_{i = 1}^{n} b_i = 0\).
+    We define a vector \(\vb{b} \in \RR^n\) (a function from \(V\) to \(\RR\)) as the amount of flow \(b_i\) that enters a vertex \(i\). If \(b_i > 0\), then vertex \(i\) is a \term{source}; if \(b_i < 0\), then vertex \(i\) is a \term{sink}. We always have \(\sum_{i = 1}^{n} b_i = 0\).
 
-    We define a \emph{cost matrix} \(\vb{C} \in \RR^{n \times n}\) which is the cost per unit flow on the edge.
+    We define a \term{cost matrix} \(\vb{C} \in \RR^{n \times n}\) which is the cost per unit flow on the edge.
 
     We define matrices \(\underline{\vb{M}}, \overline{\vb{M}} \in \RR^{n \times n}\) to bound the costs \(\underline{m}_{ij} \leq x_{ij} \leq \overline{m}_{ij}\).
 \end{definition}
 
 \begin{definition}[Network Flow]
-    The \emph{network flow} problem is to \emph{minimise} the total cost
+    The \term{network flow} problem is to \emph{minimise} the total cost
     \[
         \sum_{\pqty{i, j} \in E} c_{ij} x_{ij}
     \]
     subject to the constraints:
     \begin{itemize}
-        \item \emph{flow conservation} at a fixed vertex \(i \in V\)
+        \item \term{flow conservation} at a fixed vertex \(i \in V\)
         \[
             b_i + \sum_{j: \pqty{j, i} \in E} x_{ji} = \sum_{j: \pqty{i, j} \in E} x_{ij}
         \];
@@ -335,16 +335,16 @@ Notice that the requirement \(\sum_{i = 1}^{n} b_i = 0\) can be derived from flo
 A special case of the network flow problem is the transport problem.
 
 \begin{definition}[Suppilier, Consumer, Bipartite Graph]
-    Suppose we have \(n\) \emph{suppliers} \(i \in \Bqty{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \emph{demand} \(j \in \Bqty{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
+    Suppose we have \(n\) \term{suppliers} \(i \in \Bqty{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \term{demand} \(j \in \Bqty{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
     \[
         \sum_{i = 1}^{n} s_i = \sum_{j = 1}^{m} d_j.
     \]
 
-    The graph is a \emph{bipartite graph}, given by two sets of vertices, \(\bqty{n}\) and \(\bqty{m}\) (so in fact \(V\) is the \emph{disjoint} union of them), and with edges only within \(\bqty{n} \times \bqty{m}\). In this case, the cost matrix is defined as a \(n \times m\) matrix.
+    The graph is a \term{bipartite graph}, given by two sets of vertices, \(\bqty{n}\) and \(\bqty{m}\) (so in fact \(V\) is the \term{disjoint} union of them), and with edges only within \(\bqty{n} \times \bqty{m}\). In this case, the cost matrix is defined as a \(n \times m\) matrix.
 \end{definition}
 
 \begin{definition}[Transport Problem]
-    The \emph{transport problem} is to \emph{minimise} the total cost
+    The \term{transport problem} is to \emph{minimise} the total cost
     \[
         \sum_{i = 1}^{n} \sum_{j = 1}^{n} c_{ij} x_{ij}
     \]
@@ -510,7 +510,7 @@ The following optimality conditions for the transport problem arises from that f
 
 \paragraph{The Simplex Tableau}
 
-To solve the transport problem efficiently, we use the \emph{transport tableau} which takes the form as in \autoref{tab:transport-tableau}.
+To solve the transport problem efficiently, we use the \term{transport tableau} which takes the form as in \autoref{tab:transport-tableau}.
 
 \begin{table}[ht!]
     \centering
@@ -678,7 +678,7 @@ The north-west corner rule is a way to find a feasible solution to the transport
     \end{algorithmic}
 \end{algorithm}
 
-\paragraph{The Transport Algorithm} The \emph{transport algorithm} works as follows:
+\paragraph{The Transport Algorithm} The \term{transport algorithm} works as follows:
 \begin{enumerate}
     \item If \(c_{ij} \geq \lambda_i + \mu_j\) for all \(\pqty{i, j}\), then the current solution is optimal and the algorithm stops.
     \item If \(c_{ij} < \lambda_i + \mu_j\) for some \(\pqty{i, j}\), then select that edge and find edges in the current flow that forms a cycle with it.
@@ -1229,24 +1229,24 @@ The north-west corner rule is a way to find a feasible solution to the transport
 \subsection{Maximum Flow and Minimum Cut}
 \subsubsection{Maximum Flow}
 
-We now consider a directed graph with \emph{capacities} assigned to each edges. We want to maximise the flow from the source to the sink by assigning flows along each edge, while not exceeding the capacities of each edge. (Of course, the flow conservation equation must be satisfied). Without loss of generality, assume the source vertex is \(1\) and the sink vertex is \(n\).
+We now consider a directed graph with \term{capacities} assigned to each edges. We want to maximise the flow from the source to the sink by assigning flows along each edge, while not exceeding the capacities of each edge. (Of course, the flow conservation equation must be satisfied). Without loss of generality, assume the source vertex is \(1\) and the sink vertex is \(n\).
 
 \begin{definition}[Maximum Flow Problem]
-    For a graph \(G = \pqty{V, E}\) and a matrix \(c_{ij}\) defined on its edges (the capacities of each edge), the \emph{maximum flow problem} is to \emph{maximise} \(\delta\), the flow, subject to constraints
+    For a graph \(G = \pqty{V, E}\) and a matrix \(c_{ij}\) defined on its edges (the capacities of each edge), the \term{maximum flow problem} is to \emph{maximise} \(\delta\), the flow, subject to constraints
     \begin{itemize}
-        \item \emph{outgoing flow} from vertex \(1\):
+        \item \term{outgoing flow} from vertex \(1\):
         \[
             \sum_{j: \pqty{1, j} \in E} x_{1j} - \sum_{i: \pqty{i, 1} \in E} x_{i1} = \delta;
         \]
-        \item \emph{incoming flow} to vertex \(n\):
+        \item \term{incoming flow} to vertex \(n\):
         \[
             \sum_{i: \pqty{i, n} \in E} x_{in} - \sum_{j: \pqty{n, j} \in E} x_{nj} = \delta;
         \]
-        \item \emph{flow conservation} at vertex \(i \neq 1, n\):
+        \item \term{flow conservation} at vertex \(i \neq 1, n\):
         \[
             \sum_{j: \pqty{i, j} \in E} x_{ij} = \sum_{j: \pqty{j, i} \in E} x_{ji};
         \]
-        \item \emph{capacity constraint}: for all \(\pqty{i, j} \in E\),
+        \item \term{capacity constraint}: for all \(\pqty{i, j} \in E\),
         \[
             0 \leq x_{ij} \leq c_{ij}.
         \]
@@ -1275,12 +1275,12 @@ We now consider a directed graph with \emph{capacities} assigned to each edges. 
 
 \subsubsection{Minimum Cut and Augmenting Paths}
 
-Another problem is related to \emph{cuts} of a graph.
+Another problem is related to \term{cuts} of a graph.
 
 \begin{definition}[Cut of a Graph, Capacity of a Cut]
-    A \emph{cut} of a graph \(G = \pqty{V, E}\) is a partition of \(V\) into two sets, \(\pqty{S, V \setminus S}\).
+    A \term{cut} of a graph \(G = \pqty{V, E}\) is a partition of \(V\) into two sets, \(\pqty{S, V \setminus S}\).
     
-    The \emph{capacity} of the cut is the sum of the capacities crossing the cut
+    The \term{capacity} of the cut is the sum of the capacities crossing the cut
     \[
         C\pqty{S} = \sum_{\substack{i \in S \\ j \in V \setminus S \\ \pqty{i, j} \in E}} c_{ij}.
     \]
@@ -1331,12 +1331,12 @@ Another problem is related to \emph{cuts} of a graph.
 To help our proof that minimum cut is in fact equal to maximum flow, we introduce the following definition.
 
 \begin{definition}[Path, Augmenting Path]
-    A \emph{undirected path} is a sequence of distinct vertices \(v_0, v_1, \ldots, v_k\), satisfying \(\pqty{v_{i - 1}, v_i} \in E\) or \(\pqty{v_i, v_{i - 1}} \in E\) for all \(i = 1, 2, \ldots, k\).
+    A \term{undirected path} is a sequence of distinct vertices \(v_0, v_1, \ldots, v_k\), satisfying \(\pqty{v_{i - 1}, v_i} \in E\) or \(\pqty{v_i, v_{i - 1}} \in E\) for all \(i = 1, 2, \ldots, k\).
 
-    An \emph{augmenting path} is a path such that, for every \(i = 1, 2, \ldots, k\), at least one of the following holds:
+    An \term{augmenting path} is a path such that, for every \(i = 1, 2, \ldots, k\), at least one of the following holds:
     \begin{itemize}
-        \item \emph{forward edge with non-optimal flow}: \(\pqty{v_{i - 1}, v_i} \in E\) and \(x_{v_{i - 1} v_i} < c_{v_{i - 1} v_i}\);
-        \item \emph{reverse edge with positive flow}: \(\pqty{v_i, v_{i - 1}} \in E\) and \(x_{v_i v_{i - 1}} > 0\).
+        \item \term{forward edge with non-optimal flow}: \(\pqty{v_{i - 1}, v_i} \in E\) and \(x_{v_{i - 1} v_i} < c_{v_{i - 1} v_i}\);
+        \item \term{reverse edge with positive flow}: \(\pqty{v_i, v_{i - 1}} \in E\) and \(x_{v_i v_{i - 1}} > 0\).
     \end{itemize}
 \end{definition}
 
