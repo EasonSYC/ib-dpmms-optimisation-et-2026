@@ -337,7 +337,26 @@ where instead
 \end{theorem}
 
 \begin{proof}
-    \textcolor{red}{\textbf{See Example Sheet.}}
+    Consider \(\vb{c}\), \(\vb{c}'\) such that \(\mathcal{X} \pqty{\vb{c}}, \mathcal{X} \pqty{\vb{c}'} \neq \emptyset\). Let \(\vb{x} \in \mathcal{X}\pqty{\vb{c}}\), \(\vb{x}' \in \mathcal{X}\pqty{\vb{c}'}\), and \(t \in \ccintv{0}{!}\). Then \(t \vb{x} + \pqty{1 - t} \vb{x}' \in \mathcal{X}\) by convexity of \(\mathcal{X}\). Note that by convexity of \(h_j\), we have
+    \begin{align*}
+        h_j\pqty{t \vb{x} + \pqty{1 - t} \vb{x}'} &\leq t h_j\pqty{\vb{x}} + \pqty{1 - t} h_j\pqty{\vb{x}'} \\
+        &\leq t c_j + \pqty{1 - t} c_j'
+    \end{align*}
+    so
+    \[
+        t \vb{x} + \pqty{1 - t} \vb{x}' \in \mathcal{X} \pqty{t \vb{c} + \pqty{1 - t} \vb{c}'}.
+    \]
+
+    We hence have (by convexity of \(f\))
+    \begin{align*}
+        \phi\pqty{t \vb{c} + \pqty{1 - t} \vb{c}'} &\leq f\pqty{t \vb{x} + \pqty{1 - t} \vb{x}'} \\
+        &\leq t f\pqty{\vb{x}} + \pqty{1 - t} f\pqty{\vb{x}'}
+    \end{align*}
+    for all \(\vb{x} \in \mathcal{X}\pqty{\vb{c}}\), \(\vb{x}' \in \mathcal{X}\pqty{\vb{c}'}\). Taking the minimum over all \(\vb{x}\) and \(\vb{x}'\) gives
+    \[
+        \phi\pqty{t \vb{c} + \pqty{1 - t} \vb{c}'} \leq t \phi\pqty{\vb{c}} + \pqty{1 - t} \phi\pqty{\vb{c}'}
+    \]
+    as desired.
 \end{proof}
 
 Note \(\vb{h}\pqty{\vb{x}} = \vb{b}\) is equivalent to \(\vb{h}\pqty{\vb{x}} \leq \vb{b}\) and \(- \vb{h}\pqty{\vb{x}} \leq - \vb{b}\), so the above theorem also applies to equality constraints, if \(\vb{h}\) and \(-\vb{h}\) are both convex, i.e., \(\vb{h}\) is linear.
