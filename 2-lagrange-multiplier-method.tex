@@ -183,7 +183,7 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
 
 \subsection{Weak and Strong Duality}
 
-We consider our original problem, the \emph{primal problem} without the slack variables. 
+We consider our original problem, the \emph{primal problem} without the slack variables, stated as minimising \(f\pqty{\vb{x}}\) subject to \(\vb{h}\pqty{\vb{x}} = \vb{b}\) and \(\vb{x} \in \mathcal{X}\).
 
 \begin{definition}[Dual Objective Function, Dual Problem]
     The \emph{dual objective function} \(\functiondomain{g}{\Lambda}{\RR}\) is defined as
@@ -323,10 +323,21 @@ We now study how we may conclude strong duality (and hence when Lagrange method 
     showing the condition for the supporting hyperplane, as desired.
 \end{proof}
 
+For problems with inequality constraints stated as minimising \(f\pqty{\vb{x}}\) subject to \(\vb{h}\pqty{\vb{x}} \leq \vb{b}\) and \(\vb{x} \in \mathcal{X}\), the \term{value function} is defined similarly as
+\[
+    \phi\pqty{\vb{c}} = \min_{\vb{x} \in \mathcal{X} \pqty{\vb{c}}} f\pqty{\vb{x}}
+\]
+where instead
+\[
+    \mathcal{X} \pqty{\vb{c}} = \set{\vb{x} \in \mathcal{X}}{\vb{h}\pqty{\vb{x}} \leq \vb{c}}.
+\]
+
 \begin{theorem}[Sufficient Condition for Convexity of Value Function]
-    If \(\mathcal{X}\) is a convex set, \(\functiondomain{f}{\RR^n}{\RR}\) is convex, and each component of \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\) is convex, then the value function for the corresponding optimisation problem is convex.
+    If \(\mathcal{X}\) is a convex set, \(\functiondomain{f}{\RR^n}{\RR}\) is convex, and each component of \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\) is convex, then the value function for the optimisation problem with inequality constraints is convex.
 \end{theorem}
 
 \begin{proof}
     \textcolor{red}{\textbf{See Example Sheet.}}
 \end{proof}
+
+Note \(\vb{h}\pqty{\vb{x}} = \vb{b}\) is equivalent to \(\vb{h}\pqty{\vb{x}} \leq \vb{b}\) and \(- \vb{h}\pqty{\vb{x}} \leq - \vb{b}\), so the above theorem also applies to equality constraints, if \(\vb{h}\) and \(-\vb{h}\) are both convex, i.e., \(\vb{h}\) is linear.
