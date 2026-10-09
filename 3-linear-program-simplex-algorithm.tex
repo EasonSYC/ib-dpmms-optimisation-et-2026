@@ -67,7 +67,7 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
         \end{aligned}},
     \]
 
-    If \(\vb{\lambda} \in \Lambda\), then by simply setting all the pervious terms to zero, we have
+    If \(\vb*{\lambda} \in \Lambda\), then by simply setting all the pervious terms to zero, we have
     \[
         g\pqty{\vb*{\lambda}} = \min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq 0}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} = \vb{b}\transpose \vb*{\lambda}.
     \]
@@ -133,7 +133,7 @@ In practice, it is often easier to discuss the \emph{theory} in general form, wh
 \subsection{Extreme Points and Basic Feasible Solutions}
 \subsubsection{Maximising Convex Functions}
 
-Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximising} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
+Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximise} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
 
 \begin{definition}[Extreme Point in Convex Set]
     A point \(\vb{x} \in C\) where \(C \subseteq \RR^n\) is convex, is called an \term{extreme point}, if it \emph{cannot} be written as a convex combination of two distinct points in \(C\), i.e., for \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\),
