@@ -195,38 +195,38 @@ The third requires some other definition.
 
 To construct basic solutions, we notice that the system \(\vb{Ax} = \vb{b}\) is underdetermined, since \(n > m\).
 
-Suppose we choose indices \(\Bqty{\mathcal{B}\pqty{1}, \mathcal{B}\pqty{2}, \ldots, \mathcal{B}\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \Bqty{\mathcal{B}\pqty{1}, \mathcal{B}\pqty{2}, \ldots, \mathcal{B}\pqty{m}}\). Notice that
+Suppose we choose indices \(\Bqty{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \Bqty{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\). Notice that
 \[
-    \vb{Ax} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\mathcal{B}\pqty{i}} x_{\mathcal{B}\pqty{i}}.
+    \vb{Ax} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\basis\pqty{i}} x_{\basis\pqty{i}}.
 \]
 
 This essentially makes solving the original system equivalent to solving a new system
 \[
-    \vb{B} \vb{x}_{\mathcal{B}} = \vb{b}
+    \vb{B} \vb{x}_{\basis} = \vb{b}
 \]
 where the new matrix \(\vb{B}\) is defined as
 \[
     \vb{B} = \pmqty{
         | & | & \cdots & | \\
-        \vb{A}_{\mathcal{B}\pqty{1}} & \vb{A}_{\mathcal{B}\pqty{2}} & \cdots & \vb{A}_{\mathcal{B}\pqty{m}} \\
+        \vb{A}_{\basis\pqty{1}} & \vb{A}_{\basis\pqty{2}} & \cdots & \vb{A}_{\basis\pqty{m}} \\
         | & | & \cdots & |
     }
 \]
-and the new vector \(\vb{x}_{\mathcal{B}}\) is defined as
+and the new vector \(\vb{x}_{\basis}\) is defined as
 \[
-    \vb{x}_{\mathcal{B}} = \pmqty{
-        x_{\mathcal{B}\pqty{1}} \\
-        x_{\mathcal{B}\pqty{2}} \\
+    \vb{x}_{\basis} = \pmqty{
+        x_{\basis\pqty{1}} \\
+        x_{\basis\pqty{2}} \\
         \vdots \\
-        x_{\mathcal{B}\pqty{n}}
+        x_{\basis\pqty{n}}
     }.
 \]
 
 \begin{definition}[Basic Matrix, Basic Variables]
-    We fix a choice of \(\mathcal{B}\). The variables \(x_{\mathcal{B}\pqty{1}}, x_{\mathcal{B}\pqty{2}}, \ldots, x_{\mathcal{B}\pqty{n}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\mathcal{B}\pqty{1}}, \vb{A}_{\mathcal{B}\pqty{2}}, \ldots, \vb{A}_{\mathcal{B}\pqty{m}}\), are the \term{basic columns}.
+    We fix a choice of \(\basis\). The variables \(x_{\basis\pqty{1}}, x_{\basis\pqty{2}}, \ldots, x_{\basis\pqty{n}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\basis\pqty{1}}, \vb{A}_{\basis\pqty{2}}, \ldots, \vb{A}_{\basis\pqty{m}}\), are the \term{basic columns}.
 \end{definition}
 
-For every choice of \(\mathcal{B}\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\mathcal{B}} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
+For every choice of \(\basis\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\basis} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
 
 We now state the final assumption.
 
@@ -301,28 +301,28 @@ When the linear program is in standard form, the optimality conditions are:
 
 For any basic feasible solution, the complementary slackness equation reduces to
 \[
-    \vb{x}_{\mathcal{B}}\transpose \pqty{\vb{c}_{\mathcal{B}} - \vb{B}\transpose \vb*{\lambda}} = 0
+    \vb{x}_{\basis}\transpose \pqty{\vb{c}_{\basis} - \vb{B}\transpose \vb*{\lambda}} = 0
 \]
-due to the non-zero components in \(\vb{x}\). But since \(\vb{x}_{\mathcal{B}} > \vb{0}\) (due to non-degeneracy assumption), we need
+due to the non-zero components in \(\vb{x}\). But since \(\vb{x}_{\basis} > \vb{0}\) (due to non-degeneracy assumption), we need
 \[
-    \vb{c}_{\mathcal{B}} = \vb{B}\transpose \vb*{\lambda}.
+    \vb{c}_{\basis} = \vb{B}\transpose \vb*{\lambda}.
 \]  
 
 This means
 \[
-    \vb*{\lambda} = \pqty{\vb{B}\transpose}\inverse \vb{c}_{\mathcal{B}}.
+    \vb*{\lambda} = \pqty{\vb{B}\transpose}\inverse \vb{c}_{\basis}.
 \]
 
 Therefore, if
 \[
-    \boxed{\vb{A}\transpose \pqty{\vb{B}\transpose}\inverse \vb{c}_{\mathcal{B}} \leq \vb{c}}
+    \boxed{\vb{A}\transpose \pqty{\vb{B}\transpose}\inverse \vb{c}_{\basis} \leq \vb{c}}
 \]
-then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives us a way of checking optimality simply using the choice of \(\mathcal{B}\) and checking the above inequalities.
+then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives us a way of checking optimality simply using the choice of \(\basis\) and checking the above inequalities.
 
 \begin{definition}[Reduced Costs Vector]
     We define the \term{vector of reduced costs} as a row vector
     \[
-        \bar{\vb{c}}\transpose = \vb{c}\transpose - \vb{c}_{\mathcal{B}}
+        \bar{\vb{c}}\transpose = \vb{c}\transpose - \vb{c}_{\basis}
         \transpose \vb{B}\inverse \vb{A}.
     \]
 \end{definition}
@@ -338,10 +338,10 @@ With this new notation, the above derivation can be summarised into the followin
 Suppose we have a basic feasible solution
 \[
     \vb{x} = \pmqty{
-        x_{\mathcal{B}\pqty{1}} \\
-        x_{\mathcal{B}\pqty{2}} \\
+        x_{\basis\pqty{1}} \\
+        x_{\basis\pqty{2}} \\
         \vdots \\
-        x_{\mathcal{B}\pqty{m}} \\
+        x_{\basis\pqty{m}} \\
         0 \\
         \vdots \\
         0}.
@@ -349,15 +349,15 @@ Suppose we have a basic feasible solution
 
 Suppose, for some \(j^{\ast}\), we have \(\bar{c}_{j^{\ast}} < 0\) (i.e., this solution is not optimal). Suppose we choose some
 \[
-    j \notin \Bqty{\mathcal{B}\pqty{1}, \ldots, \mathcal{B}\pqty{m}}
+    j \notin \Bqty{\basis\pqty{1}, \ldots, \basis\pqty{m}}
 \]
 and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be zero. Then after this perturbation, the new vector would look like
 \[
    \pmqty{
-        x_{\mathcal{B}\pqty{1}} \\
-        x_{\mathcal{B}\pqty{2}} \\
+        x_{\basis\pqty{1}} \\
+        x_{\basis\pqty{2}} \\
         \vdots \\
-        x_{\mathcal{B}\pqty{m}} \\
+        x_{\basis\pqty{m}} \\
         0 \\
         \vdots \\
         0 \\
@@ -366,10 +366,10 @@ and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be
         \ldots \\
         0}
     + t \pmqty{
-        d_{\mathcal{B}\pqty{1}} \\
-        d_{\mathcal{B}\pqty{2}} \\
+        d_{\basis\pqty{1}} \\
+        d_{\basis\pqty{2}} \\
         \vdots \\
-        d_{\mathcal{B}\pqty{m}} \\
+        d_{\basis\pqty{m}} \\
         0 \\
         \vdots \\
         0 \\
@@ -380,34 +380,34 @@ and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be
 \]
 where \(t > 0\). We want \(\vb{Ax} = \vb{b}\) still to be satisfied (for it still be feasible), i.e.,
 \[
-    \vb{A} \pmqty{\vb{d}_{\mathcal{B}} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0} = \vb{0}.
+    \vb{A} \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0} = \vb{0}.
 \]
 
 This is equivalent to saying
 \[
-    \vb{B} \vb{d}_{\mathcal{B}} + \vb{A}_j = 0
+    \vb{B} \vb{d}_{\basis} + \vb{A}_j = 0
 \]
 and the direction we want to move in is
 \[
-    \vb{d}_{\mathcal{B}} = - \vb{B}\inverse \vb{A}_j
+    \vb{d}_{\basis} = - \vb{B}\inverse \vb{A}_j
 \]
 
 We now look at the new cost at the perturbated point. We have
 \begin{align*}
-    \vb{c}\transpose \pqty{\vb{x} + t \pmqty{\vb{d}_{\mathcal{B}} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0}} &= \vb{c}\transpose \vb{x} + t \pqty{\vb{c}_{\mathcal{B}}\transpose \vb{d}_{\mathcal{B}} + c_j} \\
-    &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\mathcal{B}}\transpose \vb{B}\inverse \vb{A}_j} \\
+    \vb{c}\transpose \pqty{\vb{x} + t \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0}} &= \vb{c}\transpose \vb{x} + t \pqty{\vb{c}_{\basis}\transpose \vb{d}_{\basis} + c_j} \\
+    &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\basis}\transpose \vb{B}\inverse \vb{A}_j} \\
     &= \vb{c}\transpose \vb{x} + t \bar{c}_j
 \end{align*}
 
 To ensure the new \(\vb{x}\) is still feasible, we can calculate
 \[
-    - \frac{x_{\mathcal{B} \pqty{1}}}{d_{\mathcal{B} \pqty{1}}}, \ldots, - \frac{x_{\mathcal{B} \pqty{m}}}{d_{\mathcal{B} \pqty{m}}},
+    - \frac{x_{\basis \pqty{1}}}{d_{\basis \pqty{1}}}, \ldots, - \frac{x_{\basis \pqty{m}}}{d_{\basis \pqty{m}}},
 \]
-and find the smallest positive number out of those. Say, if \(d_{\mathcal{B}\pqty{j}} < 0\), then \(x_{\mathcal{B}\pqty{j}}\) could become negative if \(t\) is too big. Therefore, we let \(t\) to be the smallest positive number. Call this \(t^{\ast}\). Then the new point \(\vb{y}\), defined as
+and find the smallest positive number out of those. Say, if \(d_{\basis\pqty{j}} < 0\), then \(x_{\basis\pqty{j}}\) could become negative if \(t\) is too big. Therefore, we let \(t\) to be the smallest positive number. Call this \(t^{\ast}\). Then the new point \(\vb{y}\), defined as
 \[
     \vb{y} = \vb{x} + t^{\ast} \vb{d},
 \]
-is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\mathcal{B}\pqty{1}}, \ldots, y_{\mathcal{B}\pqty{m}}\) become zero, while the perturbated index is still \(0\). \(\vb{y}\) is guaranteed to have a better cost.
+is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\basis\pqty{1}}, \ldots, y_{\basis\pqty{m}}\) become zero, while the perturbated index is still \(0\). \(\vb{y}\) is guaranteed to have a better cost.
 
 This way guarantees the algorithm to terminate in finitely many time and without infinite loop (with our third assumption), since every step is guaranteed to give a better cost, and there are finitely many extreme points (hence finitely many basic feasible solutions).
 
@@ -418,17 +418,17 @@ We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of th
 \begin{table}[ht!]
     \centering
     \[\begin{array}{c|c}
-        - \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} & \bar{\vb{c}} \\
+        - \vb{c}_{\basis}\transpose \vb{x}_{\basis} & \bar{\vb{c}} \\
         \hline
         \vb{B}\inverse \vb{b} & \vb{B}\inverse \vb{A}
     \end{array}
     \equiv
     \begin{array}{c|cccc}
-        - \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} & \bar{c}_1 & \bar{c}_2 & \cdots & \bar{c}_n \\
+        - \vb{c}_{\basis}\transpose \vb{x}_{\basis} & \bar{c}_1 & \bar{c}_2 & \cdots & \bar{c}_n \\
         \hline
-        x_{\mathcal{B}\pqty{1}} & | & | & & | \\
+        x_{\basis\pqty{1}} & | & | & & | \\
         \vdots & \vb{B}\inverse \vb{A}_1 & \vb{B}\inverse \vb{A}_2 & \cdots & \vb{B}\inverse \vb{A}_n \\
-        x_{\mathcal{B}\pqty{m}} & | & | & & |
+        x_{\basis\pqty{m}} & | & | & & |
     \end{array}
     \]
     \caption{Simplex Tableau}
@@ -437,26 +437,26 @@ We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of th
 
 The table keeps track of:
 \begin{enumerate}
-    \item the current basic feasible solution characterised by \(\vb{x}_{\mathcal{B}}\);
-    \item the (negative) current cost \(- \vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}}\);
-    \item the possible directions \(\vb{d}_{\mathcal{B}}\) given by \(\vb{B}\inverse \vb{A}_j\); and
+    \item the current basic feasible solution characterised by \(\vb{x}_{\basis}\);
+    \item the (negative) current cost \(- \vb{c}_{\basis}\transpose \vb{x}_{\basis}\);
+    \item the possible directions \(\vb{d}_{\basis}\) given by \(\vb{B}\inverse \vb{A}_j\); and
     \item the vector of reduced costs \(\bar{c}\).
 \end{enumerate}
 
-\autoref{alg:simplex-algorithm} outlines the simplex algorithm after slack variables are introduced and a first basic feasible solution was found (if \(\vb{b} \geq 0\), by simply setting the slack variable components to the components of \(\vb{b}\)). (In this case, \(\mathcal{B}\) will be equal to the slack variable components.)
+\autoref{alg:simplex-algorithm} outlines the simplex algorithm after slack variables are introduced and a first basic feasible solution was found (if \(\vb{b} \geq 0\), by simply setting the slack variable components to the components of \(\vb{b}\)). (In this case, \(\basis\) will be equal to the slack variable components.)
 
 \begin{algorithm}[ht!]
     \caption{Simplex Algorithm}\label{alg:simplex-algorithm}%
     \begin{algorithmic}
-        \Function{SimplexAlgorithm}{\(\vb{A} \in \RR^{m \times n}, \vb{b} \in \RR^m, \vb{c} \in \RR^n, \functiondomain{\mathcal{B}}{\bqty{m}}{\bqty{n}}\)}
+        \Function{SimplexAlgorithm}{\(\vb{A} \in \RR^{m \times n}, \vb{b} \in \RR^m, \vb{c} \in \RR^n, \functiondomain{\basis}{\bqty{m}}{\bqty{n}}\)}
             \LComment{Initialise Table}
             \LComment{Comments give the value where we choose the slack variables as the initial basic components}
-            \LComment{In this case, \(\mathcal{B}\pqty{1, 2, \ldots, m} = \pqty{n - m + 1, n - m + 2, \ldots, n}\)}
-            \State \(\vb{B} \gets \vb{A}_{\mathcal{B}}\) \Comment{\(\vb{B} = \identityM\)}
-            \State \(\vb{x}_{\mathcal{B}} \gets \vb{B}\inverse\vb{b}\) \Comment{\(\vb{x}_{\mathcal{B}} = \vb{0}\)}
+            \LComment{In this case, \(\basis\pqty{1, 2, \ldots, m} = \pqty{n - m + 1, n - m + 2, \ldots, n}\)}
+            \State \(\vb{B} \gets \vb{A}_{\basis}\) \Comment{\(\vb{B} = \identityM\)}
+            \State \(\vb{x}_{\basis} \gets \vb{B}\inverse\vb{b}\) \Comment{\(\vb{x}_{\basis} = \vb{0}\)}
             \State \textbf{compute} \(\vb{B}\inverse \vb{A}\) \Comment{\(\vb{B}\inverse \vb{A} = \vb{A}\)}
-            \State \textbf{compute} \(-\vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}}\) \Comment{\(-\vb{c}_{\mathcal{B}}\transpose \vb{x}_{\mathcal{B}} = 0\)}
-            \State \(\vb{\bar{c}}\transpose \gets \vb{c}\transpose - \vb{c}_{\mathcal{B}}\transpose \vb{B}\inverse \vb{A}\) \Comment{\(\vb{\bar{c}} = \vb{c}\)}
+            \State \textbf{compute} \(-\vb{c}_{\basis}\transpose \vb{x}_{\basis}\) \Comment{\(-\vb{c}_{\basis}\transpose \vb{x}_{\basis} = 0\)}
+            \State \(\vb{\bar{c}}\transpose \gets \vb{c}\transpose - \vb{c}_{\basis}\transpose \vb{B}\inverse \vb{A}\) \Comment{\(\vb{\bar{c}} = \vb{c}\)}
 
             \Statex
 
@@ -469,7 +469,7 @@ The table keeps track of:
                 \ForAll{\(i \in \bqty{m}, d_i > 0\)}
                     \Comment{Find the Step Size to Proceed}
 
-                    \State \(r_i \gets \flatfrac{x_{\mathcal{B}\pqty{i}}}{d_i}\)
+                    \State \(r_i \gets \flatfrac{x_{\basis\pqty{i}}}{d_i}\)
                 \EndFor
 
                 \State \(l \gets \argmin_{d_i > 0} r_i\) \Comment{Find Pivot Element}
@@ -477,8 +477,8 @@ The table keeps track of:
                 \Statex
 
                 \LComment{Using Row Operations to Update Table}
-                \State \textbf{relabel} \(x_{\mathcal{B}\pqty{l}}\) \textbf{with} \(x_j\)
-                \State \textbf{update} \(\mathcal{B}\) \textbf{by} replacing \(\mathcal{B}\pqty{l} = j\)
+                \State \textbf{relabel} \(x_{\basis\pqty{l}}\) \textbf{with} \(x_j\)
+                \State \textbf{update} \(\basis\) \textbf{by} replacing \(\basis\pqty{l} = j\)
                 \State \textbf{divide} the \(l\)-th row \textbf{by} \(d_l\) \Comment{This would make the \(j\)-th entry one}
                 \Statex
                 \ForAll{\(i \in \bqty{m} \cup \Bqty{\text{cost}}, i \neq l\)}  \Comment{Including the Cost Row}
@@ -523,7 +523,7 @@ The table keeps track of:
         }, \qand \vb{b} = \pmqty{10 \\ 10 \\ 20}.
     \]
 
-    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible equation (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\mathcal{B}\pqty{1} = 4, \mathcal{B}\pqty{2} = 5, \mathcal{B}\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\mathcal{B}} = \vb{0}\), therefore giving the simplex tableau
+    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible equation (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\basis\pqty{1} = 4, \basis\pqty{2} = 5, \basis\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\basis} = \vb{0}\), therefore giving the simplex tableau
     \[
         \begin{array}{c|c|cccccc}
             &    & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
