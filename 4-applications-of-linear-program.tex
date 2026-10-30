@@ -76,7 +76,7 @@ If a saddle point exists, the order of playing does not matter.
 \begin{definition}[Pure and Mixed Strategies]
     A \term{pure} strategy for P1 is when they pick a fixed action \(i \in \bqty{m}\).
 
-    A \term{mixed} strategy P1 picks a probability distribution \(\vb{p}\) on their action
+    A \term{mixed} strategy for P1 picks a probability distribution \(\vb{p}\) on their action
     \[
         \vb{p} = \begin{pmatrix}
             p_1 \\ p_2 \\ \vdots \\ p_m
@@ -310,7 +310,7 @@ Usually, we do not have to solve the whole linear program to find the optimal st
 
     We define a \term{cost matrix} \(\vb{C} \in \RR^{n \times n}\) which is the cost per unit flow on the edge.
 
-    We define matrices \(\underline{\vb{M}}, \overline{\vb{M}} \in \RR^{n \times n}\) to bound the costs \(\underline{m}_{ij} \leq x_{ij} \leq \overline{m}_{ij}\).
+    We define matrices \(\underline{\vb{M}}, \overline{\vb{M}} \in \RR^{n \times n}\) to bound the flows \(\underline{m}_{ij} \leq x_{ij} \leq \overline{m}_{ij}\).
 \end{definition}
 
 \begin{definition}[Network Flow]
@@ -324,7 +324,7 @@ Usually, we do not have to solve the whole linear program to find the optimal st
         \[
             b_i + \sum_{j: \pqty{j, i} \in E} x_{ji} = \sum_{j: \pqty{i, j} \in E} x_{ij}
         \];
-        \item the cost constraint \(\underline{m}_{ij} \leq c_{ij} \leq \overline{m}_{ij}\).
+        \item the capacity constraint \(\underline{m}_{ij} \leq x_{ij} \leq \overline{m}_{ij}\).
     \end{itemize}
 \end{definition}
 
@@ -334,7 +334,7 @@ Notice that the requirement \(\sum_{i = 1}^{n} b_i = 0\) can be derived from flo
 
 A special case of the network flow problem is the transport problem.
 
-\begin{definition}[Suppilier, Consumer, Bipartite Graph]
+\begin{definition}[Supplier, Consumer, Bipartite Graph]
     Suppose we have \(n\) \term{suppliers} \(i \in \Bqty{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \term{demand} \(j \in \Bqty{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
     \[
         \sum_{i = 1}^{n} s_i = \sum_{j = 1}^{m} d_j.
@@ -346,7 +346,7 @@ A special case of the network flow problem is the transport problem.
 \begin{definition}[Transport Problem]
     The \term{transport problem} is to \emph{minimise} the total cost
     \[
-        \sum_{i = 1}^{n} \sum_{j = 1}^{n} c_{ij} x_{ij}
+        \sum_{i = 1}^{n} \sum_{j = 1}^{m} c_{ij} x_{ij}
     \]
     subject to the constraints
     \[
@@ -399,7 +399,7 @@ This is clearly a subset of network flow problem -- but in fact \emph{all} netwo
 
     As for the flow condition, we substitute \(b_i\) by
     \[
-        \tilde{b}_i = b_i + \sum_{j: \pqty{j, i} \in E} \underline{m}_{ji} - \sum_{j: \pqty{j, i} \in E} \underline{m}_{ij}
+        \tilde{b}_i = b_i + \sum_{j: \pqty{j, i} \in E} \underline{m}_{ji} - \sum_{j: \pqty{i, j} \in E} \underline{m}_{ij}
     \]
     which are, again, just changing by constants for fixed \(i\).
 \end{proof}
@@ -1296,7 +1296,7 @@ Another problem is related to \term{cuts} of a graph.
 \begin{remark}
     This states that
     \[
-        \max_{\pqty{x_{ij}}} \delta \leq \min_{S \subseteq V} C\pqty{S}.
+        \max_{\pqty{x_{ij}}} \delta \leq \min_{\substack{S \subseteq V \\ 1 \in S,\ n \notin S}} C\pqty{S}.
     \]
 \end{remark}
 
@@ -1322,7 +1322,7 @@ Another problem is related to \term{cuts} of a graph.
     \begin{align*}
         \delta &= f_x \pqty{S, V} - f_x \pqty{V, S} \\
         &= f_x \pqty{S, S} + f_x \pqty{S, V \setminus S} - f_x \pqty{S, S} - f_x \pqty{V \setminus S, S} \\
-        &= f_x \pqty{S, V \setminus S} - f_X \pqty{V \setminus S, S} \\
+        &= f_x \pqty{S, V \setminus S} - f_x \pqty{V \setminus S, S} \\
         &\leq f_x \pqty{S, V \setminus S} \\
         &\leq C \pqty{S}.
     \end{align*}
@@ -1340,19 +1340,19 @@ To help our proof that minimum cut is in fact equal to maximum flow, we introduc
     \end{itemize}
 \end{definition}
 
-\begin{lemma}[Non-Exisence of Augmenting Paths between \(1\) and \(n\) in Optimal Flow]
-    If a flow \(\pqty{x_{ij}}\) is optimal, then it does not contain augmenting paths between \(1\) and \(n\).
+\begin{lemma}[Non-Existence of Augmenting Paths between \(1\) and \(n\) in Optimal Flow]
+    If a flow \(\pqty{x_{ij}}\) is optimal, then it does not contain an augmenting path between \(1\) and \(n\).
 \end{lemma}
 
 \begin{proof}
-    If an augmenting path exist, we could increase the flow along that path by increasing the flow of forward edges by \(\epsilon\) and decreasing the flow of backward edges by \(\epsilon\), for sufficiently small \(\epsilon > 0\), without violating constraints.
+    If an augmenting path exists, we could increase the flow along that path by increasing the flow on forward edges by \(\epsilon\) and decreasing the flow on backward edges by \(\epsilon\), for sufficiently small \(\epsilon > 0\), without violating constraints.
 \end{proof}
 
 \begin{theorem}[Maximum Flow is Minimum Cut]
     \label{thm:max-flow-min-cut}%
     Let \(\delta^{\ast}\) be the maximum value of the flow. Then
     \[
-        \delta^{\ast} = \min \set{C \pqty{S}}{S \subseteq V, 1 \in V, n \in V \setminus S}.
+        \delta^{\ast} = \min \set{C \pqty{S}}{S \subseteq V, 1 \in S, n \in V \setminus S}.
     \]
 \end{theorem}
 
@@ -1604,7 +1604,7 @@ It could be tedious to list all possible paths, so if at one point one fails to 
 
 One unsatisfying thing about the Ford--Fulkerson algorithm is it is not very obvious how this is related to the simplex algorithm. Indeed, the Ford--Fulkerson algorithm works relatively differently, in the sense that it does not necessarily jump to extreme points -- and hence convergence is not necessarily guaranteed (thought it is guaranteed to improve). In the case where all capacities are integral (in which case all increases are also integral) or rational (in which we could just scale the problem to be integral), it is guaranteed to converge after finitely many steps.
 
-The Edmonds--Karp algorithm which augments the path in order of distance (i.e., finding such paths by breadth-first search), guarantees for the convergence of the algorithm in \(\bigO\pqty{\abs{V} \abs{E}^2}\) time.
+The Edmonds--Karp algorithm, which augments by increasing path length (i.e., finds such paths by breadth-first search), guarantees convergence in \(\bigO\pqty{\abs{V} \abs{E}^2}\) time.
 
 \begin{example}[Ford--Fulkerson Algorithm, Second Example]
     Consider the following network. (At the moment all flow is zero, and the capacities are boxed.)
@@ -1844,7 +1844,7 @@ The Edmonds--Karp algorithm which augments the path in order of distance (i.e., 
         \end{tikzpicture}
     \end{center}
 
-    All paths of length 3 has been augmented, and therefore we look at paths of length 4. Augmenting the path \(1 \to c \to d \to b \to n\) increases the capacity by \(5\) (increasing the value to \(19\)), which gives
+    All paths of length 3 have been augmented, and therefore we look at paths of length 4. Augmenting the path \(1 \to c \to d \to b \to n\) increases the flow by \(5\) (increasing the value to \(19\)), which gives
     \begin{center}
         \begin{tikzpicture}[
             node distance=2cm,

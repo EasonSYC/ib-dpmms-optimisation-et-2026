@@ -1,9 +1,9 @@
 \section{Linear Program and Simplex Algorithm}
 
-We restrict ourselves to a even more special type of constrained optimisation, where we not only require the functions/regions to be \emph{convex}, but furthermore \textbf{linear}.
+We restrict ourselves to an even more special type of constrained optimisation, where we not only require the functions/regions to be \emph{convex}, but furthermore \textbf{linear}.
 
 \begin{definition}[Linear Program]
-    A \term{linear program} is a constrained optimisation problem where we \textbf{minimise} \(\vb{c}\transpose \vb{m}\), subject to \textbf{constraints} of the form
+    A \term{linear program} is a constrained optimisation problem where we \textbf{minimise} \(\vb{c}\transpose \vb{x}\), subject to \textbf{constraints} of the form
     \begin{itemize}
         \item \(\vb{a}_i\transpose \vb{x} \geq b_i\), for all \(i \in M_1\),
         \item \(\vb{a}_i\transpose \vb{x} \leq b_i\), for all \(i \in M_2\),
@@ -67,7 +67,7 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
         \end{aligned}},
     \]
 
-    If \(\vb*{\lambda} \in \Lambda\), then by simply setting all the pervious terms to zero, we have
+    If \(\vb*{\lambda} \in \Lambda\), then by simply setting all the previous terms to zero, we have
     \[
         g\pqty{\vb*{\lambda}} = \min_{\substack{\vb{x} \in \mathcal{X} \\ \vb{s} \geq 0}} L\pqty{\vb{x}, \vb{s}, \vb*{\lambda}} = \vb{b}\transpose \vb*{\lambda}.
     \]
@@ -105,7 +105,7 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 
     If \(\vb{c}\transpose \vb{x} = \vb*{\lambda}\transpose \vb{b}\) (i.e. \(\vb{x}\) and \(\vb*{\lambda}\) are optimal), then \(u_i = 0\) and \(v_j = 0\) for all \(i\) and \(j\).
 
-    Conversely, if \(u_i = 0\) and \(v_j = 0\) for all \(i\) and \(j\), then \(\vb{c}\transpose \vb{x} = \vb*{\lambda}\transpose \vb{b}\), and hence \(\vb{x}\) and \(\vb*{\lambda}\) are optimal. by weak duality.
+    Conversely, if \(u_i = 0\) and \(v_j = 0\) for all \(i\) and \(j\), then \(\vb{c}\transpose \vb{x} = \vb*{\lambda}\transpose \vb{b}\), and hence \(\vb{x}\) and \(\vb*{\lambda}\) are optimal by weak duality.
 \end{proof}
 
 \subsection{Standard and General Forms of Linear Programs}
@@ -126,14 +126,14 @@ A further trick to convert from general form to special form is to write
 \[
     x_j = x_j^+ - x_j^-
 \]
-where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are positive real numbers. This allows us to convert the previous form to optimise \(\vb{c}\transpose \pqty{\vb{x}_+ - \vb{x}_-}\), subject to \(\vb{A} \pqty{\vb{x}_+ - \vb{x}_-} + \vb{s} = \vb{b}\), with \(\vb{x}_+, \vb{x}_-, \vb{s} \geq \vb{0}\).
+where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are non-negative real numbers. This allows us to convert the previous form to optimise \(\vb{c}\transpose \pqty{\vb{x}_+ - \vb{x}_-}\), subject to \(\vb{A} \pqty{\vb{x}_+ - \vb{x}_-} + \vb{s} = \vb{b}\), with \(\vb{x}_+, \vb{x}_-, \vb{s} \geq \vb{0}\).
 
 In practice, it is often easier to discuss the \emph{theory} in general form, while the \emph{algorithms} are often discussed in standard form.
 
 \subsection{Extreme Points and Basic Feasible Solutions}
 \subsubsection{Maximising Convex Functions}
 
-Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximise} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on an straight ``edge'' as well.
+Minimising \(\vb{c}\transpose \vb{x}\) is the same as maximising \(-\vb{c}\transpose \vb{x}\), which must be a convex function. We are essentially trying to \emph{maximise} a convex function. (Previously we attempted to \emph{minimise} a convex function instead.) Intuitively, it must lie somewhere along the ``boundary'' of a set, but this is not the boundary simply in the topological sense, since it cannot be on a straight ``edge'' as well.
 
 \begin{definition}[Extreme Point in Convex Set]
     A point \(\vb{x} \in C\) where \(C \subseteq \RR^n\) is convex, is called an \term{extreme point}, if it \emph{cannot} be written as a convex combination of two distinct points in \(C\), i.e., for \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\),
@@ -223,7 +223,7 @@ and the new vector \(\vb{x}_{\basis}\) is defined as
 \]
 
 \begin{definition}[Basic Matrix, Basic Variables]
-    We fix a choice of \(\basis\). The variables \(x_{\basis\pqty{1}}, x_{\basis\pqty{2}}, \ldots, x_{\basis\pqty{n}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\basis\pqty{1}}, \vb{A}_{\basis\pqty{2}}, \ldots, \vb{A}_{\basis\pqty{m}}\), are the \term{basic columns}.
+    We fix a choice of \(\basis\). The variables \(x_{\basis\pqty{1}}, x_{\basis\pqty{2}}, \ldots, x_{\basis\pqty{m}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\basis\pqty{1}}, \vb{A}_{\basis\pqty{2}}, \ldots, \vb{A}_{\basis\pqty{m}}\), are the \term{basic columns}.
 \end{definition}
 
 For every choice of \(\basis\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\basis} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
@@ -392,7 +392,7 @@ and the direction we want to move in is
     \vb{d}_{\basis} = - \vb{B}\inverse \vb{A}_j
 \]
 
-We now look at the new cost at the perturbated point. We have
+We now look at the new cost at the perturbed point. We have
 \begin{align*}
     \vb{c}\transpose \pqty{\vb{x} + t \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0}} &= \vb{c}\transpose \vb{x} + t \pqty{\vb{c}_{\basis}\transpose \vb{d}_{\basis} + c_j} \\
     &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\basis}\transpose \vb{B}\inverse \vb{A}_j} \\
@@ -407,9 +407,9 @@ and find the smallest positive number out of those. Say, if \(d_{\basis\pqty{j}}
 \[
     \vb{y} = \vb{x} + t^{\ast} \vb{d},
 \]
-is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\basis\pqty{1}}, \ldots, y_{\basis\pqty{m}}\) become zero, while the perturbated index is still \(0\). \(\vb{y}\) is guaranteed to have a better cost.
+is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\basis\pqty{1}}, \ldots, y_{\basis\pqty{m}}\) becomes zero, while the entering index is still non-zero. \(\vb{y}\) is guaranteed to have a better cost.
 
-This way guarantees the algorithm to terminate in finitely many time and without infinite loop (with our third assumption), since every step is guaranteed to give a better cost, and there are finitely many extreme points (hence finitely many basic feasible solutions).
+This guarantees that the algorithm terminates in finitely many steps and without an infinite loop (under our third assumption), since every step gives a better cost and there are finitely many extreme points (hence finitely many basic feasible solutions).
 
 \subsubsection{The Simplex Tableau and the Simplex Algorithm}
 
@@ -523,7 +523,7 @@ The table keeps track of:
         }, \qand \vb{b} = \pmqty{10 \\ 10 \\ 20}.
     \]
 
-    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible equation (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\basis\pqty{1} = 4, \basis\pqty{2} = 5, \basis\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\basis} = \vb{0}\), therefore giving the simplex tableau
+    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible solution (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\basis\pqty{1} = 4, \basis\pqty{2} = 5, \basis\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\basis} = \vb{0}\), therefore giving the simplex tableau
     \[
         \begin{array}{c|c|cccccc}
             &    & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\

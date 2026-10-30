@@ -200,7 +200,7 @@ so
 
 \begin{theorem}[Second-Order Condition]
     \label{thm:second-order-condition}%
-    A twice-differentiable function function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if
+    A twice-differentiable function \(\functiondomain{f}{\RR^n}{\RR}\) is convex, if and only if
     \[
         \grad^2 f\pqty{x} \posDefEq 0
     \]
@@ -261,7 +261,7 @@ This leads to the gradient descent algorithm, as described in \autoref{alg:gradi
 \end{algorithm}
 
 \begin{remark}
-    The stopping criteria(s) can be, for example, when out computing power runs out, or the gradient is very small.
+    The stopping criteria can be, for example, when our computing power runs out, or when the gradient is very small.
 \end{remark}
 
 We note that the gradient descent algorithm could fail: if the step size is too large, we might not necessarily reach the minimum, for example, we overshoot if the function is very steep. Similar issues appear when the step size is too small, for example, it will take very long to reach the minimum if the function is very flat. 
@@ -324,11 +324,11 @@ We are essentially bounding the function \(f\) between two quadratics -- the \(\
 
     Now, observe that if \(f\) is \(\beta\)-smooth,
     \[
-        \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{x}} \pqty{\vb{y} - \vb{x}} \leq \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \pqty{\beta \identityM} \pqty{\vb{y} - \vb{x}} = \frac{\beta}{2} \norm{\vb{y} - \vb{x}}^2,
+        \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{z}} \pqty{\vb{y} - \vb{x}} \leq \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \pqty{\beta \identityM} \pqty{\vb{y} - \vb{x}} = \frac{\beta}{2} \norm{\vb{y} - \vb{x}}^2,
     \]
     and similarly, if \(f\) is \(\alpha\)-strongly convex,
     \[
-        \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{x}} \pqty{\vb{y} - \vb{x}} \geq \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \pqty{\alpha \identityM} \pqty{\vb{y} - \vb{x}} = \frac{\alpha}{2} \norm{\vb{y} - \vb{x}}^2.
+        \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \grad^2 f\pqty{\vb{z}} \pqty{\vb{y} - \vb{x}} \geq \frac{1}{2} \pqty{\vb{y} - \vb{x}}\transpose \pqty{\alpha \identityM} \pqty{\vb{y} - \vb{x}} = \frac{\alpha}{2} \norm{\vb{y} - \vb{x}}^2.
     \]
 \end{proof}
 
@@ -413,7 +413,7 @@ gives an \(\epsilon\)-optimal point. This type of convergence is called \term{li
 \begin{proof}
     Observe that
     \begin{align*}
-        f\pqty{\vb{x}_{t + 1} - \vb{x}^{\ast}} &\leq f\pqty{\vb{x}_t} - f\pqty{\vb{x}^{\ast}} - \frac{1}{2\beta} \norm{\grad f\pqty{\vb{x}_t}}^2 && \text{\autoref{cor:grad-descent-beta-bound}} \\
+        f\pqty{\vb{x}_{t + 1}} - f\pqty{\vb{x}^{\ast}} &\leq f\pqty{\vb{x}_t} - f\pqty{\vb{x}^{\ast}} - \frac{1}{2\beta} \norm{\grad f\pqty{\vb{x}_t}}^2 && \text{\autoref{cor:grad-descent-beta-bound}} \\
         &\leq f\pqty{\vb{x}_t} - f\pqty{\vb{x}^{\ast}} - \frac{\alpha}{\beta} \pqty{f\pqty{\vb{x}_t} - f\pqty{\vb{x}^{\ast}}} && \text{\autoref{cor:grad-descent-alpha-bound}} \\
         &= \pqty{1 - \frac{\alpha}{\beta}} \pqty{f\pqty{\vb{x}_t} - f\pqty{\vb{x}^{\ast}}}.
     \end{align*}

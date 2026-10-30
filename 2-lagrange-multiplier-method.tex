@@ -1,6 +1,6 @@
 \section{Lagrange Multiplier Method}
 
-We currently consider the constrained optimisation problem \(f\pqty{\vb{x}}\) subject to some constraint \(\vb{h}\pqty{\vb{x}} = \vb{b}\) with \(\vb{x} \in \mathcal{X}\) and \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\). There is no general algorithm to solve all constrained optimisation problems, but we may use a method called \term{Lagrange Multiplier} to solve.
+We currently consider the constrained optimisation problem \(f\pqty{\vb{x}}\) subject to some constraint \(\vb{h}\pqty{\vb{x}} = \vb{b}\) with \(\vb{x} \in \mathcal{X}\) and \(\functiondomain{\vb{h}}{\RR^n}{\RR^m}\). There is no general algorithm to solve all constrained optimisation problems, but we may use a method called the \term{Lagrange multiplier method}.
 
 \begin{definition}[Lagrangian, Lagrange Multiplier]
     We define the \term{Lagrangian} as
@@ -59,7 +59,7 @@ We now minimise the Lagrangian, \(L\), simply in the region \(\vb{x} \in \mathca
         L = L\pqty{x_1, x_2, x_3, \lambda_1} = \pqty{-2 x_1 - \lambda_1 x_1^2} + \pqty{-2 x_2 - \lambda_1 x_2^2} + 4 \lambda_1 + 1.
     \]
 
-    To have a finite minimum, we also need \(\lambda_1 < 0\), and is optimised when
+    To have a finite minimum, we also need \(\lambda_1 < 0\), and the expression is optimised when
     \[
         x_1 = - \frac{1}{\lambda_1} \qand x_2 = - \frac{1}{\lambda_1}.
     \]
