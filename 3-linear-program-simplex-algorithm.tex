@@ -155,7 +155,7 @@ In other words, an extreme point in a convex set does not lie on a line segment 
     \]
     for some \(\vb{y}, \vb{z} \in C\) and \(\delta \in \oointv{0}{1}\), with \(\vb{y} \neq \vb{z}\). But by convexity,
     \[
-        f\pqty{\vb{x}} \leq \delta f\pqty{\vb{y}} + \pqty{1 - \delta} f\pqty{\vb{z}} \leq \max \Bqty{f\pqty{\vb{y}}, f\pqty{\vb{z}}}
+        f\pqty{\vb{x}} \leq \delta f\pqty{\vb{y}} + \pqty{1 - \delta} f\pqty{\vb{z}} \leq \max \set{f\pqty{\vb{y}}, f\pqty{\vb{z}}}
     \]
     so it has to maximise at one of the ends of the line segment as well.
 \end{proof}
@@ -195,7 +195,7 @@ The third requires some other definition.
 
 To construct basic solutions, we notice that the system \(\vb{Ax} = \vb{b}\) is underdetermined, since \(n > m\).
 
-Suppose we choose indices \(\Bqty{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \Bqty{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\). Notice that
+Suppose we choose indices \(\set{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \set{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\). Notice that
 \[
     \vb{Ax} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\basis\pqty{i}} x_{\basis\pqty{i}}.
 \]
@@ -349,7 +349,7 @@ Suppose we have a basic feasible solution
 
 Suppose, for some \(j^{\ast}\), we have \(\bar{c}_{j^{\ast}} < 0\) (i.e., this solution is not optimal). Suppose we choose some
 \[
-    j \notin \Bqty{\basis\pqty{1}, \ldots, \basis\pqty{m}}
+    j \notin \set{\basis\pqty{1}, \ldots, \basis\pqty{m}}
 \]
 and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be zero. Then after this perturbation, the new vector would look like
 \[
@@ -481,7 +481,7 @@ The table keeps track of:
                 \State \textbf{update} \(\basis\) \textbf{by} replacing \(\basis\pqty{l} = j\)
                 \State \textbf{divide} the \(l\)-th row \textbf{by} \(d_l\) \Comment{This would make the \(j\)-th entry one}
                 \Statex
-                \ForAll{\(i \in \bqty{m} \cup \Bqty{\text{cost}}, i \neq l\)}  \Comment{Including the Cost Row}
+                \ForAll{\(i \in \bqty{m} \cup \set{\text{cost}}, i \neq l\)}  \Comment{Including the Cost Row}
                     \State \textbf{subtract} the \(i\)-th row \textbf{by} \(d_i\) times the \(l\)-th row \Comment{Special Case: \(d_{\text{cost}} = \bar{c}_{j}\)}
                     \Statex \Comment{This would make the \(j\)-th entry zero}
                 \EndFor

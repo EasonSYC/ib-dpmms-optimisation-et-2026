@@ -4,7 +4,7 @@
 \subsubsection{Two-Person Zero-Sum Games}
 
 \begin{definition}[Zero-Sum Game, Payoff Matrix]
-    We consider a game between players P1 and P2, where P1 has \(m\) actions labelled by \(\Bqty{1, 2, \ldots, m}\) and P2 has \(n\) actions labelled by \(\Bqty{1, 2, \ldots, n}\), where the \term{payoff  matrix} \(\vb{A} = \pqty{a_{ij}} \in \RR^{m \times n}\) records the amount earned by P1 and lost by P2, if P1 plays \(i\) and \(P2\) plays \(j\).
+    We consider a game between players P1 and P2, where P1 has \(m\) actions labelled by \(\set{1, 2, \ldots, m}\) and P2 has \(n\) actions labelled by \(\set{1, 2, \ldots, n}\), where the \term{payoff  matrix} \(\vb{A} = \pqty{a_{ij}} \in \RR^{m \times n}\) records the amount earned by P1 and lost by P2, if P1 plays \(i\) and \(P2\) plays \(j\).
 \end{definition}
 
 \begin{example}[Rock-Paper-Scissors]
@@ -335,7 +335,7 @@ Notice that the requirement \(\sum_{i = 1}^{n} b_i = 0\) can be derived from flo
 A special case of the network flow problem is the transport problem.
 
 \begin{definition}[Supplier, Consumer, Bipartite Graph]
-    Suppose we have \(n\) \term{suppliers} \(i \in \Bqty{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \term{demand} \(j \in \Bqty{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
+    Suppose we have \(n\) \term{suppliers} \(i \in \set{1, 2, \ldots, n}\), each producing \(s_i\) amount of goods, and \(m\) consumers \term{demand} \(j \in \set{1, 2, \ldots, m}\), each demanding \(d_j\) amount of goods. We have
     \[
         \sum_{i = 1}^{n} s_i = \sum_{j = 1}^{m} d_j.
     \]
@@ -656,7 +656,7 @@ The north-west corner rule is a way to find a feasible solution to the transport
             \While{\(i \leq n\) \textbf{and} \(j \leq m\)}
                 \LComment{Assign the maximum possible flow to use up either the remaining supply or demand}
 
-                \State \(x_{ij} \gets \min \Bqty{s_i, d_j}\)
+                \State \(x_{ij} \gets \min \set{s_i, d_j}\)
                 \State \(s_i \gets s_i - x_{ij}\)
                 \State \(d_j \gets d_j - x_{ij}\)
 
@@ -1361,7 +1361,7 @@ To help our proof that minimum cut is in fact equal to maximum flow, we introduc
 
     If a flow \(x\) is optimal, then \(x\) cannot have augmenting paths from \(1\) to \(n\). Define
     \[
-        S = \Bqty{1} \cup \set{i \in V}{\text{there exists augmenting path from }1\text{ to }i}
+        S = \set{1} \cup \set{i \in V}{\text{there exists augmenting path from }1\text{ to }i}
     \]
     and observe \(1 \in S\) while \(n \notin S\). For this set \(S\), sum up the flow constraints of \(S\),
     \[
@@ -1597,7 +1597,7 @@ It could be tedious to list all possible paths, so if at one point one fails to 
         \end{tikzpicture}
     \end{center}
 
-    Indeed, at this point, notice the cut \(S = \Bqty{1, a, c, d}\) satisfies \(C\pqty{S} = 6\). This is hence the maximum flow (and the corresponding minimum cut).
+    Indeed, at this point, notice the cut \(S = \set{1, a, c, d}\) satisfies \(C\pqty{S} = 6\). This is hence the maximum flow (and the corresponding minimum cut).
 \end{example}
 
 \subsubsection{The Edmonds--Karp Algorithm and Convergence of the Ford--Fulkerson Algorithm}
@@ -1905,7 +1905,7 @@ The Edmonds--Karp algorithm, which augments by increasing path length (i.e., fin
         \end{tikzpicture}
     \end{center}
 
-    Indeed, notice the cut \(S = \Bqty{1, c}\) gives a cut of \(19\), and hence this must be optimal.
+    Indeed, notice the cut \(S = \set{1, c}\) gives a cut of \(19\), and hence this must be optimal.
 \end{example}
 
 \subsubsection{Duality of Maximum Flow and Minimum Cut}
@@ -1966,16 +1966,16 @@ subject to constraints
 
 Notice that to minimise this, since all the capacities are non-negative, we always take
 \[
-    z_{ij} = \max \Bqty{0, y_i - y_j}
+    z_{ij} = \max \set{0, y_i - y_j}
 \]
 and the dual objective is now minimising
 \[
-    \sum_{\pqty{i, j} \in E} \max \Bqty{0, y_i - y_j} c_{ij}
+    \sum_{\pqty{i, j} \in E} \max \set{0, y_i - y_j} c_{ij}
 \]
 subject to \(y_1 - y_n = 1\).
 
 To note this relation with the minimum cut problem, note that a cut \(\pqty{S, V \setminus S}\) assigned with \(y_i = 1\) for \(i \in S\) and \(0\) for \(i \in V \setminus S\), we have the constraint translates to \(1 \in S\) and \(n \in V \setminus S\), and
 \[
-    \sum_{\pqty{i, j} \in E} \max \Bqty{0, y_i - y_j} c_{ij} = \sum_{\substack{\pqty{i, j} \in E \\ i \in S \\ j \in V \setminus S}} c_{ij} = C\pqty{S}
+    \sum_{\pqty{i, j} \in E} \max \set{0, y_i - y_j} c_{ij} = \sum_{\substack{\pqty{i, j} \in E \\ i \in S \\ j \in V \setminus S}} c_{ij} = C\pqty{S}
 \]
-is indeed the capacity, so the minimum of the dual objective function is at most the minimum cut. With some more technical details, we can indeed show any \(y_i\)s that minimises of this dual objective function can be \(\Bqty{0, 1}\), fully leading to the equivalence.
+is indeed the capacity, so the minimum of the dual objective function is at most the minimum cut. With some more technical details, we can indeed show any \(y_i\)s that minimises of this dual objective function can be \(\set{0, 1}\), fully leading to the equivalence.
