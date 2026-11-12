@@ -18,7 +18,7 @@ We restrict ourselves to an even more special type of constrained optimisation, 
 
 We may put the constraint vectors into a matrix
 \[
-    \vb{A} = \pmqty{
+    A = \pmqty{
         \text{---} & \vb{a}_1\transpose & \text{---} \\
         \text{---} & \vb{a}_2\transpose & \text{---} \\
          & \vdots & \\
@@ -89,11 +89,11 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 
     Summing up with respect to \(i\) and \(j\) respectively, we have
     \[
-        \sum_{i \in M_1 \cup M_2 \cup M_3} u_i = \vb*{\lambda}\transpose \vb{A} \vb{x} - \vb*{\lambda}\transpose \vb{b}
+        \sum_{i \in M_1 \cup M_2 \cup M_3} u_i = \vb*{\lambda}\transpose A \vb{x} - \vb*{\lambda}\transpose \vb{b}
     \]
     and
     \[
-        \sum_{j \in N_1 \cup N_2 \cup N_3} v_j = \vb{c}\transpose \vb{x} - \vb*{\lambda}\transpose \vb{A} \vb{x}.
+        \sum_{j \in N_1 \cup N_2 \cup N_3} v_j = \vb{c}\transpose \vb{x} - \vb*{\lambda}\transpose A \vb{x}.
     \]
 
     Hence,
@@ -113,20 +113,20 @@ and we denote its columns as \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 We may always convert any linear program into its \term{general form} by flipping signs, splitting equalities into two inequalities, and converting the sign constraints also into scalar product constraints as well.
 
 \begin{definition}[General Form of a Linear Program]
-    The \term{general form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} \leq \vb{b}\).
+    The \term{general form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(A\vb{x} \leq \vb{b}\).
 \end{definition}
 
 \begin{definition}[Standard Form of a Linear Program]
-    The \term{standard form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(\vb{A}\vb{x} = \vb{b}\) and \(\vb{x} \geq 0\).
+    The \term{standard form} of a linear program is a linear program re-written as \textbf{minimising} \(\vb{c}\transpose \vb{x}\) subject to a constraint \(A\vb{x} = \vb{b}\) and \(\vb{x} \geq 0\).
 \end{definition}
 
-Clearly, all standard form linear programs can be converted into general form. To convert linear programs in general form to standard form, we first add slack variables to convert it to optimise \(\vb{c}\transpose \vb{x}\), subject to \(\vb{A} \vb{x} + \vb{s} = \vb{b}\), with \(\vb{s} \geq \vb{0}\).
+Clearly, all standard form linear programs can be converted into general form. To convert linear programs in general form to standard form, we first add slack variables to convert it to optimise \(\vb{c}\transpose \vb{x}\), subject to \(A \vb{x} + \vb{s} = \vb{b}\), with \(\vb{s} \geq \vb{0}\).
 
 A further trick to convert from general form to special form is to write
 \[
     x_j = x_j^+ - x_j^-
 \]
-where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are non-negative real numbers. This allows us to convert the previous form to optimise \(\vb{c}\transpose \pqty{\vb{x}_+ - \vb{x}_-}\), subject to \(\vb{A} \pqty{\vb{x}_+ - \vb{x}_-} + \vb{s} = \vb{b}\), with \(\vb{x}_+, \vb{x}_-, \vb{s} \geq \vb{0}\).
+where \(x_j\) is any real number, while \(x_j^+\) and \(x_j^-\) are non-negative real numbers. This allows us to convert the previous form to optimise \(\vb{c}\transpose \pqty{\vb{x}_+ - \vb{x}_-}\), subject to \(A \pqty{\vb{x}_+ - \vb{x}_-} + \vb{s} = \vb{b}\), with \(\vb{x}_+, \vb{x}_-, \vb{s} \geq \vb{0}\).
 
 In practice, it is often easier to discuss the \emph{theory} in general form, while the \emph{algorithms} are often discussed in standard form.
 
@@ -178,35 +178,35 @@ A convex set may have infinitely many extreme points (such as a circle, in \auto
 
 \subsubsection{Basic Solutions and Basic Feasible Solutions}
 
-We now look at a linear program in standard form, where the constraint is given by \(\vb{A} \vb{x} = \vb{b}\), where the matrix \(\vb{A} \in \RR^{m \times n}\) have rows \(\vb{a}_1\transpose, \vb{a}_2\transpose, \ldots, \vb{a}_m\transpose\), and columns \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
+We now look at a linear program in standard form, where the constraint is given by \(A \vb{x} = \vb{b}\), where the matrix \(A \in \RR^{m \times n}\) have rows \(\vb{a}_1\transpose, \vb{a}_2\transpose, \ldots, \vb{a}_m\transpose\), and columns \(\vb{A}_1, \vb{A}_2, \ldots, \vb{A}_n\).
 
 We will be making three assumptions, the first two of which are stated below.
 
 \begin{enumerate}[label=(\Alph*)]
-    \item Without loss of generality, rows of \(\vb{A}\) are linearly independent. (This would remove the duplications of a constraint.)
-    \item \textbf{Every} set of \(m\) columns of \(\vb{A}\) is linearly independent. (This assumption \textbf{cannot} be made without loss of generality.)
+    \item Without loss of generality, rows of \(A\) are linearly independent. (This would remove the duplications of a constraint.)
+    \item \textbf{Every} set of \(m\) columns of \(A\) is linearly independent. (This assumption \textbf{cannot} be made without loss of generality.)
 \end{enumerate}
 
 The third requires some other definition.
 
 \begin{definition}[Basic Solution, Basic Feasible Solution]
-    A point \(\vb{x} \in \RR^n\) that satisfies \(\vb{Ax} = \vb{b}\) and has at most \(m\) non-zero entries is called a \term{basic solution}. A basic solution \(\vb{x}\) that satisfies \(\vb{x} \geq \vb{0}\) is called a \term{basic feasible solution}.
+    A point \(\vb{x} \in \RR^n\) that satisfies \(A\vb{x} = \vb{b}\) and has at most \(m\) non-zero entries is called a \term{basic solution}. A basic solution \(\vb{x}\) that satisfies \(\vb{x} \geq \vb{0}\) is called a \term{basic feasible solution}.
 \end{definition}
 
-To construct basic solutions, we notice that the system \(\vb{Ax} = \vb{b}\) is underdetermined, since \(n > m\).
+To construct basic solutions, we notice that the system \(A\vb{x} = \vb{b}\) is underdetermined, since \(n > m\).
 
 Suppose we choose indices \(\set{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\) such that \(x_i = 0\) for all \(i \notin \set{\basis\pqty{1}, \basis\pqty{2}, \ldots, \basis\pqty{m}}\). Notice that
 \[
-    \vb{Ax} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\basis\pqty{i}} x_{\basis\pqty{i}}.
+    A\vb{x} = \sum_{i = 1}^{n} \vb{A}_i x_i = \sum_{i = 1}^{m} \vb{A}_{\basis\pqty{i}} x_{\basis\pqty{i}}.
 \]
 
 This essentially makes solving the original system equivalent to solving a new system
 \[
-    \vb{B} \vb{x}_{\basis} = \vb{b}
+    B \vb{x}_{\basis} = \vb{b}
 \]
-where the new matrix \(\vb{B}\) is defined as
+where the new matrix \(B\) is defined as
 \[
-    \vb{B} = \pmqty{
+    B = \pmqty{
         | & | & \cdots & | \\
         \vb{A}_{\basis\pqty{1}} & \vb{A}_{\basis\pqty{2}} & \cdots & \vb{A}_{\basis\pqty{m}} \\
         | & | & \cdots & |
@@ -223,15 +223,15 @@ and the new vector \(\vb{x}_{\basis}\) is defined as
 \]
 
 \begin{definition}[Basic Matrix, Basic Variables]
-    We fix a choice of \(\basis\). The variables \(x_{\basis\pqty{1}}, x_{\basis\pqty{2}}, \ldots, x_{\basis\pqty{m}}\) are the \term{basic variables}. The matrix \(\vb{B}\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\basis\pqty{1}}, \vb{A}_{\basis\pqty{2}}, \ldots, \vb{A}_{\basis\pqty{m}}\), are the \term{basic columns}.
+    We fix a choice of \(\basis\). The variables \(x_{\basis\pqty{1}}, x_{\basis\pqty{2}}, \ldots, x_{\basis\pqty{m}}\) are the \term{basic variables}. The matrix \(B\) is the \term{basic matrix}, and its columns, \(\vb{A}_{\basis\pqty{1}}, \vb{A}_{\basis\pqty{2}}, \ldots, \vb{A}_{\basis\pqty{m}}\), are the \term{basic columns}.
 \end{definition}
 
-For every choice of \(\basis\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\basis} = \vb{B}\inverse \vb{b} \geq \vb{0}\), then that basis \(\vb{B}\) leads to a basic feasible solution.
+For every choice of \(\basis\) (there are \(\binom{n}{m}\) of those), we get a basic solution. Furthermore, if \(\vb{x}_{\basis} = B\inverse \vb{b} \geq \vb{0}\), then that basis \(B\) leads to a basic feasible solution.
 
 We now state the final assumption.
 
 \begin{enumerate}[resume*]
-    \item \textbf{Every} basic feasible solution is ``non-degenerate'', that is, it has exactly \(m\) non-zero entries. (This means we want the inequality to be strict: \(\vb{B}\inverse \vb{b} \geq \vb{0} \implies \vb{B}\inverse \vb{b} > \vb{0}\).)
+    \item \textbf{Every} basic feasible solution is ``non-degenerate'', that is, it has exactly \(m\) non-zero entries. (This means we want the inequality to be strict: \(B\inverse \vb{b} \geq \vb{0} \implies B\inverse \vb{b} > \vb{0}\).)
 \end{enumerate}
 
 \subsubsection{Equivalence between Extreme Points and Basic Feasible Solutions}
@@ -239,7 +239,7 @@ We now state the final assumption.
 \begin{theorem}[Extreme Points of Feasible Set are precisely Basic Feasible Solutions]
     A vector \(\vb{x}\) is a basic feasible solution, if and only if it is an extreme point of the set
     \[
-        \mathcal{X} \pqty{\vb{b}} = \set{\vb{x} \in \RR^n}{\vb{Ax} = \vb{b}, \vb{x} \geq 0}.
+        \mathcal{X} \pqty{\vb{b}} = \set{\vb{x} \in \RR^n}{A\vb{x} = \vb{b}, \vb{x} \geq 0}.
     \]
 \end{theorem}
 
@@ -274,7 +274,7 @@ We now state the final assumption.
         w_{i_1} \vb{A}_{i_1} + w_{i_2} \vb{A}_{i_2} + \cdots + w_{i_r} \vb{A}_{i_r} = \vb{0}.
     \]
 
-    Construct a vector \(\vb{w}\) such that it has components zero, except at locations \(i_1\), \(i_2\), \(\ldots\), \(i_r\) where we set its components to the coefficients in the linear combination above. Observe that \(\vb{Aw} = \vb{0}\). Now consider two new points
+    Construct a vector \(\vb{w}\) such that it has components zero, except at locations \(i_1\), \(i_2\), \(\ldots\), \(i_r\) where we set its components to the coefficients in the linear combination above. Observe that \(A\vb{w} = \vb{0}\). Now consider two new points
     \[
         \vb{y} = \vb{x} + \epsilon \vb{w} \qand \vb{z} = \vb{x} - \epsilon \vb{w}
     \]
@@ -294,28 +294,28 @@ We now state the final assumption.
 
 When the linear program is in standard form, the optimality conditions are:
 \begin{enumerate}
-    \item Primal feasibility: \(\vb{Ax} = \vb{b}\), \(\vb{x} \geq 0\),
-    \item Dual feasibility: \(\vb{A}\transpose \vb*{\lambda} \leq \vb{c}\), and
-    \item Complementary Slackness: \(\vb{x}\transpose \pqty{\vb{c} - \vb{A}\transpose \vb*{\lambda}} = 0\).
+    \item Primal feasibility: \(A\vb{x} = \vb{b}\), \(\vb{x} \geq 0\),
+    \item Dual feasibility: \(A\transpose \vb*{\lambda} \leq \vb{c}\), and
+    \item Complementary Slackness: \(\vb{x}\transpose \pqty{\vb{c} - A\transpose \vb*{\lambda}} = 0\).
 \end{enumerate}
 
 For any basic feasible solution, the complementary slackness equation reduces to
 \[
-    \vb{x}_{\basis}\transpose \pqty{\vb{c}_{\basis} - \vb{B}\transpose \vb*{\lambda}} = 0
+    \vb{x}_{\basis}\transpose \pqty{\vb{c}_{\basis} - B\transpose \vb*{\lambda}} = 0
 \]
 due to the non-zero components in \(\vb{x}\). But since \(\vb{x}_{\basis} > \vb{0}\) (due to non-degeneracy assumption), we need
 \[
-    \vb{c}_{\basis} = \vb{B}\transpose \vb*{\lambda}.
+    \vb{c}_{\basis} = B\transpose \vb*{\lambda}.
 \]  
 
 This means
 \[
-    \vb*{\lambda} = \pqty{\vb{B}\transpose}\inverse \vb{c}_{\basis}.
+    \vb*{\lambda} = \pqty{B\transpose}\inverse \vb{c}_{\basis}.
 \]
 
 Therefore, if
 \[
-    \boxed{\vb{A}\transpose \pqty{\vb{B}\transpose}\inverse \vb{c}_{\basis} \leq \vb{c}}
+    \boxed{A\transpose \pqty{B\transpose}\inverse \vb{c}_{\basis} \leq \vb{c}}
 \]
 then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives us a way of checking optimality simply using the choice of \(\basis\) and checking the above inequalities.
 
@@ -323,7 +323,7 @@ then \(\vb*{\lambda}\) is dual feasible, hence \(\vb{x}\) is optimal. This gives
     We define the \term{vector of reduced costs} as a row vector
     \[
         \bar{\vb{c}}\transpose = \vb{c}\transpose - \vb{c}_{\basis}
-        \transpose \vb{B}\inverse \vb{A}.
+        \transpose B\inverse A.
     \]
 \end{definition}
 
@@ -378,24 +378,24 @@ and we decide to make \(x_j > 0\), while keeping all non-basic \(x_i\)s still be
         \vdots \\
         0}
 \]
-where \(t > 0\). We want \(\vb{Ax} = \vb{b}\) still to be satisfied (for it still be feasible), i.e.,
+where \(t > 0\). We want \(A\vb{x} = \vb{b}\) still to be satisfied (for it still be feasible), i.e.,
 \[
-    \vb{A} \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0} = \vb{0}.
+    A \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0} = \vb{0}.
 \]
 
 This is equivalent to saying
 \[
-    \vb{B} \vb{d}_{\basis} + \vb{A}_j = 0
+    B \vb{d}_{\basis} + \vb{A}_j = 0
 \]
 and the direction we want to move in is
 \[
-    \vb{d}_{\basis} = - \vb{B}\inverse \vb{A}_j
+    \vb{d}_{\basis} = - B\inverse \vb{A}_j
 \]
 
 We now look at the new cost at the perturbed point. We have
 \begin{align*}
     \vb{c}\transpose \pqty{\vb{x} + t \pmqty{\vb{d}_{\basis} \\ 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0}} &= \vb{c}\transpose \vb{x} + t \pqty{\vb{c}_{\basis}\transpose \vb{d}_{\basis} + c_j} \\
-    &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\basis}\transpose \vb{B}\inverse \vb{A}_j} \\
+    &= \vb{c}\transpose \vb{x} + t \pqty{c_j - \vb{c}_{\basis}\transpose B\inverse \vb{A}_j} \\
     &= \vb{c}\transpose \vb{x} + t \bar{c}_j
 \end{align*}
 
@@ -407,7 +407,7 @@ and find the smallest positive number out of those. Say, if \(d_{\basis\pqty{j}}
 \[
     \vb{y} = \vb{x} + t^{\ast} \vb{d},
 \]
-is in fact a basic feasible solution: we have \(\vb{Ay} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\basis\pqty{1}}, \ldots, y_{\basis\pqty{m}}\) becomes zero, while the entering index is still non-zero. \(\vb{y}\) is guaranteed to have a better cost.
+is in fact a basic feasible solution: we have \(A\vb{y} = \vb{b}\) and \(\vb{y} \geq \vb{0}\) (so it is feasible), and it has exactly \(m = \pqty{m - 1} + 1\) non-zero entries, since the value \(t^{\ast}\) ensures exactly one of the \(m\) basic entries \(y_{\basis\pqty{1}}, \ldots, y_{\basis\pqty{m}}\) becomes zero, while the entering index is still non-zero. \(\vb{y}\) is guaranteed to have a better cost.
 
 This guarantees that the algorithm terminates in finitely many steps and without an infinite loop (under our third assumption), since every step gives a better cost and there are finitely many extreme points (hence finitely many basic feasible solutions).
 
@@ -420,14 +420,14 @@ We sit at a basic feasible solution \(\vb{x}\), and we construct a tableau of th
     \[\begin{array}{c|c}
         - \vb{c}_{\basis}\transpose \vb{x}_{\basis} & \bar{\vb{c}} \\
         \hline
-        \vb{B}\inverse \vb{b} & \vb{B}\inverse \vb{A}
+        B\inverse \vb{b} & B\inverse A
     \end{array}
     \equiv
     \begin{array}{c|cccc}
         - \vb{c}_{\basis}\transpose \vb{x}_{\basis} & \bar{c}_1 & \bar{c}_2 & \cdots & \bar{c}_n \\
         \hline
         x_{\basis\pqty{1}} & | & | & & | \\
-        \vdots & \vb{B}\inverse \vb{A}_1 & \vb{B}\inverse \vb{A}_2 & \cdots & \vb{B}\inverse \vb{A}_n \\
+        \vdots & B\inverse \vb{A}_1 & B\inverse \vb{A}_2 & \cdots & B\inverse \vb{A}_n \\
         x_{\basis\pqty{m}} & | & | & & |
     \end{array}
     \]
@@ -439,7 +439,7 @@ The table keeps track of:
 \begin{enumerate}
     \item the current basic feasible solution characterised by \(\vb{x}_{\basis}\);
     \item the (negative) current cost \(- \vb{c}_{\basis}\transpose \vb{x}_{\basis}\);
-    \item the possible directions \(\vb{d}_{\basis}\) given by \(\vb{B}\inverse \vb{A}_j\); and
+    \item the possible directions \(\vb{d}_{\basis}\) given by \(B\inverse \vb{A}_j\); and
     \item the vector of reduced costs \(\bar{c}\).
 \end{enumerate}
 
@@ -448,21 +448,21 @@ The table keeps track of:
 \begin{algorithm}[ht!]
     \caption{Simplex Algorithm}\label{alg:simplex-algorithm}%
     \begin{algorithmic}
-        \Function{SimplexAlgorithm}{\(\vb{A} \in \RR^{m \times n}, \vb{b} \in \RR^m, \vb{c} \in \RR^n, \functiondomain{\basis}{\bqty{m}}{\bqty{n}}\)}
+        \Function{SimplexAlgorithm}{\(A \in \RR^{m \times n}, \vb{b} \in \RR^m, \vb{c} \in \RR^n, \functiondomain{\basis}{\bqty{m}}{\bqty{n}}\)}
             \LComment{Initialise Table}
             \LComment{Comments give the value where we choose the slack variables as the initial basic components}
             \LComment{In this case, \(\basis\pqty{1, 2, \ldots, m} = \pqty{n - m + 1, n - m + 2, \ldots, n}\)}
-            \State \(\vb{B} \gets \vb{A}_{\basis}\) \Comment{\(\vb{B} = \identityM\)}
-            \State \(\vb{x}_{\basis} \gets \vb{B}\inverse\vb{b}\) \Comment{\(\vb{x}_{\basis} = \vb{0}\)}
-            \State \textbf{compute} \(\vb{B}\inverse \vb{A}\) \Comment{\(\vb{B}\inverse \vb{A} = \vb{A}\)}
+            \State \(B \gets A_{\basis}\) \Comment{\(B = I\)}
+            \State \(\vb{x}_{\basis} \gets B\inverse\vb{b}\) \Comment{\(\vb{x}_{\basis} = \vb{0}\)}
+            \State \textbf{compute} \(B\inverse A\) \Comment{\(B\inverse A = A\)}
             \State \textbf{compute} \(-\vb{c}_{\basis}\transpose \vb{x}_{\basis}\) \Comment{\(-\vb{c}_{\basis}\transpose \vb{x}_{\basis} = 0\)}
-            \State \(\vb{\bar{c}}\transpose \gets \vb{c}\transpose - \vb{c}_{\basis}\transpose \vb{B}\inverse \vb{A}\) \Comment{\(\vb{\bar{c}} = \vb{c}\)}
+            \State \(\vb{\bar{c}}\transpose \gets \vb{c}\transpose - \vb{c}_{\basis}\transpose B\inverse A\) \Comment{\(\vb{\bar{c}} = \vb{c}\)}
 
             \Statex
 
             \Repeat
                 \State \(j \gets \min_{\bar{c}_j < 0} j\) \Comment{Find the Basic Direction to Proceed}
-                \State \(\vb{d} \gets \vb{B}\inverse \vb{A}_j\) \Comment{The Column in the Table}
+                \State \(\vb{d} \gets B\inverse \vb{A}_j\) \Comment{The Column in the Table}
 
                 \Statex
 
@@ -516,14 +516,14 @@ The table keeps track of:
 
     This gives
     \[
-        \vb{c} = \pmqty{-1 \\ -1 \\ -1 \\ 0 \\ 0 \\ 0}, \quad \vb{A} = \pmqty{
+        \vb{c} = \pmqty{-1 \\ -1 \\ -1 \\ 0 \\ 0 \\ 0}, \quad A = \pmqty{
             1 & 2 & 2 & 1 & 0 & 0 \\
             2 & 1 & 2 & 0 & 1 & 0 \\
             2 & 2 & 1 & 0 & 0 & 1
         }, \qand \vb{b} = \pmqty{10 \\ 10 \\ 20}.
     \]
 
-    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible solution (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\basis\pqty{1} = 4, \basis\pqty{2} = 5, \basis\pqty{3} = 6\), and here \(\vb{B} = \identityM\) and \(\vb{c}_{\basis} = \vb{0}\), therefore giving the simplex tableau
+    Observe that \(\pqty{0, 0, 0, 10, 10, 20}\transpose\) is a basic feasible solution (we can always start with a basic feasible solution formed by the slack variables), so here we let \(\basis\pqty{1} = 4, \basis\pqty{2} = 5, \basis\pqty{3} = 6\), and here \(B = I\) and \(\vb{c}_{\basis} = \vb{0}\), therefore giving the simplex tableau
     \[
         \begin{array}{c|c|cccccc}
             &    & x_1 & x_2 & x_3 & x_4 & x_5 & x_6 \\
